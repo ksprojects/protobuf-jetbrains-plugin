@@ -6,6 +6,6 @@ public class ProtoLanguage extends Language {
     public static final ProtoLanguage INSTANCE = new ProtoLanguage();
 
     private ProtoLanguage() {
-        super("Google Protocol Buffers");
+        super("Protobuf");
     }
 }

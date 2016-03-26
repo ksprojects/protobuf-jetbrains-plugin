@@ -25,8 +25,16 @@
          on how to target different products -->
     <depends>com.intellij.modules.lang</depends>
 
+    <project-components>
+        <component>
+            <implementation-class>io.protostuff.jetbrains.plugin.ProtostuffPluginController</implementation-class>
+        </component>
+    </project-components>
+
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="io.protostuff.jetbrains.plugin.ProtoFileTypeFactory"/>
+        <lang.parserDefinition language="Protobuf"
+                               implementationClass="io.protostuff.jetbrains.plugin.ProtoParserDefinition"/>
     </extensions>
 
     <actions>
