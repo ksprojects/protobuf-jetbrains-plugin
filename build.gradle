@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.0.43"
+    id "com.jfrog.bintray" version "1.6"
+}
+
+group = 'org.antlr'
+description = 'Support for using ANTLR-generated parsers/lexers in jetbrains IDE plug-ins.'
+version = "${version}.$buildNumber"
+
+repositories {
+    jcenter()
+    maven {
+        url "https://dl.bintray.com/antlr/maven/"
+    }
+}
+
+apply plugin: 'antlr'
+
+dependencies {
+    compile 'org.antlr:antlr4-runtime:4.5.1'
+    compile 'org.antlr:antlr4-jetbrains-adapter:1.0.0'
+    antlr 'org.antlr:antlr4:4.5'
+    runtime 'io.protostuff:protostuff-parser:2.0.0-alpha4'
+}
+
+apply plugin: 'idea'
+idea {
+    project {
+        jdkName = javaVersion
+        languageLevel = javaVersion
+    }
+    module {
+        generatedSourceDirs += file('gen')
+    }
+}
+
+apply plugin: 'org.jetbrains.intellij'
+intellij {
+    version ideaVersion
+}
+
+apply plugin: 'java'
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
