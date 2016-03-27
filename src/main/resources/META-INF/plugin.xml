@@ -37,7 +37,8 @@
                                implementationClass="io.protostuff.jetbrains.plugin.ProtoParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Protobuf"
                                        implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxHighlighterFactory"/>
-        <annotator language="Protobuf" implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxAnnotator"/>
+        <annotator language="Protobuf"
+                   implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxKeywordsAnnotator"/>
     </extensions>
 
     <actions>

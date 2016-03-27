@@ -13,8 +13,7 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import io.protostuff.compiler.parser.ProtoLexer;
 import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.psi.MessageBlockSubtree;
-import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
+import io.protostuff.jetbrains.plugin.psi.*;
 import org.antlr.jetbrains.adapter.lexer.ANTLRLexerAdaptor;
 import org.antlr.jetbrains.adapter.lexer.PSIElementTypeFactory;
 import org.antlr.jetbrains.adapter.lexer.RuleIElementType;
@@ -34,11 +33,17 @@ import static io.protostuff.compiler.parser.ProtoLexer.*;
  */
 public class ProtoParserDefinition implements ParserDefinition {
 
+    public static final TokenIElementType ID;
+    public static final TokenSet KEYWORDS;
+    // Rules
+    public static final IElementType R_TYPE_REFERENCE;
+    public static final IElementType R_NAME;
+    public static final IElementType R_FIELD_MODIFIER;
+    public static final IElementType R_TO;
     private static final IFileElementType FILE;
     private static final TokenSet COMMENTS;
     private static final TokenSet WHITESPACE;
     private static final TokenSet STRING;
-    public static TokenIElementType ID;
 
     static {
         PSIElementTypeFactory.defineLanguageIElementTypes(ProtoLanguage.INSTANCE,
@@ -50,6 +55,38 @@ public class ProtoParserDefinition implements ParserDefinition {
         COMMENTS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, COMMENT, LINE_COMMENT);
         WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS);
         STRING = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, STRING_VALUE);
+
+
+        KEYWORDS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+                ProtoLexer.PACKAGE,
+                ProtoLexer.SYNTAX,
+                ProtoLexer.IMPORT,
+                ProtoLexer.PUBLIC,
+                ProtoLexer.OPTION,
+                ProtoLexer.MESSAGE,
+                ProtoLexer.GROUP,
+                ProtoLexer.OPTIONAL,
+                ProtoLexer.REQUIRED,
+                ProtoLexer.REPEATED,
+                ProtoLexer.ONEOF,
+                ProtoLexer.EXTEND,
+                ProtoLexer.EXTENSIONS,
+                ProtoLexer.TO,
+                ProtoLexer.MAX,
+                ProtoLexer.ENUM,
+                ProtoLexer.SERVICE,
+                ProtoLexer.RPC,
+                ProtoLexer.RETURNS,
+                ProtoLexer.MAP,
+                ProtoLexer.BOOLEAN_VALUE
+        );
+
+        List<RuleIElementType> ruleTypes = PSIElementTypeFactory.getRuleIElementTypes(ProtoLanguage.INSTANCE);
+
+        R_TYPE_REFERENCE = ruleTypes.get(ProtoParser.RULE_typeReference);
+        R_NAME = ruleTypes.get(ProtoParser.RULE_name);
+        R_FIELD_MODIFIER = ruleTypes.get(ProtoParser.RULE_fieldModifier);
+        R_TO = ruleTypes.get(ProtoParser.RULE_to);
     }
 
     @NotNull
@@ -110,9 +147,36 @@ public class ProtoParserDefinition implements ParserDefinition {
         }
         RuleIElementType ruleElType = (RuleIElementType) elType;
         switch (ruleElType.getRuleIndex()) {
+            case ProtoParser.RULE_syntax:
+                return new SyntaxNode(node);
+            case ProtoParser.RULE_packageStatement:
+                return new PackageNode(node);
+            case ProtoParser.RULE_importStatement:
+                return new ImportNode(node);
             case ProtoParser.RULE_messageBlock:
-                return new MessageBlockSubtree(node);
-            // TODO
+                return new MessageNode(node);
+            case ProtoParser.RULE_field:
+                return new FieldNode(node);
+            case ProtoParser.RULE_groupBlock:
+                return new GroupNode(node);
+            case ProtoParser.RULE_enumBlock:
+                return new EnumNode(node);
+            case ProtoParser.RULE_serviceBlock:
+                return new ServiceNode(node);
+            case ProtoParser.RULE_rpcMethod:
+                return new RpcMethodNode(node);
+            case ProtoParser.RULE_optionEntry:
+                return new OptionNode(node);
+            case ProtoParser.RULE_oneof:
+                return new OneOfNode(node);
+            case ProtoParser.RULE_extendBlock:
+                return new ExtendNode(node);
+            case ProtoParser.RULE_extensions:
+                return new ExtensionsNode(node);
+            case ProtoParser.RULE_map:
+                return new MapNode(node);
+            case ProtoParser.RULE_optionValue:
+                return new OptionValueNode(node);
             default:
                 return new ANTLRPsiNode(node);
         }

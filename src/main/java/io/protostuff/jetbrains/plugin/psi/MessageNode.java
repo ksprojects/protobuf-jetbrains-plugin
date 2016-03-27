@@ -12,19 +12,18 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class MessageBlockSubtree extends IdentifierDefSubtree implements ScopeNode {
-    public MessageBlockSubtree(@NotNull ASTNode node) {
+public class MessageNode
+        extends IdentifierDefSubtree
+        implements ScopeNode, KeywordsContainer {
+
+    public MessageNode(@NotNull ASTNode node) {
         super(node, ProtoParserDefinition.ID);
     }
 
     @Nullable
     @Override
     public PsiElement resolve(PsiNamedElement element) {
-//		System.out.println(getClass().getSimpleName()+
-//			                   ".resolve("+myElement.getName()+
-//			                   " at "+Integer.toHexString(myElement.hashCode())+")");
-//        return SymtabUtils.resolve(this, ProtoLanguage.INSTANCE,
-//                element, "/proto/function/ID");
         return null;
     }
+
 }

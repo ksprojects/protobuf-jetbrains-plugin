@@ -51,14 +51,5 @@ public class ProtoPsiFileRoot extends PsiFileBase implements ScopeNode {
     @Override
     public PsiElement resolve(PsiNamedElement element) {
         return null;
-//		System.out.println(getClass().getSimpleName()+
-//		                   ".resolve("+element.getName()+
-//		                   " at "+Integer.toHexString(element.hashCode())+")");
-//        if (element.getParent() instanceof CallSubtree) {
-//            return SymtabUtils.resolve(this, SampleLanguage.INSTANCE,
-//                    element, "/script/function/ID");
-//        }
-//        return SymtabUtils.resolve(this, ProtoLanguage.INSTANCE,
-//                element, "/script/vardef/ID");
     }
 }
