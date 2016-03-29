@@ -44,7 +44,7 @@ Requirements:
 
 ### Screenshots
 
-![image](https://cloud.githubusercontent.com/assets/4040120/14066979/0e94a4b6-f462-11e5-90ca-27e12a198169.png)
+![image](https://github.com/protostuff/protostuff-jetbrains-plugin/wiki/sample.png)
 
 ### Links
 
