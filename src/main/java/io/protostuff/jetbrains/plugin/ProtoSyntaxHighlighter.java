@@ -42,6 +42,8 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("PROTO_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey STRING =
             createTextAttributesKey("PROTO_STRING", DefaultLanguageHighlighterColors.STRING);
+    public static final TextAttributesKey NUMBER =
+            createTextAttributesKey("PROTO_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
     public static final TextAttributesKey LINE_COMMENT =
             createTextAttributesKey("PROTO_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey BLOCK_COMMENT =
@@ -69,32 +71,10 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
         int antlrTokenType = myType.getANTLRTokenType();
         TextAttributesKey attrKey;
         switch (antlrTokenType) {
-//            case ProtoLexer.NAME:
-//                attrKey = ID;
-//                break;
-//            case ProtoLexer.PACKAGE:
-//            case ProtoLexer.SYNTAX:
-//            case ProtoLexer.IMPORT:
-//            case ProtoLexer.PUBLIC:
-//            case ProtoLexer.OPTION:
-//            case ProtoLexer.MESSAGE:
-//            case ProtoLexer.GROUP:
-//            case ProtoLexer.OPTIONAL:
-//            case ProtoLexer.REQUIRED:
-//            case ProtoLexer.REPEATED:
-//            case ProtoLexer.ONEOF:
-//            case ProtoLexer.EXTEND:
-//            case ProtoLexer.EXTENSIONS:
-//            case ProtoLexer.TO:
-//            case ProtoLexer.MAX:
-//            case ProtoLexer.ENUM:
-//            case ProtoLexer.SERVICE:
-//            case ProtoLexer.RPC:
-//            case ProtoLexer.RETURNS:
-//            case ProtoLexer.MAP:
-//            case ProtoLexer.BOOLEAN_VALUE:
-//                attrKey = KEYWORD;
-//                break;
+            case ProtoLexer.INTEGER_VALUE:
+            case ProtoLexer.FLOAT_VALUE:
+                attrKey = NUMBER;
+                break;
             case ProtoLexer.STRING_VALUE:
                 attrKey = STRING;
                 break;

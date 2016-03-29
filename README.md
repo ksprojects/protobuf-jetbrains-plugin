@@ -17,6 +17,9 @@ Plugin is compatible with IntelliJ IDEA 2016.1. Other JetBrains IDEs of the same
 
 #### Syntax Highligh
 
+- [x] strings
+- [x] numbers
+- [x] comments
 - [x] keywords
 - [ ] enum constants 
 - [ ] numbers
