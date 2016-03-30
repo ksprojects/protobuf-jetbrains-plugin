@@ -78,7 +78,22 @@ public class ProtoParserDefinition implements ParserDefinition {
                 ProtoLexer.RPC,
                 ProtoLexer.RETURNS,
                 ProtoLexer.MAP,
-                ProtoLexer.BOOLEAN_VALUE
+                ProtoLexer.BOOLEAN_VALUE,
+                ProtoLexer.DOUBLE,
+                ProtoLexer.FLOAT,
+                ProtoLexer.INT32,
+                ProtoLexer.INT64,
+                ProtoLexer.UINT32,
+                ProtoLexer.UINT64,
+                ProtoLexer.SINT32,
+                ProtoLexer.SINT64,
+                ProtoLexer.FIXED32,
+                ProtoLexer.FIXED64,
+                ProtoLexer.SFIXED32,
+                ProtoLexer.SFIXED64,
+                ProtoLexer.BOOL,
+                ProtoLexer.STRING,
+                ProtoLexer.BYTES
         );
 
         List<RuleIElementType> ruleTypes = PSIElementTypeFactory.getRuleIElementTypes(ProtoLanguage.INSTANCE);
@@ -157,6 +172,8 @@ public class ProtoParserDefinition implements ParserDefinition {
                 return new MessageNode(node);
             case ProtoParser.RULE_field:
                 return new FieldNode(node);
+            case ProtoParser.RULE_typeReference:
+                return new TypeReferenceNode(node);
             case ProtoParser.RULE_groupBlock:
                 return new GroupNode(node);
             case ProtoParser.RULE_enumBlock:
@@ -177,6 +194,8 @@ public class ProtoParserDefinition implements ParserDefinition {
                 return new ExtensionsNode(node);
             case ProtoParser.RULE_map:
                 return new MapNode(node);
+            case ProtoParser.RULE_mapKey:
+                return new MapKeyNode(node);
             case ProtoParser.RULE_optionValue:
                 return new OptionValueNode(node);
             default:
