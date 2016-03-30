@@ -23,7 +23,7 @@ Plugin is compatible with IntelliJ IDEA 2016.1. Other JetBrains IDEs of the same
 - [x] keywords
 - [x] enum constants 
 - [x] scalar value types (currently they are not keywords)
-- [ ] color settings
+- [x] color settings
 
 ### Build
 

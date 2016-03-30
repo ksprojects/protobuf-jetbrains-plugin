@@ -36,8 +36,7 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
  * for bad characters HighlighterColors.BAD_CHARACTER can be used."
  */
 public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
-    public static final TextAttributesKey ID =
-            createTextAttributesKey("PROTO_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
+
     public static final TextAttributesKey KEYWORD =
             createTextAttributesKey("PROTO_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey STRING =

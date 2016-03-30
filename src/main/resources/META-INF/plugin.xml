@@ -39,6 +39,9 @@
                                        implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxHighlighterFactory"/>
         <annotator language="Protobuf"
                    implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxKeywordsAnnotator"/>
+
+        <colorSettingsPage implementation="io.protostuff.jetbrains.plugin.ProtoColorSettingsPage"/>
+
     </extensions>
 
     <actions>
