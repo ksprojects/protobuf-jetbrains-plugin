@@ -1,19 +1,29 @@
 <idea-plugin version="2">
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
-    <name>Google Protocol Buffers Support</name>
-    <version>0.1</version>
-    <vendor email="schepanovsky+protostuff@gmail.com"
-            url="http://www.protostuff.io">Protostuff
+    <name>Protobuf Support</name>
+    <version>0.1.0</version>
+    <vendor email="jetbrains-plugin@protostuff.io"
+            url="https://github.com/protostuff/protostuff-jetbrains-plugin">
+        Kostiantyn Shchepanovskyi, Protostuff Project
     </vendor>
 
     <description><![CDATA[
-      <a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a> support
-      for Jetbrains products.
+        <p>
+            Protostuff Jetbrains Plugin provides <a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a> support
+            for Jetbrains products.
+        </p>
     ]]></description>
 
     <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+        <div>
+            <b>0.1.0 (2016-03-31)</b>
+            <div>
+                First public release with some useful functionality:
+                <ul>
+                    <li>Basic syntax highlighting for proto2/proto3 files.</li>
+                </ul>
+            </div>
+        </div>
     ]]>
     </change-notes>
 
