@@ -161,6 +161,8 @@ public class ProtoParserDefinition implements ParserDefinition {
                 return new GroupNode(node);
             case ProtoParser.RULE_enumBlock:
                 return new EnumNode(node);
+            case ProtoParser.RULE_enumConstant:
+                return new EnumConstantNode(node);
             case ProtoParser.RULE_serviceBlock:
                 return new ServiceNode(node);
             case ProtoParser.RULE_rpcMethod:

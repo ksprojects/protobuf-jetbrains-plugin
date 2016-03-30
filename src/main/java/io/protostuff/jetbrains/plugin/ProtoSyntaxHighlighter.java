@@ -48,6 +48,9 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("PROTO_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey BLOCK_COMMENT =
             createTextAttributesKey("PROTO_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+    public static final TextAttributesKey ENUM_CONSTANT =
+            createTextAttributesKey("PROTO_ENUM_CONSTANT", DefaultLanguageHighlighterColors.CONSTANT);
+
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     static {

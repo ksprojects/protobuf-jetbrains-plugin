@@ -21,8 +21,7 @@ Plugin is compatible with IntelliJ IDEA 2016.1. Other JetBrains IDEs of the same
 - [x] numbers
 - [x] comments
 - [x] keywords
-- [ ] enum constants 
-- [ ] numbers
+- [x] enum constants 
 - [ ] scalar value types (currently they are not keywords)
 - [ ] color settings
 
