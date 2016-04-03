@@ -12,7 +12,6 @@ plugins {
 
 group = 'org.antlr'
 description = 'Support for using ANTLR-generated parsers/lexers in jetbrains IDE plug-ins.'
-version = "${version}.$buildNumber"
 
 repositories {
     jcenter()

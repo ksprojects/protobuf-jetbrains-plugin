@@ -8,22 +8,19 @@
     </vendor>
 
     <description><![CDATA[
-        <p>
-            Protostuff Jetbrains Plugin provides <a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a> support
-            for Jetbrains products.
-        </p>
+        <a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a>
+        support for Jetbrains products.
+        <br>
+        Supports syntax highlighting for proto2/proto3 and basic inspections.
     ]]></description>
 
     <change-notes><![CDATA[
-        <div>
-            <b>0.1.0 (2016-03-31)</b>
-            <div>
-                First public release with some useful functionality:
-                <ul>
-                    <li>Basic syntax highlighting for proto2/proto3 files.</li>
-                </ul>
-            </div>
-        </div>
+        <b>Release 0.1.0 (2016-04-03)</b>
+        <br>
+        First public release:
+        <ul>
+            <li>Add syntax highlighting for proto2/proto3 and basic inspections.</li>
+        </ul>
     ]]>
     </change-notes>
 
