@@ -44,6 +44,17 @@ idea {
 apply plugin: 'org.jetbrains.intellij'
 intellij {
     version ideaVersion
+
+    publish {
+        username = project.hasProperty('jetbrainsUser')   \
+             ? project.property('jetbrainsUser')   \
+             : System.getenv('JETBRAINS_USER')
+        password = project.hasProperty('jetbrainsPassword')   \
+             ? project.property('jetbrainsPassword')  \
+             : System.getenv('JETBRAINS_PASSWORD')
+        pluginId = '8277'
+        channel = 'default'
+    }
 }
 
 apply plugin: 'java'
