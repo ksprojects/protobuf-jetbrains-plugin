@@ -19,7 +19,7 @@ public class ProtoFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getName() {
-        return "Protobuf";
+        return "PROTO";
     }
 
     @NotNull
