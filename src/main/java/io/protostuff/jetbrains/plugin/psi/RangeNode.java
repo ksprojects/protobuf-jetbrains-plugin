@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class ExtensionsNode extends ANTLRPsiNode implements KeywordsContainer {
+public class RangeNode extends ANTLRPsiNode implements KeywordsContainer {
 
-    public ExtensionsNode(@NotNull ASTNode node) {
+    public RangeNode(@NotNull ASTNode node) {
         super(node);
     }
 

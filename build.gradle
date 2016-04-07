@@ -27,7 +27,7 @@ dependencies {
     compile 'org.antlr:antlr4-runtime:4.5.1'
     compile 'org.antlr:antlr4-jetbrains-adapter:1.0.0'
     antlr 'org.antlr:antlr4:4.5'
-    compile 'io.protostuff:protostuff-parser:2.0.0-alpha10'
+    compile 'io.protostuff:protostuff-parser:2.0.0-alpha12'
 }
 
 apply plugin: 'idea'
