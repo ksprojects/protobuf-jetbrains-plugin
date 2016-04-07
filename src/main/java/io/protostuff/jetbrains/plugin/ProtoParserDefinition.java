@@ -39,7 +39,6 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final IElementType R_TYPE_REFERENCE;
     public static final IElementType R_NAME;
     public static final IElementType R_FIELD_MODIFIER;
-    public static final IElementType R_TO;
     private static final IFileElementType FILE;
     private static final TokenSet COMMENTS;
     private static final TokenSet WHITESPACE;
@@ -71,11 +70,13 @@ public class ProtoParserDefinition implements ParserDefinition {
                 ProtoLexer.ONEOF,
                 ProtoLexer.EXTEND,
                 ProtoLexer.EXTENSIONS,
+                ProtoLexer.RESERVED,
                 ProtoLexer.TO,
                 ProtoLexer.MAX,
                 ProtoLexer.ENUM,
                 ProtoLexer.SERVICE,
                 ProtoLexer.RPC,
+                ProtoLexer.STREAM,
                 ProtoLexer.RETURNS,
                 ProtoLexer.MAP,
                 ProtoLexer.BOOLEAN_VALUE,
@@ -101,7 +102,6 @@ public class ProtoParserDefinition implements ParserDefinition {
         R_TYPE_REFERENCE = ruleTypes.get(ProtoParser.RULE_typeReference);
         R_NAME = ruleTypes.get(ProtoParser.RULE_name);
         R_FIELD_MODIFIER = ruleTypes.get(ProtoParser.RULE_fieldModifier);
-        R_TO = ruleTypes.get(ProtoParser.RULE_to);
     }
 
     @NotNull
@@ -198,6 +198,12 @@ public class ProtoParserDefinition implements ParserDefinition {
                 return new MapKeyNode(node);
             case ProtoParser.RULE_optionValue:
                 return new OptionValueNode(node);
+            case ProtoParser.RULE_range:
+                return new RangeNode(node);
+            case ProtoParser.RULE_reserved:
+                return new ReservedFieldsNode(node);
+            case ProtoParser.RULE_rpcType:
+                return new RpcMethodTypeNode(node);
             default:
                 return new ANTLRPsiNode(node);
         }
