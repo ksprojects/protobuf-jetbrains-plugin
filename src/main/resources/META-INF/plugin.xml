@@ -4,23 +4,51 @@
     <version>0.1.0</version>
     <vendor email="jetbrains-plugin@protostuff.io"
             url="https://github.com/protostuff/protostuff-jetbrains-plugin">
-        Kostiantyn Shchepanovskyi, Protostuff Project
+        Kostiantyn Shchepanovskyi
     </vendor>
 
     <description><![CDATA[
+
+        <h1>Protobuf Support</h1>
+        <br/>
+        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin">GitHub</a> |
+        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/issues">Issues</a>
+        <br/>
+        <br/>
         <a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a>
         support for Jetbrains products.
         <br>
-        Supports syntax highlighting for proto2/proto3 and basic inspections.
+        <br>
+        <b>Features:</b>
+        <ul>
+            <li>Syntax highlight</li>
+            <li>Syntax validation (full proto3 support)</li>
+            <li>Fonts & Colors configuration</li>
+        </ul>
+        <br/>
     ]]></description>
 
     <change-notes><![CDATA[
-        <b>Release 0.1.0 (2016-04-03)</b>
-        <br>
-        First public release:
+
+
+        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.1.1">
+            <b>v0.1.1</b>
+        </a> (2016-04-08)
+
+        <br/>
+        <br/>
+
+        <i>Enhancements:</i>
+
         <ul>
-            <li>Add syntax highlighting for proto2/proto3 and basic inspections.</li>
+            <li>Add support for new keywords: "stream" and "reserved"</li>
+            <li>Enable syntax highlight for embedded code blocks in Markdown editor</li>
         </ul>
+
+        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases">
+            <b>Full Changelog History</b>
+        </a>
+
     ]]>
     </change-notes>
 
