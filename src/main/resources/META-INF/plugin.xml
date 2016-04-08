@@ -40,11 +40,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="io.protostuff.jetbrains.plugin.ProtoFileTypeFactory"/>
-        <lang.parserDefinition language="Protobuf"
+        <lang.parserDefinition language="PROTO"
                                implementationClass="io.protostuff.jetbrains.plugin.ProtoParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="Protobuf"
+        <lang.syntaxHighlighterFactory language="PROTO"
                                        implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxHighlighterFactory"/>
-        <annotator language="Protobuf"
+        <annotator language="PROTO"
                    implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxKeywordsAnnotator"/>
 
         <colorSettingsPage implementation="io.protostuff.jetbrains.plugin.ProtoColorSettingsPage"/>
