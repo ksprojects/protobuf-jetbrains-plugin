@@ -2,7 +2,9 @@ package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
 import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
+import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -13,10 +15,10 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_FIELD_MODIF
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class FieldNode extends ANTLRPsiNode implements KeywordsContainer {
+public class FieldNode extends IdentifierDefSubtree implements KeywordsContainer {
 
     public FieldNode(@NotNull ASTNode node) {
-        super(node);
+        super(node, ProtoParserDefinition.R_NAME);
     }
 
     @Override

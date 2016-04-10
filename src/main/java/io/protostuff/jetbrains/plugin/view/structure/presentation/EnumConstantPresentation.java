@@ -1,31 +1,30 @@
-package io.protostuff.jetbrains.plugin.view.structure;
+package io.protostuff.jetbrains.plugin.view.structure.presentation;
 
-import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
-import com.intellij.psi.PsiElement;
 import io.protostuff.jetbrains.plugin.Icons;
+import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
+import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class ProtoItemPresentation implements ItemPresentation {
-    protected final PsiElement element;
+public class EnumConstantPresentation implements ItemPresentation {
+    protected final EnumConstantNode element;
 
-    protected ProtoItemPresentation(PsiElement element) {
+    protected EnumConstantPresentation(EnumConstantNode element) {
         this.element = element;
     }
 
     @Nullable
     @Override
     public Icon getIcon(boolean unused) {
-        return Icons.PROTO;
+        return Icons.CONSTANT;
     }
 
     @Nullable
     @Override
     public String getPresentableText() {
-        ASTNode node = element.getNode();
-        return node.getText();
+        return element.getName();
     }
 
     @Nullable

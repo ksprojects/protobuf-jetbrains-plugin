@@ -1,23 +1,24 @@
-package io.protostuff.jetbrains.plugin.view.structure;
+package io.protostuff.jetbrains.plugin.view.structure.presentation;
 
 import com.intellij.navigation.ItemPresentation;
 import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
+import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class ProtoEnumPresentation implements ItemPresentation {
-    protected final EnumNode element;
+public class MessageFieldPresentation implements ItemPresentation {
+    protected final FieldNode element;
 
-    protected ProtoEnumPresentation(EnumNode element) {
+    protected MessageFieldPresentation(FieldNode element) {
         this.element = element;
     }
 
     @Nullable
     @Override
     public Icon getIcon(boolean unused) {
-        return Icons.ENUM;
+        return Icons.FIELD;
     }
 
     @Nullable

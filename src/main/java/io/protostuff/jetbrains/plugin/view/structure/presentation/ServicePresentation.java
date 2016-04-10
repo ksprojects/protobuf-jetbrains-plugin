@@ -1,4 +1,4 @@
-package io.protostuff.jetbrains.plugin.view.structure;
+package io.protostuff.jetbrains.plugin.view.structure.presentation;
 
 import com.intellij.navigation.ItemPresentation;
 import io.protostuff.jetbrains.plugin.Icons;
@@ -7,10 +7,10 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class ProtoServicePresentation implements ItemPresentation {
+public class ServicePresentation implements ItemPresentation {
     protected final ServiceNode element;
 
-    protected ProtoServicePresentation(ServiceNode element) {
+    protected ServicePresentation(ServiceNode element) {
         this.element = element;
     }
 

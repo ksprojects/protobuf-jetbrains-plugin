@@ -12,12 +12,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class EnumConstantNode
+public class MessageBlockEntryNode
         extends IdentifierDefSubtree
-        implements ScopeNode {
+        implements ScopeNode, KeywordsContainer {
 
-    public EnumConstantNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.R_NAME);
+    public MessageBlockEntryNode(@NotNull ASTNode node) {
+        super(node, ProtoParserDefinition.ID);
     }
 
     @Nullable
