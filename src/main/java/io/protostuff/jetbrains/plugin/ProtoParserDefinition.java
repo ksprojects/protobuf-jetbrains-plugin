@@ -35,6 +35,18 @@ public class ProtoParserDefinition implements ParserDefinition {
 
     public static final TokenIElementType ID;
     public static final TokenSet KEYWORDS;
+
+    // tokens
+
+    public static final TokenIElementType LCURLY;
+    public static final TokenIElementType RCURLY;
+    public static final TokenIElementType LPAREN;
+    public static final TokenIElementType RPAREN;
+    public static final TokenIElementType LSQUARE;
+    public static final TokenIElementType RSQUARE;
+    public static final TokenIElementType LT;
+    public static final TokenIElementType GT;
+
     // Rules
     public static final IElementType R_TYPE_REFERENCE;
     public static final IElementType R_NAME;
@@ -44,12 +56,14 @@ public class ProtoParserDefinition implements ParserDefinition {
     private static final TokenSet WHITESPACE;
     private static final TokenSet STRING;
 
+
+
     static {
         PSIElementTypeFactory.defineLanguageIElementTypes(ProtoLanguage.INSTANCE,
                 ProtoParser.tokenNames, ProtoParser.ruleNames);
-        List<TokenIElementType> tokenIElementTypes =
+        List<TokenIElementType> tokenTypes =
                 PSIElementTypeFactory.getTokenIElementTypes(ProtoLanguage.INSTANCE);
-        ID = tokenIElementTypes.get(ProtoLexer.NAME);
+        ID = tokenTypes.get(ProtoLexer.NAME);
         FILE = new IFileElementType(ProtoLanguage.INSTANCE);
         COMMENTS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, COMMENT, LINE_COMMENT);
         WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS);
@@ -102,6 +116,15 @@ public class ProtoParserDefinition implements ParserDefinition {
         R_TYPE_REFERENCE = ruleTypes.get(ProtoParser.RULE_typeReference);
         R_NAME = ruleTypes.get(ProtoParser.RULE_name);
         R_FIELD_MODIFIER = ruleTypes.get(ProtoParser.RULE_fieldModifier);
+
+        LCURLY = tokenTypes.get(ProtoLexer.LCURLY);
+        RCURLY = tokenTypes.get(ProtoLexer.RCURLY);
+        LPAREN = tokenTypes.get(ProtoLexer.LPAREN);
+        RPAREN = tokenTypes.get(ProtoLexer.RPAREN);
+        LSQUARE = tokenTypes.get(ProtoLexer.LSQUARE);
+        RSQUARE = tokenTypes.get(ProtoLexer.RSQUARE);
+        LT = tokenTypes.get(ProtoLexer.LT);
+        GT = tokenTypes.get(ProtoLexer.GT);
     }
 
     @NotNull
