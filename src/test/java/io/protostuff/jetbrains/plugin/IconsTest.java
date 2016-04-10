@@ -12,6 +12,6 @@ public class IconsTest {
     @Test
     @Ignore
     public void iconExists() throws Exception {
-        Assert.assertEquals(16, Icons.PROTO_ICON.getIconHeight());
+        Assert.assertEquals(16, Icons.PROTO.getIconHeight());
     }
 }

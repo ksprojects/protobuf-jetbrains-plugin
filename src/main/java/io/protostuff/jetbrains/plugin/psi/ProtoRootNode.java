@@ -12,12 +12,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class MessageNode
+public class ProtoRootNode
         extends IdentifierDefSubtree
         implements ScopeNode, KeywordsContainer {
 
-    public MessageNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.R_NAME);
+    public ProtoRootNode(@NotNull ASTNode node) {
+        super(node, ProtoParserDefinition.ID);
     }
 
     @Nullable

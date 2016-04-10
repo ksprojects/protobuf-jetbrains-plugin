@@ -37,6 +37,6 @@ public class ProtoFileType extends LanguageFileType {
     @Nullable
     @Override
     public Icon getIcon() {
-        return Icons.PROTO_ICON;
+        return Icons.PROTO;
     }
 }

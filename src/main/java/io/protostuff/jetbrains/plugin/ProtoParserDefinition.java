@@ -227,6 +227,10 @@ public class ProtoParserDefinition implements ParserDefinition {
                 return new ReservedFieldsNode(node);
             case ProtoParser.RULE_rpcType:
                 return new RpcMethodTypeNode(node);
+            case ProtoParser.RULE_proto:
+                return new ProtoRootNode(node);
+            case ProtoParser.RULE_statement:
+                return new ProtoRootStatementNode(node);
             default:
                 return new ANTLRPsiNode(node);
         }

@@ -17,7 +17,7 @@ public class ServiceNode
         implements ScopeNode, KeywordsContainer {
 
     public ServiceNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.ID);
+        super(node, ProtoParserDefinition.R_NAME);
     }
 
     @Nullable
