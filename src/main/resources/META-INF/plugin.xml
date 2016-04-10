@@ -77,6 +77,7 @@
 
         <colorSettingsPage implementation="io.protostuff.jetbrains.plugin.ProtoColorSettingsPage"/>
 
+        <lang.commenter language="PROTO" implementationClass="io.protostuff.jetbrains.plugin.ProtoCommenter"/>
     </extensions>
 
     <actions>
