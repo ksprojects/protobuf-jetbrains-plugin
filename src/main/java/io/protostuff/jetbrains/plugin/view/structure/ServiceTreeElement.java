@@ -3,19 +3,19 @@ package io.protostuff.jetbrains.plugin.view.structure;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import io.protostuff.jetbrains.plugin.Icons;
-import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
+import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import org.jetbrains.annotations.NotNull;
 
-public class ProtoServiceMethodTreeElement extends ProtoStructureViewElement<RpcMethodNode> {
+final class ServiceTreeElement extends AbstractTreeElement<ServiceNode> {
 
-    public ProtoServiceMethodTreeElement(RpcMethodNode element) {
+    ServiceTreeElement(ServiceNode element) {
         super(element);
     }
 
     @NotNull
     @Override
     public ItemPresentation getPresentation() {
-        return new ProtoItemPresentation(element.getName(), Icons.RPC);
+        return new ProtoItemPresentation(element.getName(), Icons.SERVICE);
     }
 
     @NotNull

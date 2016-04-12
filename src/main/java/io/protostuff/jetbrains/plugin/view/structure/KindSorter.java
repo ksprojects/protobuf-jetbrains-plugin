@@ -2,16 +2,15 @@ package io.protostuff.jetbrains.plugin.view.structure;
 
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
-public class KindSorter implements Sorter {
+final class KindSorter implements Sorter {
 
-    public static final Sorter INSTANCE = new KindSorter();
-    @NonNls
-    public static final String ID = "KIND";
+    static final Sorter INSTANCE = new KindSorter();
+
+    private static final String ID = "KIND";
 
     private final Comparator COMPARATOR = new Comparator() {
         @Override
@@ -20,22 +19,22 @@ public class KindSorter implements Sorter {
         }
 
         private int getWeight(final Object value) {
-            if (value instanceof ProtoServiceTreeElement) {
+            if (value instanceof ServiceTreeElement) {
                 return 0;
             }
-            if (value instanceof ProtoMessageFieldTreeElement) {
+            if (value instanceof MessageFieldTreeElement) {
                 return 10;
             }
-            if (value instanceof ProtoEnumConstantTreeElement) {
+            if (value instanceof EnumConstantTreeElement) {
                 return 10;
             }
-            if (value instanceof ProtoServiceMethodTreeElement) {
+            if (value instanceof ServiceMethodTreeElement) {
                 return 10;
             }
-            if (value instanceof ProtoMessageTreeElement) {
+            if (value instanceof MessageTreeElement) {
                 return 20;
             }
-            if (value instanceof ProtoEnumTreeElement) {
+            if (value instanceof EnumTreeElement) {
                 return 20;
             }
             return 0;

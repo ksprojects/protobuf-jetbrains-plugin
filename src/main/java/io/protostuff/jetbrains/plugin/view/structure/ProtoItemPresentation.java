@@ -8,7 +8,7 @@ import javax.swing.*;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-class ProtoItemPresentation implements ItemPresentation {
+final class ProtoItemPresentation implements ItemPresentation {
 
     private final String name;
     private final Icon icon;

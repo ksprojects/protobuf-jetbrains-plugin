@@ -11,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProtoMessageTreeElement extends ProtoStructureViewElement<MessageNode> {
+final class MessageTreeElement extends AbstractTreeElement<MessageNode> {
 
-    public ProtoMessageTreeElement(MessageNode element) {
+    MessageTreeElement(MessageNode element) {
         super(element);
     }
 
@@ -31,11 +31,11 @@ public class ProtoMessageTreeElement extends ProtoStructureViewElement<MessageNo
             // first and the only child
             PsiElement node = psiElement.getFirstChild();
             if (node instanceof MessageNode) {
-                TreeElement element = new ProtoMessageTreeElement((MessageNode) node);
+                TreeElement element = new MessageTreeElement((MessageNode) node);
                 treeElements.add(element);
             }
             if (node instanceof EnumNode) {
-                TreeElement element = new ProtoEnumTreeElement((EnumNode) node);
+                TreeElement element = new EnumTreeElement((EnumNode) node);
                 treeElements.add(element);
             }
         }

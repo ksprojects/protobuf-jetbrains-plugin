@@ -3,19 +3,19 @@ package io.protostuff.jetbrains.plugin.view.structure;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import io.protostuff.jetbrains.plugin.Icons;
-import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
+import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import org.jetbrains.annotations.NotNull;
 
-public class ProtoEnumConstantTreeElement extends ProtoStructureViewElement<EnumConstantNode> {
+final class MessageFieldTreeElement extends AbstractTreeElement<FieldNode> {
 
-    public ProtoEnumConstantTreeElement(EnumConstantNode element) {
+    MessageFieldTreeElement(FieldNode element) {
         super(element);
     }
 
     @NotNull
     @Override
     public ItemPresentation getPresentation() {
-        return new ProtoItemPresentation(element.getName(), Icons.CONSTANT);
+        return new ProtoItemPresentation(element.getName(), Icons.FIELD);
     }
 
     @NotNull

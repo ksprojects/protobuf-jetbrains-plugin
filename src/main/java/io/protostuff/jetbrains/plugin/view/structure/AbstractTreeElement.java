@@ -7,11 +7,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ProtoStructureViewElement<ElementT extends PsiElement> implements StructureViewTreeElement, SortableTreeElement {
+abstract class AbstractTreeElement<ElementT extends PsiElement> implements StructureViewTreeElement, SortableTreeElement {
 
     protected final ElementT element;
 
-    public ProtoStructureViewElement(ElementT element) {
+    AbstractTreeElement(ElementT element) {
         this.element = element;
     }
 

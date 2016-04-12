@@ -10,11 +10,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProtoRootTreeElement extends ProtoStructureViewElement<ProtoRootNode> {
+final class RootTreeElement extends AbstractTreeElement<ProtoRootNode> {
 
     private ProtoPsiFileRoot fileRoot;
 
-    public ProtoRootTreeElement(ProtoPsiFileRoot root, ProtoRootNode element) {
+    RootTreeElement(ProtoPsiFileRoot root, ProtoRootNode element) {
         super(element);
         fileRoot = root;
     }
@@ -35,15 +35,15 @@ public class ProtoRootTreeElement extends ProtoStructureViewElement<ProtoRootNod
                 // first and the only child
                 PsiElement node = psiElement.getFirstChild();
                 if (node instanceof MessageNode) {
-                    TreeElement element = new ProtoMessageTreeElement((MessageNode) node);
+                    TreeElement element = new MessageTreeElement((MessageNode) node);
                     treeElements.add(element);
                 }
                 if (node instanceof EnumNode) {
-                    TreeElement element = new ProtoEnumTreeElement((EnumNode) node);
+                    TreeElement element = new EnumTreeElement((EnumNode) node);
                     treeElements.add(element);
                 }
                 if (node instanceof ServiceNode) {
-                    TreeElement element = new ProtoServiceTreeElement((ServiceNode) node);
+                    TreeElement element = new ServiceTreeElement((ServiceNode) node);
                     treeElements.add(element);
                 }
             }

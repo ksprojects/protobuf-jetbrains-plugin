@@ -10,7 +10,8 @@ import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ProtoStructureViewFactory implements PsiStructureViewFactory {
+public final class ProtoStructureViewFactory implements PsiStructureViewFactory {
+
     @Nullable
     @Override
     public StructureViewBuilder getStructureViewBuilder(final PsiFile psiFile) {

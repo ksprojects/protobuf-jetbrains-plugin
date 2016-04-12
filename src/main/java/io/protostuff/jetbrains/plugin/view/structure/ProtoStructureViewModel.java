@@ -8,22 +8,22 @@ import com.intellij.ide.util.treeView.smartTree.Sorter;
 import io.protostuff.jetbrains.plugin.psi.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
-public class ProtoStructureViewModel
-        extends StructureViewModelBase
+final class ProtoStructureViewModel extends StructureViewModelBase
         implements StructureViewModel.ElementInfoProvider {
-    private static final Collection<NodeProvider> NODE_PROVIDERS =
-            Arrays.asList(new ProtoFieldsNodeProvider());
 
-    public ProtoStructureViewModel(ProtoPsiFileRoot root) {
+    private static final Collection<NodeProvider> NODE_PROVIDERS =
+            Collections.singletonList(new ProtoFieldsNodeProvider());
+
+    ProtoStructureViewModel(ProtoPsiFileRoot root) {
         super(root, getProtoRootElement(root));
     }
 
     @NotNull
-    private static ProtoRootTreeElement getProtoRootElement(ProtoPsiFileRoot root) {
-        return new ProtoRootTreeElement(root, root.findChildByClass(ProtoRootNode.class));
+    private static RootTreeElement getProtoRootElement(ProtoPsiFileRoot root) {
+        return new RootTreeElement(root, root.findChildByClass(ProtoRootNode.class));
     }
 
     @Override

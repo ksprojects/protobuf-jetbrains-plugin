@@ -13,7 +13,6 @@ import io.protostuff.jetbrains.plugin.ProtostuffBundle;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -24,10 +23,9 @@ import java.util.List;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeElement>, ActionShortcutProvider {
+final class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeElement>, ActionShortcutProvider {
 
-    @NonNls
-    public static final String ID = "SHOW_FIELDS";
+    private static final String ID = "SHOW_FIELDS";
 
     @NotNull
     @Override
@@ -63,21 +61,21 @@ public class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeEl
     @NotNull
     @Override
     public Collection<TreeElement> provideNodes(@NotNull TreeElement parent) {
-        if (parent instanceof ProtoStructureViewElement) {
-            ProtoStructureViewElement element = (ProtoStructureViewElement) parent;
+        if (parent instanceof AbstractTreeElement) {
+            AbstractTreeElement element = (AbstractTreeElement) parent;
             PsiElement psiElement = element.getValue();
             List<TreeElement> treeElements = new ArrayList<>();
             for (PsiElement childBlock : psiElement.getChildren()) {
                 // first and the only child
                 PsiElement node = childBlock.getFirstChild();
                 if (node instanceof FieldNode) {
-                    treeElements.add(new ProtoMessageFieldTreeElement((FieldNode) node));
+                    treeElements.add(new MessageFieldTreeElement((FieldNode) node));
                 }
                 if (node instanceof EnumConstantNode) {
-                    treeElements.add(new ProtoEnumConstantTreeElement((EnumConstantNode) node));
+                    treeElements.add(new EnumConstantTreeElement((EnumConstantNode) node));
                 }
                 if (node instanceof RpcMethodNode) {
-                    treeElements.add(new ProtoServiceMethodTreeElement((RpcMethodNode) node));
+                    treeElements.add(new ServiceMethodTreeElement((RpcMethodNode) node));
                 }
             }
             return treeElements;
