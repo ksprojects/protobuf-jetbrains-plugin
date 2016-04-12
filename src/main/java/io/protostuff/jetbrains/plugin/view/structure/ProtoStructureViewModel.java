@@ -3,11 +3,8 @@ package io.protostuff.jetbrains.plugin.view.structure;
 import com.intellij.ide.structureView.StructureViewModel;
 import com.intellij.ide.structureView.StructureViewModelBase;
 import com.intellij.ide.structureView.StructureViewTreeElement;
-import com.intellij.ide.structureView.impl.java.*;
-import com.intellij.ide.util.treeView.smartTree.Filter;
 import com.intellij.ide.util.treeView.smartTree.NodeProvider;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
-import com.intellij.psi.PsiElement;
 import io.protostuff.jetbrains.plugin.psi.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +15,12 @@ public class ProtoStructureViewModel
         extends StructureViewModelBase
         implements StructureViewModel.ElementInfoProvider {
     public ProtoStructureViewModel(ProtoPsiFileRoot root) {
-        super(root, new ProtoStructureViewRootElement(root));
+        super(root, getProtoRootElement(root));
+    }
+
+    @NotNull
+    private static ProtoRootTreeElement getProtoRootElement(ProtoPsiFileRoot root) {
+        return new ProtoRootTreeElement(root, root.findChildByClass(ProtoRootNode.class));
     }
 
     private static final Collection<NodeProvider> NODE_PROVIDERS =

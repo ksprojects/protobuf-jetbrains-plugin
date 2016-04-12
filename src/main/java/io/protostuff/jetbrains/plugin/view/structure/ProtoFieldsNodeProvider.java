@@ -10,7 +10,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
 import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.ProtostuffBundle;
-import io.protostuff.jetbrains.plugin.psi.*;
+import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
+import io.protostuff.jetbrains.plugin.psi.FieldNode;
+import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,29 +28,6 @@ public class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeEl
 
     @NonNls
     public static final String ID = "SHOW_FIELDS";
-
-    public static Collection<TreeElement> getChildrenFromWrappedNode(PsiElement wrapperNode) {
-        List<TreeElement> treeElements = new ArrayList<>();
-        for (PsiElement psiElement : wrapperNode.getChildren()) {
-            if (psiElement instanceof MessageBlockEntryNode
-                    || psiElement instanceof EnumBlockEntryNode
-                    || psiElement instanceof ServiceBlockEntryNode) {
-                // first and the only child
-                PsiElement node = psiElement.getFirstChild();
-                if (isField(node)) {
-                    TreeElement element = new ProtoStructureViewElement(node);
-                    treeElements.add(element);
-                }
-            }
-        }
-        return treeElements;
-    }
-
-    public static boolean isField(PsiElement element) {
-        return element instanceof FieldNode
-                || element instanceof RpcMethodNode
-                || element instanceof EnumConstantNode;
-    }
 
     @NotNull
     @Override
@@ -83,11 +62,25 @@ public class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeEl
 
     @NotNull
     @Override
-    public Collection<TreeElement> provideNodes(@NotNull TreeElement node) {
-        if (node instanceof ProtoStructureViewElement) {
-            ProtoStructureViewElement element = (ProtoStructureViewElement) node;
-            PsiElement psiElement = (PsiElement) element.getValue();
-            return getChildrenFromWrappedNode(psiElement);
+    public Collection<TreeElement> provideNodes(@NotNull TreeElement parent) {
+        if (parent instanceof ProtoStructureViewElement) {
+            ProtoStructureViewElement element = (ProtoStructureViewElement) parent;
+            PsiElement psiElement = element.getValue();
+            List<TreeElement> treeElements = new ArrayList<>();
+            for (PsiElement childBlock : psiElement.getChildren()) {
+                // first and the only child
+                PsiElement node = childBlock.getFirstChild();
+                if (node instanceof FieldNode) {
+                    treeElements.add(new ProtoMessageFieldTreeElement((FieldNode) node));
+                }
+                if (node instanceof EnumConstantNode) {
+                    treeElements.add(new ProtoEnumConstantTreeElement((EnumConstantNode) node));
+                }
+                if (node instanceof RpcMethodNode) {
+                    treeElements.add(new ProtoServiceMethodTreeElement((RpcMethodNode) node));
+                }
+            }
+            return treeElements;
         }
         return Collections.emptyList();
     }
