@@ -26,6 +26,16 @@ final class ProtoStructureViewModel extends StructureViewModelBase
         return new RootTreeElement(root, root.findChildByClass(ProtoRootNode.class));
     }
 
+    /**
+     * Used for "auto-scroll from source".
+     */
+    @NotNull
+    @Override
+    protected Class[] getSuitableClasses() {
+        return new Class[]{MessageNode.class, EnumNode.class, ServiceNode.class,
+                FieldNode.class, EnumConstantNode.class, RpcMethodNode.class};
+    }
+
     @Override
     @NotNull
     public Sorter[] getSorters() {

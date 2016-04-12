@@ -2,16 +2,15 @@ package io.protostuff.jetbrains.plugin.view.structure;
 
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement;
-import com.intellij.navigation.NavigationItem;
-import com.intellij.psi.PsiElement;
+import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.PsiNamedElement;
 import org.jetbrains.annotations.NotNull;
 
-abstract class AbstractTreeElement<ElementT extends PsiElement> implements StructureViewTreeElement, SortableTreeElement {
+abstract class AbstractTreeElement<ElementT extends NavigatablePsiElement> implements StructureViewTreeElement, SortableTreeElement {
 
     protected final ElementT element;
 
-    AbstractTreeElement(ElementT element) {
+    AbstractTreeElement(@NotNull ElementT element) {
         this.element = element;
     }
 
@@ -22,27 +21,23 @@ abstract class AbstractTreeElement<ElementT extends PsiElement> implements Struc
 
     @Override
     public void navigate(boolean requestFocus) {
-        if (element instanceof NavigationItem) {
-            ((NavigationItem) element).navigate(requestFocus);
-        }
+        element.navigate(requestFocus);
     }
 
     @Override
     public boolean canNavigate() {
-        return element instanceof NavigationItem &&
-                ((NavigationItem) element).canNavigate();
+        return element.canNavigate();
     }
 
     @Override
     public boolean canNavigateToSource() {
-        return element instanceof NavigationItem &&
-                ((NavigationItem) element).canNavigateToSource();
+        return element.canNavigateToSource();
     }
 
     @NotNull
     @Override
     public String getAlphaSortKey() {
-        String s = element instanceof PsiNamedElement ? ((PsiNamedElement) element).getName() : null;
+        String s = element instanceof PsiNamedElement ? element.getName() : null;
         if (s == null) return "unknown key";
         return s;
     }
