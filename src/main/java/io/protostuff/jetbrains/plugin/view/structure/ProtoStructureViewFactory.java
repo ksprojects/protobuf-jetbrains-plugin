@@ -20,6 +20,13 @@ public class ProtoStructureViewFactory implements PsiStructureViewFactory {
             public StructureViewModel createStructureViewModel(@Nullable Editor editor) {
                 return new ProtoStructureViewModel((ProtoPsiFileRoot) psiFile);
             }
+
+            @Override
+            public boolean isRootNodeShown() {
+                return false;
+            }
         };
     }
+
+
 }
