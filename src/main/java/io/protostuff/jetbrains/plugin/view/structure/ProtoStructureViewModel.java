@@ -14,6 +14,9 @@ import java.util.Collection;
 public class ProtoStructureViewModel
         extends StructureViewModelBase
         implements StructureViewModel.ElementInfoProvider {
+    private static final Collection<NodeProvider> NODE_PROVIDERS =
+            Arrays.asList(new ProtoFieldsNodeProvider());
+
     public ProtoStructureViewModel(ProtoPsiFileRoot root) {
         super(root, getProtoRootElement(root));
     }
@@ -23,13 +26,10 @@ public class ProtoStructureViewModel
         return new ProtoRootTreeElement(root, root.findChildByClass(ProtoRootNode.class));
     }
 
-    private static final Collection<NodeProvider> NODE_PROVIDERS =
-            Arrays.asList(new ProtoFieldsNodeProvider());
-
-
+    @Override
     @NotNull
     public Sorter[] getSorters() {
-        return new Sorter[]{Sorter.ALPHA_SORTER};
+        return new Sorter[]{KindSorter.INSTANCE, Sorter.ALPHA_SORTER};
     }
 
     @Override

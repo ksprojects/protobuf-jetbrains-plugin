@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class ProtoStructureViewElement<ElementT extends PsiElement> implements StructureViewTreeElement, SortableTreeElement {
 
-
     protected final ElementT element;
 
     public ProtoStructureViewElement(ElementT element) {
