@@ -78,7 +78,7 @@ public class ProtoStructureViewElement implements StructureViewTreeElement, Sort
         return new TreeElement[0];
     }
 
-    private TreeElement[] getChildrenFromWrappedNode(PsiElement wrapperNode) {
+    public TreeElement[] getChildrenFromWrappedNode(PsiElement wrapperNode) {
         List<TreeElement> treeElements = new ArrayList<>();
         for (PsiElement psiElement : wrapperNode.getChildren()) {
             if (psiElement instanceof ProtoRootStatementNode
@@ -87,7 +87,7 @@ public class ProtoStructureViewElement implements StructureViewTreeElement, Sort
                     || psiElement instanceof ServiceBlockEntryNode) {
                 // first and the only child
                 PsiElement node = psiElement.getFirstChild();
-                if (presentationFactory.hasPresentation(node)) {
+                if (hasPresentation(node)) {
                     TreeElement element = new ProtoStructureViewElement(node);
                     treeElements.add(element);
                 }
@@ -96,5 +96,10 @@ public class ProtoStructureViewElement implements StructureViewTreeElement, Sort
         return treeElements.toArray(new TreeElement[treeElements.size()]);
     }
 
+    public boolean hasPresentation(PsiElement element) {
+        return element instanceof MessageNode
+                || element instanceof EnumNode
+                || element instanceof ServiceNode;
+    }
 
 }

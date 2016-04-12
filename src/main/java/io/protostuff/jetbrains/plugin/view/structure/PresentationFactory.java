@@ -10,5 +10,4 @@ public interface PresentationFactory {
 
     ItemPresentation createPresentation(PsiElement element);
 
-    boolean hasPresentation(PsiElement element);
 }

@@ -34,14 +34,4 @@ public class PresentationFactoryImpl implements PresentationFactory {
         return new GenericItemPresentation(element);
     }
 
-    @Override
-    public boolean hasPresentation(PsiElement element) {
-        return element instanceof MessageNode
-                || element instanceof EnumNode
-                || element instanceof ServiceNode
-                || element instanceof EnumConstantNode
-                || element instanceof FieldNode
-                || element instanceof RpcMethodNode;
-    }
-
 }
