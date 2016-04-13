@@ -17,7 +17,7 @@ public class EnumNode
         implements ScopeNode, KeywordsContainer {
 
     public EnumNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.ID);
+        super(node, ProtoParserDefinition.R_NAME);
     }
 
     @Nullable

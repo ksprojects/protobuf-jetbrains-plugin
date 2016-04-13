@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class TypeReferenceNode extends ANTLRPsiNode implements KeywordsContainer {
+public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer {
 
-    public TypeReferenceNode(@NotNull ASTNode node) {
+    public ProtoRootNode(@NotNull ASTNode node) {
         super(node);
     }
 

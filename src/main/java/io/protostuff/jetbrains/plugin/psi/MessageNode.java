@@ -17,7 +17,7 @@ public class MessageNode
         implements ScopeNode, KeywordsContainer {
 
     public MessageNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.ID);
+        super(node, ProtoParserDefinition.R_NAME);
     }
 
     @Nullable

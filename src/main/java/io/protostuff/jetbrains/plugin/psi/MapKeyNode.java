@@ -1,29 +1,17 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
-import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
-import org.antlr.jetbrains.adapter.psi.ScopeNode;
+import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class MapKeyNode
-        extends IdentifierDefSubtree
-        implements ScopeNode, KeywordsContainer {
+public class MapKeyNode extends ANTLRPsiNode implements KeywordsContainer {
 
     public MapKeyNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.ID);
+        super(node);
     }
 
-    @Nullable
-    @Override
-    public PsiElement resolve(PsiNamedElement element) {
-        return null;
-    }
 
 }

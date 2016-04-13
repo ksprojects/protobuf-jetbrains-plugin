@@ -40,7 +40,7 @@ public class ProtoColorSettingsPage implements ColorSettingsPage {
     @Nullable
     @Override
     public Icon getIcon() {
-        return Icons.PROTO_ICON;
+        return Icons.PROTO;
     }
 
     @NotNull

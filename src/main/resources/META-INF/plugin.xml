@@ -79,6 +79,9 @@
 
         <lang.commenter language="PROTO" implementationClass="io.protostuff.jetbrains.plugin.ProtoCommenter"/>
         <lang.braceMatcher language="PROTO" implementationClass="io.protostuff.jetbrains.plugin.ProtoBraceMatcher"/>
+
+        <lang.psiStructureViewFactory language="PROTO"
+                                      implementationClass="io.protostuff.jetbrains.plugin.view.structure.ProtoStructureViewFactory"/>
     </extensions>
 
     <actions>

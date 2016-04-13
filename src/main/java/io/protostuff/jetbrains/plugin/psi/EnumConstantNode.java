@@ -17,7 +17,7 @@ public class EnumConstantNode
         implements ScopeNode {
 
     public EnumConstantNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.ID);
+        super(node, ProtoParserDefinition.R_NAME);
     }
 
     @Nullable

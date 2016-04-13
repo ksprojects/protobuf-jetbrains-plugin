@@ -35,7 +35,7 @@ public class ProtoPsiFileRoot extends PsiFileBase implements ScopeNode {
 
     @Override
     public Icon getIcon(int flags) {
-        return Icons.PROTO_ICON;
+        return Icons.PROTO;
     }
 
     /**

@@ -1,0 +1,1 @@
+All icons are automatically generated from XCF files created in GIMP.
