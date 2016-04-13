@@ -5,6 +5,7 @@ import com.intellij.ide.structureView.StructureViewModelBase;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.NodeProvider;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
+import com.intellij.openapi.editor.Editor;
 import io.protostuff.jetbrains.plugin.psi.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,8 +18,8 @@ final class ProtoStructureViewModel extends StructureViewModelBase
     private static final Collection<NodeProvider> NODE_PROVIDERS =
             Collections.singletonList(new ProtoFieldsNodeProvider());
 
-    ProtoStructureViewModel(ProtoPsiFileRoot root) {
-        super(root, getProtoRootElement(root));
+    ProtoStructureViewModel(ProtoPsiFileRoot root, Editor editor) {
+        super(root, editor, getProtoRootElement(root));
     }
 
     @NotNull

@@ -19,7 +19,7 @@ public final class ProtoStructureViewFactory implements PsiStructureViewFactory 
             @NotNull
             @Override
             public StructureViewModel createStructureViewModel(@Nullable Editor editor) {
-                return new ProtoStructureViewModel((ProtoPsiFileRoot) psiFile);
+                return new ProtoStructureViewModel((ProtoPsiFileRoot) psiFile, editor);
             }
 
             @Override
