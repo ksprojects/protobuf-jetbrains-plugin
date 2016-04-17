@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 import static io.protostuff.compiler.parser.ProtoParser.*;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
@@ -21,40 +20,41 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.token;
  */
 public class BlockFactory {
 
-    private static final Map<IElementType, Function<ASTNode, Block>> blockFactory = new HashMap<>();
-
+    private static final Map<IElementType, Factory> registry = new HashMap<>();
     private static final Wrap NO_WRAP = Wrap.createWrap(WrapType.NONE, false);
-
     private static final Alignment ALIGNMENT = Alignment.createAlignment();
 
     static {
-        register(rule(RULE_syntax), node -> new SyntaxBlock(node, NO_WRAP, ALIGNMENT));
-        register(rule(RULE_packageStatement), node -> new PackageBlock(node, NO_WRAP, ALIGNMENT));
-        register(rule(RULE_importStatement), node -> new ImportBlock(node, NO_WRAP, ALIGNMENT));
-        register(rule(RULE_optionEntry), node -> new OptionBlock(node, NO_WRAP, ALIGNMENT));
-        register(rule(RULE_messageBlock), node -> new MessageBlock(node, NO_WRAP, ALIGNMENT));
-        register(rule(RULE_enumBlock), node -> new EnumBlock(node, NO_WRAP, ALIGNMENT));
-        register(rule(RULE_serviceBlock), node -> new ServiceBlock(node, NO_WRAP, ALIGNMENT));
-        register(token(LINE_COMMENT), node -> new LineCommentBlock(node, NO_WRAP, ALIGNMENT));
-        register(token(COMMENT), node -> new CommentBlock(node, NO_WRAP, ALIGNMENT));
+        register(rule(RULE_syntax), SyntaxBlock::new);
+        register(rule(RULE_packageStatement), PackageBlock::new);
+        register(rule(RULE_importStatement), ImportBlock::new);
+        register(rule(RULE_optionEntry), OptionBlock::new);
+        register(rule(RULE_messageBlock), MessageBlock::new);
+        register(rule(RULE_enumBlock), EnumBlock::new);
+        register(rule(RULE_serviceBlock), ServiceBlock::new);
+        register(token(LINE_COMMENT), LineCommentBlock::new);
+        register(token(COMMENT), CommentBlock::new);
     }
 
-    private static void register(IElementType elementType, Function<ASTNode, Block> factory) {
-        blockFactory.put(elementType, factory);
+    private static void register(IElementType elementType, Factory factory) {
+        registry.put(elementType, factory);
     }
 
-
-    public static Block createBlock(ASTNode node) {
-        Function<ASTNode, Block> factory = blockFactory.get(node.getElementType());
+    static Block createBlock(ASTNode node, Alignment alignment) {
+        Factory factory = registry.get(node.getElementType());
         if (factory == null) {
-            return createGenericBlock(node);
+            return createGenericBlock(node, alignment);
         }
-        return factory.apply(node);
+        return factory.create(node, alignment);
     }
 
     @NotNull
-    private static GenericBlock createGenericBlock(ASTNode node) {
-        return new GenericBlock(node, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment());
+    private static GenericBlock createGenericBlock(ASTNode node, Alignment alignment) {
+        return new GenericBlock(node, alignment);
+    }
+
+    private interface Factory {
+        Block create(ASTNode node, Alignment alignment);
     }
 
 }

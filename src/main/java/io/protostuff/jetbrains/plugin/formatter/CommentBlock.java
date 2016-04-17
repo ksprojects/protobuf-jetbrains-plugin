@@ -1,6 +1,9 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
-import com.intellij.formatting.*;
+import com.intellij.formatting.Alignment;
+import com.intellij.formatting.Block;
+import com.intellij.formatting.Indent;
+import com.intellij.formatting.Spacing;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.formatter.common.AbstractBlock;
 import org.jetbrains.annotations.NotNull;
@@ -14,8 +17,8 @@ import java.util.List;
  */
 public class CommentBlock extends AbstractBlock {
 
-    protected CommentBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment) {
-        super(node, wrap, alignment);
+    protected CommentBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
+        super(node, null, alignment);
     }
 
 
