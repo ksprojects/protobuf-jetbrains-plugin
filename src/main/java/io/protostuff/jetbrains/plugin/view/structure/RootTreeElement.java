@@ -30,22 +30,18 @@ final class RootTreeElement extends AbstractTreeElement<ProtoRootNode> {
     @Override
     public TreeElement[] getChildren() {
         List<TreeElement> treeElements = new ArrayList<>();
-        for (PsiElement psiElement : element.getChildren()) {
-            if (psiElement instanceof ProtoRootStatementNode) {
-                // first and the only child
-                PsiElement node = psiElement.getFirstChild();
-                if (node instanceof MessageNode) {
-                    TreeElement element = new MessageTreeElement((MessageNode) node);
-                    treeElements.add(element);
-                }
-                if (node instanceof EnumNode) {
-                    TreeElement element = new EnumTreeElement((EnumNode) node);
-                    treeElements.add(element);
-                }
-                if (node instanceof ServiceNode) {
-                    TreeElement element = new ServiceTreeElement((ServiceNode) node);
-                    treeElements.add(element);
-                }
+        for (PsiElement node : element.getChildren()) {
+            if (node instanceof MessageNode) {
+                TreeElement element = new MessageTreeElement((MessageNode) node);
+                treeElements.add(element);
+            }
+            if (node instanceof EnumNode) {
+                TreeElement element = new EnumTreeElement((EnumNode) node);
+                treeElements.add(element);
+            }
+            if (node instanceof ServiceNode) {
+                TreeElement element = new ServiceTreeElement((ServiceNode) node);
+                treeElements.add(element);
             }
         }
         return treeElements.toArray(new TreeElement[treeElements.size()]);
