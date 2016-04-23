@@ -16,13 +16,9 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class BlockFactory {
+class BlockFactory {
 
     static final Map<IElementType, Factory> registry = new HashMap<>();
-
-    public static final Factory ILLEGAL = (node, alignment, indent) -> {
-        throw new IllegalStateException();
-    };
 
     static {
         Factory FAIL_ROOT_NODE = (node, alignment, indent) -> {

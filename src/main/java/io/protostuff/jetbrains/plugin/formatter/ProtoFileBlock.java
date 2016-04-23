@@ -5,11 +5,8 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.formatter.FormatterUtil;
 import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
-import io.protostuff.compiler.parser.ProtoLexer;
 import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.lexer.RuleIElementType;
-import org.antlr.jetbrains.adapter.lexer.TokenIElementType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,14 +18,9 @@ import static io.protostuff.jetbrains.plugin.formatter.BlockFactory.createBlock;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class ProtoFileBlock extends AbstractBlock {
+class ProtoFileBlock extends AbstractBlock {
 
-    public static final RuleIElementType IMPORT = ProtoParserDefinition.rule(ProtoParser.RULE_importStatement);
-    public static final RuleIElementType OPTION = ProtoParserDefinition.rule(ProtoParser.RULE_option);
-    public static final TokenIElementType COMMENT = ProtoParserDefinition.token(ProtoLexer.COMMENT);
-    public static final TokenIElementType LINE_COMMENT = ProtoParserDefinition.token(ProtoLexer.LINE_COMMENT);
-
-    protected ProtoFileBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment) {
+    ProtoFileBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment) {
         super(node, wrap, alignment);
 
     }
@@ -56,7 +48,7 @@ public class ProtoFileBlock extends AbstractBlock {
         ASTNode child = protoRootNode.getFirstChildNode();
         Alignment alignment = Alignment.createAlignment();
         while (child != null) {
-            if (Formatting.isNotEmpty(child)) {
+            if (!FormatterUtil.containsWhiteSpacesOnly(child)) {
                 Block block = createBlock(child, alignment);
                 blocks.add(block);
             }
@@ -68,9 +60,9 @@ public class ProtoFileBlock extends AbstractBlock {
     @Override
     public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
         if (child1 == null) {
-            return Formatting.NONE;
+            return StatementBlock.NONE;
         }
-        return Formatting.LINE_BREAK;
+        return StatementBlock.NEW_LINE;
     }
 
     @Override

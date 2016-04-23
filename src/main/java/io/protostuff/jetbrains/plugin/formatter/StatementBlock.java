@@ -20,7 +20,8 @@ import java.util.List;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class StatementBlock extends AbstractBlock {
+@SuppressWarnings("WeakerAccess")
+class StatementBlock extends AbstractBlock {
 
     public static final Spacing NEW_LINE = Spacing.createSpacing(0, 0, 1, true, 2);
     public static final Spacing SPACE = Spacing.createSpacing(1, 1, 0, false, 0);

@@ -17,22 +17,14 @@ import java.util.Set;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class ParentBlock extends StatementBlock {
+class ParentBlock extends StatementBlock {
 
     private final Set<Block> headerBlocks = new HashSet<>();
     private Alignment childAlignment;
-    private int openBraceIndex;
-    private int closeBraceIndex;
 
-    protected ParentBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {
+    ParentBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {
         super(node, alignment, indent);
         childAlignment = Alignment.createAlignment();
-    }
-
-    enum State {
-        BEFORE_LEFT_CURLY_BRACE,
-        AFTER_LEFT_CURLY_BRACE,
-        AFTER_RIGHT_CURLY_BRACE
     }
 
     @Override
@@ -45,10 +37,8 @@ public class ParentBlock extends StatementBlock {
                 IElementType elementType = child.getElementType();
                 if (LCURLY.equals(elementType)) {
                     state = State.AFTER_LEFT_CURLY_BRACE;
-                    openBraceIndex = result.size();
                     result.add(BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent()));
                 } else if (RCURLY.equals(elementType)) {
-                    closeBraceIndex = result.size();
                     result.add(BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent()));
                     state = State.AFTER_RIGHT_CURLY_BRACE;
                 } else {
@@ -111,5 +101,11 @@ public class ParentBlock extends StatementBlock {
     @Override
     public boolean isLeaf() {
         return false;
+    }
+
+    private enum State {
+        BEFORE_LEFT_CURLY_BRACE,
+        AFTER_LEFT_CURLY_BRACE,
+        AFTER_RIGHT_CURLY_BRACE
     }
 }

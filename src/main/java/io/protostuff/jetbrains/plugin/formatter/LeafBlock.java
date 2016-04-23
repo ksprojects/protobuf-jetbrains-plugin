@@ -1,18 +1,3 @@
-/*
- * Copyright 2000-2012 JetBrains s.r.o.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package io.protostuff.jetbrains.plugin.formatter;
 
 import com.intellij.formatting.*;
@@ -23,31 +8,26 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.List;
 
-public class LeafBlock implements ASTBlock {
-    private final ASTNode myNode;
-    private final Wrap myWrap;
-    private final Alignment myAlignment;
-
+class LeafBlock implements ASTBlock {
+    private final ASTNode node;
+    private final Alignment alignment;
     private final Indent myIndent;
 
-    public LeafBlock(final ASTNode node,
-                     final Alignment alignment,
-                     Indent indent) {
-        myNode = node;
-        myWrap = null;
-        myAlignment = alignment;
+    LeafBlock(ASTNode node, Alignment alignment, Indent indent) {
+        this.node = node;
+        this.alignment = alignment;
         myIndent = indent;
     }
 
     @Override
     public ASTNode getNode() {
-        return myNode;
+        return node;
     }
 
     @Override
     @NotNull
     public TextRange getTextRange() {
-        return myNode.getTextRange();
+        return node.getTextRange();
     }
 
     @Override
@@ -58,7 +38,7 @@ public class LeafBlock implements ASTBlock {
 
     @Override
     public Wrap getWrap() {
-        return myWrap;
+        return null;
     }
 
     @Override
@@ -68,16 +48,12 @@ public class LeafBlock implements ASTBlock {
 
     @Override
     public Alignment getAlignment() {
-        return myAlignment;
+        return alignment;
     }
 
     @Override
     public Spacing getSpacing(Block child1, @NotNull Block child2) {
         return null;
-    }
-
-    public ASTNode getTreeNode() {
-        return myNode;
     }
 
     @Override
