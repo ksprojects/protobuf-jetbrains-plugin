@@ -40,6 +40,15 @@ public class LeafBlock implements ASTBlock {
         myIndent = indent;
     }
 
+    public LeafBlock(final ASTNode node,
+                     final Alignment alignment,
+                     Indent indent) {
+        myNode = node;
+        myWrap = null;
+        myAlignment = alignment;
+        myIndent = indent;
+    }
+
     @Override
     public ASTNode getNode() {
         return myNode;

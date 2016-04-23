@@ -18,7 +18,6 @@ public class ProtoFormatterModelBuilder implements FormattingModelBuilder {
     @NotNull
     @Override
     public FormattingModel createModel(PsiElement element, CodeStyleSettings settings) {
-        ASTNode node = element.getNode();
         PsiFile containingFile = element.getContainingFile().getViewProvider().getPsi(ProtoLanguage.INSTANCE);
         ASTNode fileNode = containingFile.getNode();
         Wrap wrap = Wrap.createWrap(WrapType.NONE, false);

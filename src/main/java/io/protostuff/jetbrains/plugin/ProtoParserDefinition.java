@@ -68,7 +68,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         ID = tokenTypes.get(ProtoLexer.NAME);
         FILE = new IFileElementType(ProtoLanguage.INSTANCE);
         COMMENTS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, COMMENT, LINE_COMMENT);
-        WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS);
+        WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS, NL);
         STRING = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, STRING_VALUE);
 
 
