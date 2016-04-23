@@ -49,7 +49,7 @@ class ProtoFileBlock extends AbstractBlock {
         Alignment alignment = Alignment.createAlignment();
         while (child != null) {
             if (!FormatterUtil.containsWhiteSpacesOnly(child)) {
-                Block block = createBlock(child, alignment);
+                Block block = createBlock(child, alignment, Indent.getNoneIndent());
                 blocks.add(block);
             }
             child = child.getTreeNext();

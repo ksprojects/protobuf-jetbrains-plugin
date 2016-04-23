@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class ProtoFormatterModelBuilder implements FormattingModelBuilder {
+public class FormattingModelBuilder implements com.intellij.formatting.FormattingModelBuilder {
 
     @NotNull
     @Override

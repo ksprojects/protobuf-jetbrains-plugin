@@ -91,7 +91,13 @@
                                       implementationClass="io.protostuff.jetbrains.plugin.view.structure.ProtoStructureViewFactory"/>
 
         <lang.formatter language="PROTO"
-                        implementationClass="io.protostuff.jetbrains.plugin.formatter.ProtoFormatterModelBuilder"/>
+                        implementationClass="io.protostuff.jetbrains.plugin.formatter.FormattingModelBuilder"/>
+        <!--<fileTypeIndentOptionsProvider id="Protobuf" implementation="io.protostuff.jetbrains.plugin.formatter.ProtoIndentOptionsProvider"/>-->
+        <langCodeStyleSettingsProvider
+                implementation="io.protostuff.jetbrains.plugin.formatter.ProtoLanguageCodeStyleSettingsProvider"/>
+
+        <codeStyleSettingsProvider
+                implementation="io.protostuff.jetbrains.plugin.formatter.ProtoCodeStyleSettingsProvider"/>
     </extensions>
 
     <actions>

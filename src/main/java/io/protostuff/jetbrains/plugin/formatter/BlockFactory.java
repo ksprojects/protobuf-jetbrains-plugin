@@ -73,10 +73,6 @@ class BlockFactory {
         registry.put(elementType, factory);
     }
 
-    static Block createBlock(ASTNode node, Alignment alignment) {
-        return createBlock(node, alignment, Indent.getNoneIndent());
-    }
-
     static Block createBlock(ASTNode node, Alignment alignment, Indent indent) {
         Factory factory = registry.get(node.getElementType());
         if (factory == null) {
