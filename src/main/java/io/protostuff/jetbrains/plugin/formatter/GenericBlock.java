@@ -17,8 +17,11 @@ import java.util.List;
  */
 public class GenericBlock extends AbstractBlock {
 
-    protected GenericBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
+    private final Indent indent;
+
+    protected GenericBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {
         super(node, null, alignment);
+        this.indent = indent;
     }
 
 
@@ -40,6 +43,6 @@ public class GenericBlock extends AbstractBlock {
 
     @Override
     public Indent getIndent() {
-        return Indent.getNoneIndent();
+        return indent;
     }
 }

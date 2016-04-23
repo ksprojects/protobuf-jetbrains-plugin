@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class PackageBlock extends AbstractBlock {
 
-    protected PackageBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
+    protected PackageBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent ignore) {
         super(node, null, alignment);
     }
 

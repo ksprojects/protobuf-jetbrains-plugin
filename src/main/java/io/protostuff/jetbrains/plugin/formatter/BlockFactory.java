@@ -1,9 +1,6 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
-import com.intellij.formatting.Alignment;
-import com.intellij.formatting.Block;
-import com.intellij.formatting.Wrap;
-import com.intellij.formatting.WrapType;
+import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
@@ -45,16 +42,16 @@ public class BlockFactory {
         if (factory == null) {
             return createGenericBlock(node, alignment);
         }
-        return factory.create(node, alignment);
+        return factory.create(node, alignment, Indent.getNoneIndent());
     }
 
     @NotNull
     private static GenericBlock createGenericBlock(ASTNode node, Alignment alignment) {
-        return new GenericBlock(node, alignment);
+        return new GenericBlock(node, alignment, Indent.getNoneIndent());
     }
 
     private interface Factory {
-        Block create(ASTNode node, Alignment alignment);
+        Block create(ASTNode node, Alignment alignment, Indent indent);
     }
 
 }

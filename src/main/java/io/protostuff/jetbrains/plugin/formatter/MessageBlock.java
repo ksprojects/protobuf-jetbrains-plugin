@@ -3,43 +3,29 @@ package io.protostuff.jetbrains.plugin.formatter;
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
 import com.intellij.formatting.Indent;
-import com.intellij.formatting.Spacing;
+import com.intellij.formatting.Wrap;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.formatter.common.AbstractBlock;
+import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class MessageBlock extends AbstractBlock {
-
-    protected MessageBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
-        super(node, null, alignment);
-    }
+public class MessageBlock extends AbstractParentBlock {
 
 
-    @Override
-    protected List<Block> buildChildren() {
-        return Collections.emptyList();
-    }
-
-    @Nullable
-    @Override
-    public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-        return Spacing.getReadOnlySpacing();
+    protected MessageBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {
+        super(node, null, alignment, indent);
     }
 
     @Override
-    public boolean isLeaf() {
-        return true;
+    Block createChildBlock(ASTNode child, Wrap wrap, Alignment childAlignment, Indent childrenIndent) {
+        if (child instanceof MessageNode) {
+            return new MessageBlock(child, childAlignment, childrenIndent);
+        } else {
+            return new GenericBlock(child, childAlignment, childrenIndent);
+        }
     }
 
-    @Override
-    public Indent getIndent() {
-        return Indent.getAbsoluteNoneIndent();
-    }
 }

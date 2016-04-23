@@ -10,8 +10,8 @@ plugins {
 //    id "com.jfrog.bintray" version "1.6"
 }
 
-group = 'org.antlr'
-description = 'Support for using ANTLR-generated parsers/lexers in jetbrains IDE plug-ins.'
+group = 'io.protostuff'
+description = 'Protobuf Plugin for JetBrains IDEs'
 
 repositories {
     jcenter()

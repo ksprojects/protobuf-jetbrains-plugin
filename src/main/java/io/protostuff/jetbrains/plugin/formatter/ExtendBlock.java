@@ -17,10 +17,12 @@ import java.util.List;
  */
 public class ExtendBlock extends AbstractBlock {
 
-    protected ExtendBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
-        super(node, null, alignment);
-    }
+    private final Indent indent;
 
+    protected ExtendBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {
+        super(node, null, alignment);
+        this.indent = indent;
+    }
 
     @Override
     protected List<Block> buildChildren() {
@@ -40,6 +42,6 @@ public class ExtendBlock extends AbstractBlock {
 
     @Override
     public Indent getIndent() {
-        return Indent.getAbsoluteNoneIndent();
+        return indent;
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ServiceBlock extends AbstractBlock {
 
-    protected ServiceBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
+    protected ServiceBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent ignore) {
         super(node, null, alignment);
     }
 

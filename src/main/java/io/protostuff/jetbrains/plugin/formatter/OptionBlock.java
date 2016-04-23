@@ -17,8 +17,11 @@ import java.util.List;
  */
 public class OptionBlock extends AbstractBlock {
 
-    protected OptionBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
+    private final Indent indent;
+
+    protected OptionBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {
         super(node, null, alignment);
+        this.indent = indent;
     }
 
 
@@ -40,6 +43,6 @@ public class OptionBlock extends AbstractBlock {
 
     @Override
     public Indent getIndent() {
-        return Indent.getAbsoluteNoneIndent();
+        return indent;
     }
 }

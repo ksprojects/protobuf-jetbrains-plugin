@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ImportBlock extends AbstractBlock {
 
-    protected ImportBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
+    protected ImportBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent ignore) {
         super(node, null, alignment);
     }
 

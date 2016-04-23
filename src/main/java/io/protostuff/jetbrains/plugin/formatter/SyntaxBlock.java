@@ -17,10 +17,9 @@ import java.util.List;
  */
 public class SyntaxBlock extends AbstractBlock {
 
-    protected SyntaxBlock(@NotNull ASTNode node, @Nullable Alignment alignment) {
+    protected SyntaxBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent ignore) {
         super(node, null, alignment);
     }
-
 
     @Override
     protected List<Block> buildChildren() {
