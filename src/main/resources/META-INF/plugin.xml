@@ -92,7 +92,7 @@
 
         <lang.formatter language="PROTO"
                         implementationClass="io.protostuff.jetbrains.plugin.formatter.FormattingModelBuilder"/>
-        <!--<fileTypeIndentOptionsProvider id="Protobuf" implementation="io.protostuff.jetbrains.plugin.formatter.ProtoIndentOptionsProvider"/>-->
+
         <langCodeStyleSettingsProvider
                 implementation="io.protostuff.jetbrains.plugin.formatter.ProtoLanguageCodeStyleSettingsProvider"/>
 

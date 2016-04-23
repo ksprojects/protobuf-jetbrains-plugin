@@ -1,11 +1,15 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
 import com.google.common.base.Joiner;
+import com.intellij.application.options.IndentOptionsEditor;
+import com.intellij.application.options.SmartIndentOptionsEditor;
 import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable;
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -34,6 +38,21 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
                 break;
         }
 //        consumer.showAllStandardOptions();
+    }
+
+    @Nullable
+    @Override
+    public IndentOptionsEditor getIndentOptionsEditor() {
+        return new SmartIndentOptionsEditor();
+    }
+
+    @Nullable
+    @Override
+    public CommonCodeStyleSettings getDefaultCommonSettings() {
+        CommonCodeStyleSettings settings = new CommonCodeStyleSettings(ProtoLanguage.INSTANCE);
+        CommonCodeStyleSettings.IndentOptions indentOptions = settings.initIndentOptions();
+        indentOptions.INDENT_SIZE = 2;
+        return settings;
     }
 
     @Override

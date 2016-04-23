@@ -44,6 +44,7 @@ public class ProtoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
         };
     }
 
+
     private static class ProtoCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
         public ProtoCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
             super(ProtoLanguage.INSTANCE, currentSettings, settings);
