@@ -24,6 +24,7 @@ import static io.protostuff.jetbrains.plugin.formatter.BlockFactory.createBlock;
 public class ProtoFileBlock extends AbstractBlock {
 
     public static final RuleIElementType IMPORT = ProtoParserDefinition.rule(ProtoParser.RULE_importStatement);
+    public static final RuleIElementType OPTION = ProtoParserDefinition.rule(ProtoParser.RULE_option);
     public static final TokenIElementType COMMENT = ProtoParserDefinition.token(ProtoLexer.COMMENT);
     public static final TokenIElementType LINE_COMMENT = ProtoParserDefinition.token(ProtoLexer.LINE_COMMENT);
 
@@ -69,17 +70,7 @@ public class ProtoFileBlock extends AbstractBlock {
         if (child1 == null) {
             return Formatting.NONE;
         }
-        if (child1 instanceof ASTBlock && child2 instanceof ASTBlock) {
-            IElementType a = ((ASTBlock) child1).getNode().getElementType();
-            IElementType b = ((ASTBlock) child2).getNode().getElementType();
-            if (IMPORT.equals(a) && IMPORT.equals(b)) {
-                return Formatting.LINE_BREAK;
-            }
-            if (COMMENT.equals(a) || LINE_COMMENT.equals(a)) {
-                return Formatting.LINE_BREAK;
-            }
-        }
-        return Formatting.BLANK_LINE;
+        return Formatting.LINE_BREAK;
     }
 
     @Override

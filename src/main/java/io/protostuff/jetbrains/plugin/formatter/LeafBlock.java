@@ -31,16 +31,6 @@ public class LeafBlock implements ASTBlock {
     private final Indent myIndent;
 
     public LeafBlock(final ASTNode node,
-                     final Wrap wrap,
-                     final Alignment alignment,
-                     Indent indent) {
-        myNode = node;
-        myWrap = wrap;
-        myAlignment = alignment;
-        myIndent = indent;
-    }
-
-    public LeafBlock(final ASTNode node,
                      final Alignment alignment,
                      Indent indent) {
         myNode = node;

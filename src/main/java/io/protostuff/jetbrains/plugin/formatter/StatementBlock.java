@@ -13,9 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Abstract block for all constructs that have children in curly braces.
@@ -26,6 +24,7 @@ public class StatementBlock extends AbstractBlock {
 
     public static final Spacing NEW_LINE = Spacing.createSpacing(0, 0, 1, true, 2);
     public static final Spacing SPACE = Spacing.createSpacing(1, 1, 0, false, 0);
+    public static final Spacing SPACE_OR_NEW_LINE = Spacing.createSpacing(1, 1, 0, true, 1);
     public static final Spacing NONE = Spacing.createSpacing(0, 0, 0, false, 0);
 
     public static final IElementType SEMICOLON = ProtoParserDefinition.token(ProtoLexer.SEMICOLON);
@@ -38,6 +37,7 @@ public class StatementBlock extends AbstractBlock {
     public static final IElementType LT = ProtoParserDefinition.token(ProtoLexer.LT);
     public static final IElementType GT = ProtoParserDefinition.token(ProtoLexer.GT);
     public static final IElementType LINE_COMMENT = ProtoParserDefinition.token(ProtoLexer.LINE_COMMENT);
+    public static final IElementType COMMENT = ProtoParserDefinition.token(ProtoLexer.COMMENT);
     public static final IElementType COMMA = ProtoParserDefinition.token(ProtoLexer.COMMA);
     private static final SpacingBuilder SB = new SpacingBuilder(new CodeStyleSettings(), ProtoLanguage.INSTANCE)
             .after(LINE_COMMENT).spacing(0, 0, 1, true, 2)
@@ -54,7 +54,6 @@ public class StatementBlock extends AbstractBlock {
             .before(SEMICOLON).spacing(0, 0, 0, false, 0)
             .after(COMMA).spacing(1, 1, 0, false, 0);
 
-    private final Set<Block> headerBlocks = new HashSet<>();
     private final Indent indent;
 
     protected StatementBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {

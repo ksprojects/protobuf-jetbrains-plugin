@@ -42,7 +42,6 @@ public class BlockFactory {
         register(rule(RULE_optionValue), LeafBlock::new);
         register(rule(RULE_fieldModifier), LeafBlock::new);
         register(rule(RULE_typeReference), LeafBlock::new);
-        register(rule(RULE_rpcMethodOptions), StatementBlock::new);
         register(rule(RULE_ranges), StatementBlock::new);
         register(rule(RULE_range), StatementBlock::new);
         register(rule(RULE_reserved), StatementBlock::new);
@@ -61,7 +60,7 @@ public class BlockFactory {
         register(rule(RULE_enumBlock), ParentBlock::new);
         register(rule(RULE_enumConstant), StatementBlock::new);
         register(rule(RULE_serviceBlock), ParentBlock::new);
-        register(rule(RULE_rpcMethod), StatementBlock::new);
+        register(rule(RULE_rpcMethod), ParentBlock::new);
         register(rule(RULE_extendBlock), ParentBlock::new);
         register(rule(RULE_extendBlockEntry), StatementBlock::new);
         register(rule(RULE_oneof), ParentBlock::new);
