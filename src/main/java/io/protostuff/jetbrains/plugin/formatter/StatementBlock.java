@@ -40,26 +40,16 @@ class StatementBlock extends AbstractBlock {
     public static final IElementType LINE_COMMENT = ProtoParserDefinition.token(ProtoLexer.LINE_COMMENT);
     public static final IElementType COMMENT = ProtoParserDefinition.token(ProtoLexer.COMMENT);
     public static final IElementType COMMA = ProtoParserDefinition.token(ProtoLexer.COMMA);
-    private static final SpacingBuilder SB = new SpacingBuilder(new CodeStyleSettings(), ProtoLanguage.INSTANCE)
-            .after(LINE_COMMENT).spacing(0, 0, 1, true, 2)
-            .after(LCURLY).spacing(0, 0, 1, true, 2)
-            .before(RCURLY).spacing(0, 0, 1, true, 2)
-            .after(LPAREN).spacing(0, 0, 0, false, 0)
-            .before(RPAREN).spacing(0, 0, 0, false, 0)
-            .after(LSQUARE).spacing(0, 0, 0, false, 0)
-            .before(RSQUARE).spacing(0, 0, 0, false, 0)
-            .before(LT).spacing(0, 0, 0, false, 0)
-            .after(LT).spacing(0, 0, 0, false, 0)
-            .before(GT).spacing(0, 0, 0, false, 0)
-            .before(COMMA).spacing(0, 0, 0, false, 0)
-            .before(SEMICOLON).spacing(0, 0, 0, false, 0)
-            .after(COMMA).spacing(1, 1, 0, false, 0);
+    public static final IElementType ASSIGN = ProtoParserDefinition.token(ProtoLexer.ASSIGN);
 
     private final Indent indent;
-
-    protected StatementBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {
+    protected final CodeStyleSettings settings;
+    private final SpacingBuilder spacingBuilder;
+    protected StatementBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent, CodeStyleSettings settings) {
         super(node, null, alignment);
         this.indent = indent;
+        this.settings = settings;
+        spacingBuilder = FormattingModelBuilder.createSpacingBuilder(settings);
     }
 
     @Override
@@ -68,7 +58,7 @@ class StatementBlock extends AbstractBlock {
         List<Block> result = new ArrayList<>();
         while (child != null) {
             if (!FormatterUtil.containsWhiteSpacesOnly(child)) {
-                Block block = BlockFactory.createBlock(child, Alignment.createAlignment(), Indent.getNoneIndent());
+                Block block = BlockFactory.createBlock(child, Alignment.createAlignment(), Indent.getNoneIndent(), settings);
                 result.add(block);
             }
             child = child.getTreeNext();
@@ -79,7 +69,7 @@ class StatementBlock extends AbstractBlock {
     @Nullable
     @Override
     public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
-        Spacing spacing = SB.getSpacing(this, child1, child2);
+        Spacing spacing = spacingBuilder.getSpacing(this, child1, child2);
         if (spacing == null) {
             return SPACE;
         }

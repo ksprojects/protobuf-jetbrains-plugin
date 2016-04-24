@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+message TestMessage{optional int32 x = 1;}
+
+enum TestEnum{A=1[deprecated=true];B=2;}
+
+service TestService{rpc Hello(HelloRequest)returns(HelloResponse);}

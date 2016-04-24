@@ -4,6 +4,7 @@ import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
 import com.intellij.formatting.Indent;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +22,7 @@ class BlockFactory {
     static final Map<IElementType, Factory> registry = new HashMap<>();
 
     static {
-        Factory FAIL_ROOT_NODE = (node, alignment, indent) -> {
+        Factory FAIL_ROOT_NODE = (node, alignment, indent, settings) -> {
             throw new IllegalStateException("Root node cannot be handled here");
         };
         register(rule(RULE_proto), FAIL_ROOT_NODE);
@@ -73,22 +74,22 @@ class BlockFactory {
         registry.put(elementType, factory);
     }
 
-    static Block createBlock(ASTNode node, Alignment alignment, Indent indent) {
+    static Block createBlock(ASTNode node, Alignment alignment, Indent indent, CodeStyleSettings settings) {
         Factory factory = registry.get(node.getElementType());
         if (factory == null) {
             // If element type is unknown it is best to keep existing formatting
-            return createLeaf(node, alignment, indent);
+            return createLeaf(node, alignment, indent, settings);
         }
-        return factory.create(node, alignment, indent);
+        return factory.create(node, alignment, indent, settings);
     }
 
     @NotNull
-    private static LeafBlock createLeaf(ASTNode node, Alignment alignment, Indent indent) {
-        return new LeafBlock(node, alignment, indent);
+    private static LeafBlock createLeaf(ASTNode node, Alignment alignment, Indent indent, CodeStyleSettings settings) {
+        return new LeafBlock(node, alignment, indent, settings);
     }
 
     interface Factory {
-        Block create(ASTNode node, Alignment alignment, Indent indent);
+        Block create(ASTNode node, Alignment alignment, Indent indent, CodeStyleSettings settings);
     }
 
 }

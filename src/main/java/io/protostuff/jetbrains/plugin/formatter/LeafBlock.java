@@ -3,6 +3,7 @@ package io.protostuff.jetbrains.plugin.formatter;
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -13,7 +14,7 @@ class LeafBlock implements ASTBlock {
     private final Alignment alignment;
     private final Indent myIndent;
 
-    LeafBlock(ASTNode node, Alignment alignment, Indent indent) {
+    LeafBlock(ASTNode node, Alignment alignment, Indent indent, CodeStyleSettings settings) {
         this.node = node;
         this.alignment = alignment;
         myIndent = indent;

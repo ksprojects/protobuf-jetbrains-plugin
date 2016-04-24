@@ -2,6 +2,7 @@ package io.protostuff.jetbrains.plugin.formatter;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.formatter.FormatterUtil;
 import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
@@ -20,8 +21,10 @@ import static io.protostuff.jetbrains.plugin.formatter.BlockFactory.createBlock;
  */
 class ProtoFileBlock extends AbstractBlock {
 
-    ProtoFileBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment) {
+    private final CodeStyleSettings settings;
+    ProtoFileBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment, CodeStyleSettings settings) {
         super(node, wrap, alignment);
+        this.settings = settings;
 
     }
 
@@ -36,7 +39,7 @@ class ProtoFileBlock extends AbstractBlock {
                     appendProtoBlocks(child, blocks);
                 } else {
                     // Comments are not part of root rule, we have to append them separately
-                    blocks.add(new LeafBlock(child, Alignment.createAlignment(), Indent.getNoneIndent()));
+                    blocks.add(new LeafBlock(child, Alignment.createAlignment(), Indent.getNoneIndent(), settings));
                 }
             }
             child = child.getTreeNext();
@@ -49,7 +52,7 @@ class ProtoFileBlock extends AbstractBlock {
         Alignment alignment = Alignment.createAlignment();
         while (child != null) {
             if (!FormatterUtil.containsWhiteSpacesOnly(child)) {
-                Block block = createBlock(child, alignment, Indent.getNoneIndent());
+                Block block = createBlock(child, alignment, Indent.getNoneIndent(), settings);
                 blocks.add(block);
             }
             child = child.getTreeNext();

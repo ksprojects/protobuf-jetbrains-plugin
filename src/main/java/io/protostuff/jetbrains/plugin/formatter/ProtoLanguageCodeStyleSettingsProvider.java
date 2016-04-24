@@ -50,6 +50,7 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
     public CommonCodeStyleSettings getDefaultCommonSettings() {
         CommonCodeStyleSettings settings = new CommonCodeStyleSettings(ProtoLanguage.INSTANCE);
         settings.initIndentOptions();
+        settings.SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
         return settings;
     }
 

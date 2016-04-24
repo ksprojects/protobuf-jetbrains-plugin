@@ -2,6 +2,7 @@ package io.protostuff.jetbrains.plugin.formatter;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.formatter.FormatterUtil;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
@@ -22,8 +23,9 @@ class ParentBlock extends StatementBlock {
     private final Set<Block> headerBlocks = new HashSet<>();
     private Alignment childAlignment;
 
-    ParentBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent) {
-        super(node, alignment, indent);
+    ParentBlock(@NotNull ASTNode node, @Nullable Alignment alignment,
+                Indent indent, CodeStyleSettings settings) {
+        super(node, alignment, indent, settings);
         childAlignment = Alignment.createAlignment();
     }
 
@@ -37,22 +39,22 @@ class ParentBlock extends StatementBlock {
                 IElementType elementType = child.getElementType();
                 if (LCURLY.equals(elementType)) {
                     state = State.AFTER_LEFT_CURLY_BRACE;
-                    result.add(BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent()));
+                    result.add(BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent(), settings));
                 } else if (RCURLY.equals(elementType)) {
-                    result.add(BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent()));
+                    result.add(BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent(), settings));
                     state = State.AFTER_RIGHT_CURLY_BRACE;
                 } else {
                     switch (state) {
                         case BEFORE_LEFT_CURLY_BRACE:
-                            Block block = BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent());
+                            Block block = BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent(), settings);
                             headerBlocks.add(block);
                             result.add(block);
                             break;
                         case AFTER_LEFT_CURLY_BRACE:
-                            result.add(BlockFactory.createBlock(child, childAlignment, Indent.getNormalIndent(true)));
+                            result.add(BlockFactory.createBlock(child, childAlignment, Indent.getNormalIndent(true), settings));
                             break;
                         case AFTER_RIGHT_CURLY_BRACE:
-                            result.add(BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent()));
+                            result.add(BlockFactory.createBlock(child, myAlignment, Indent.getNoneIndent(), settings));
                             break;
                         default:
                             throw new IllegalStateException(state.toString());
