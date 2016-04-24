@@ -37,6 +37,7 @@ public class FormattingModelBuilder implements com.intellij.formatting.Formattin
         CommonCodeStyleSettings protoSettings = settings.getCommonSettings(ProtoLanguage.INSTANCE);
         return new SpacingBuilder(settings, ProtoLanguage.INSTANCE)
                 .around(ASSIGN).spaceIf(protoSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS)
+                .before(SEMICOLON).spaceIf(protoSettings.SPACE_BEFORE_SEMICOLON)
                 .after(LINE_COMMENT).spacing(0, 0, 1, true, 2)
                 .after(LCURLY).spacing(0, 0, 1, true, 2)
                 .before(RCURLY).spacing(0, 0, 1, true, 2)
