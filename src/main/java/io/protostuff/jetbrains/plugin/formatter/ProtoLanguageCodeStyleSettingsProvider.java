@@ -26,10 +26,9 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
         switch (settingsType) {
-            case INDENT_SETTINGS:
-                consumer.showStandardOptions("INDENT_SIZE", "TAB_SIZE");
             case SPACING_SETTINGS:
                 consumer.showStandardOptions("SPACE_AROUND_ASSIGNMENT_OPERATORS");
+                consumer.renameStandardOption("SPACE_AROUND_ASSIGNMENT_OPERATORS", "Space around assignment operator");
                 break;
             case BLANK_LINES_SETTINGS:
                 consumer.showStandardOptions("KEEP_BLANK_LINES_IN_CODE");
@@ -37,7 +36,6 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
             default:
                 break;
         }
-//        consumer.showAllStandardOptions();
     }
 
     @Nullable
@@ -46,12 +44,12 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
         return new SmartIndentOptionsEditor();
     }
 
+
     @Nullable
     @Override
     public CommonCodeStyleSettings getDefaultCommonSettings() {
         CommonCodeStyleSettings settings = new CommonCodeStyleSettings(ProtoLanguage.INSTANCE);
-        CommonCodeStyleSettings.IndentOptions indentOptions = settings.initIndentOptions();
-        indentOptions.INDENT_SIZE = 2;
+        settings.initIndentOptions();
         return settings;
     }
 

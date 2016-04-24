@@ -56,7 +56,6 @@ public class ProtoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
             addSpacesTab(settings);
             addBlankLinesTab(settings);
             addWrappingAndBracesTab(settings);
-//            addTab(new JsonCodeStylePanel(settings));
         }
     }
 }
