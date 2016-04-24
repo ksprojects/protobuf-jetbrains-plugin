@@ -46,6 +46,7 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final TokenIElementType RSQUARE;
     public static final TokenIElementType LT;
     public static final TokenIElementType GT;
+    public static final TokenIElementType ASSIGN;
 
     // Rules
     public static final IElementType R_TYPE_REFERENCE;
@@ -53,20 +54,21 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final IElementType R_FIELD_MODIFIER;
     private static final IFileElementType FILE;
     private static final TokenSet COMMENTS;
-    private static final TokenSet WHITESPACE;
+    public static final TokenSet WHITESPACE;
+
     private static final TokenSet STRING;
 
-
+    private static List<TokenIElementType> tokenTypes;
+    private static List<RuleIElementType> ruleTypes;
 
     static {
         PSIElementTypeFactory.defineLanguageIElementTypes(ProtoLanguage.INSTANCE,
                 ProtoParser.tokenNames, ProtoParser.ruleNames);
-        List<TokenIElementType> tokenTypes =
-                PSIElementTypeFactory.getTokenIElementTypes(ProtoLanguage.INSTANCE);
+        tokenTypes = PSIElementTypeFactory.getTokenIElementTypes(ProtoLanguage.INSTANCE);
         ID = tokenTypes.get(ProtoLexer.NAME);
         FILE = new IFileElementType(ProtoLanguage.INSTANCE);
         COMMENTS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, COMMENT, LINE_COMMENT);
-        WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS);
+        WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS, NL);
         STRING = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, STRING_VALUE);
 
 
@@ -111,7 +113,7 @@ public class ProtoParserDefinition implements ParserDefinition {
                 ProtoLexer.BYTES
         );
 
-        List<RuleIElementType> ruleTypes = PSIElementTypeFactory.getRuleIElementTypes(ProtoLanguage.INSTANCE);
+        ruleTypes = PSIElementTypeFactory.getRuleIElementTypes(ProtoLanguage.INSTANCE);
 
         R_TYPE_REFERENCE = ruleTypes.get(ProtoParser.RULE_typeReference);
         R_NAME = ruleTypes.get(ProtoParser.RULE_name);
@@ -123,8 +125,17 @@ public class ProtoParserDefinition implements ParserDefinition {
         RPAREN = tokenTypes.get(ProtoLexer.RPAREN);
         LSQUARE = tokenTypes.get(ProtoLexer.LSQUARE);
         RSQUARE = tokenTypes.get(ProtoLexer.RSQUARE);
+        ASSIGN = tokenTypes.get(ProtoLexer.ASSIGN);
         LT = tokenTypes.get(ProtoLexer.LT);
         GT = tokenTypes.get(ProtoLexer.GT);
+    }
+
+    public static TokenIElementType token(int token) {
+        return tokenTypes.get(token);
+    }
+
+    public static RuleIElementType rule(int rule) {
+        return ruleTypes.get(rule);
     }
 
     @NotNull
@@ -229,14 +240,6 @@ public class ProtoParserDefinition implements ParserDefinition {
                 return new RpcMethodTypeNode(node);
             case ProtoParser.RULE_proto:
                 return new ProtoRootNode(node);
-            case ProtoParser.RULE_statement:
-                return new ProtoRootStatementNode(node);
-            case ProtoParser.RULE_messageBlockEntry:
-                return new MessageBlockEntryNode(node);
-            case ProtoParser.RULE_enumBlockEntry:
-                return new EnumBlockEntryNode(node);
-            case ProtoParser.RULE_serviceBlockEntry:
-                return new ServiceBlockEntryNode(node);
             default:
                 return new ANTLRPsiNode(node);
         }

@@ -1,4 +1,4 @@
-## Google Protocol Buffers support for JetBrains IDEs
+## Protobuf Support for JetBrains IDEs
 
 [Protobuf Support Plugin](https://plugins.jetbrains.com/plugin/8277) for IntelliJ IDEA & other JetBrains products.
 

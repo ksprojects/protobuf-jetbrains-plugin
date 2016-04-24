@@ -7,11 +7,10 @@ buildscript {
 
 plugins {
     id "org.jetbrains.intellij" version "0.0.43"
-    id "com.jfrog.bintray" version "1.6"
 }
 
-group = 'org.antlr'
-description = 'Support for using ANTLR-generated parsers/lexers in jetbrains IDE plug-ins.'
+group = 'io.protostuff'
+description = 'Protobuf Plugin for JetBrains IDEs'
 
 repositories {
     jcenter()
@@ -21,13 +20,11 @@ repositories {
     }
 }
 
-apply plugin: 'antlr'
-
 dependencies {
     compile 'org.antlr:antlr4-runtime:4.5.1'
     compile 'org.antlr:antlr4-jetbrains-adapter:1.0.0'
-    antlr 'org.antlr:antlr4:4.5'
-    compile 'io.protostuff:protostuff-parser:2.0.0-alpha12'
+    compile 'com.google.guava:guava:19.0'
+    compile 'io.protostuff:protostuff-parser:2.0.0-alpha17-SNAPSHOT'
 }
 
 apply plugin: 'idea'
@@ -36,16 +33,17 @@ idea {
         jdkName = javaVersion
         languageLevel = javaVersion
     }
-    module {
-        generatedSourceDirs += file('gen')
-    }
 }
 
 apply plugin: 'org.jetbrains.intellij'
 intellij {
     version = ideaVersion
     updateSinceUntilBuild = false
-
+    // TODO: we do not need dependency on this plugin in runtime
+    // TODO: should be removed, but then tests are failing with
+    // TODO: ERROR: java.lang.ClassNotFoundException: com.intellij.lang.properties.PropertiesFileTypeFactory
+    plugins 'properties'
+//    downloadSources = false
     publish {
         username = project.hasProperty('jetbrainsUser')   \
              ? project.property('jetbrainsUser')   \

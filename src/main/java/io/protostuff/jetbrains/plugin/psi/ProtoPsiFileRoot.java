@@ -2,6 +2,7 @@ package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
@@ -30,7 +31,8 @@ public class ProtoPsiFileRoot extends PsiFileBase implements ScopeNode {
 
     @Override
     public String toString() {
-        return "Google Protocol Buffers File";
+        final VirtualFile virtualFile = getVirtualFile();
+        return "ProtobufFile: " + (virtualFile != null ? virtualFile.getName() : "<unknown>");
     }
 
     @Override

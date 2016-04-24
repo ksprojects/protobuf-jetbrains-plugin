@@ -1,0 +1,3 @@
+// Header comment does not belong to 'proto' rule
+syntax = "proto2";
+// Footer comment does not belong to 'proto' rule
