@@ -1,0 +1,3 @@
+service TestService {
+    rpc Hello (HelloRequest) returns (HelloResponse);
+}

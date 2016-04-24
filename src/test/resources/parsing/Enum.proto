@@ -1,0 +1,5 @@
+enum TestEnum {
+    ZERO = 0;
+    FIRST = 1;
+    FIFTH = 5;
+}
