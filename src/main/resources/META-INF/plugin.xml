@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.1.0</version>
+    <version>0.3.0</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -18,16 +18,25 @@
         <br>
         <b>Features:</b>
         <ul>
-            <li>Syntax highlighting and validation (full proto3 support).</li>
-            <li>Fonts & Colors configuration (Editor &rarr; Colors &amp; Fonts &rarr; Protobuf).</li>
-            <li>Structure View. Activation keys: <i>Alt+7</i> and <i>Ctrl+F12</i> (popup).</li>
+            <li>Full Proto3 support.</li>
+            <li>Syntax highlighting and validation.</li>
+            <li>Fonts & Colors configuration.</li>
+            <li>Structure View.</li>
             <li>Brace matching.</li>
-            <li>Line and block commenting using <i>Ctrl+/</i> and <i>Ctrl+Shift+/</i>.</li>
+            <li>Line and block commenting.</li>
+            <li>Code formatting.</li>
         </ul>
         <br>
     ]]></description>
 
     <change-notes><![CDATA[
+
+        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.3.0">
+            <b>v0.3.0</b>
+        </a> (2016-04-24)
+        <ul>
+            <li>Add code formatting.</li>
+        </ul>
 
         <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.2.0">
             <b>v0.2.0</b>
