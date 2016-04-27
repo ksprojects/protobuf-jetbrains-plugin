@@ -65,9 +65,7 @@ final class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeEle
             AbstractTreeElement element = (AbstractTreeElement) parent;
             PsiElement psiElement = element.getValue();
             List<TreeElement> treeElements = new ArrayList<>();
-            for (PsiElement childBlock : psiElement.getChildren()) {
-                // first and the only child
-                PsiElement node = childBlock.getFirstChild();
+            for (PsiElement node : psiElement.getChildren()) {
                 if (node instanceof FieldNode) {
                     treeElements.add(new MessageFieldTreeElement((FieldNode) node));
                 }
