@@ -10,11 +10,34 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.*;
+
 /**
  * @author Kostiantyn Shchepanovskyi
  */
 public class FormattingModelBuilder implements com.intellij.formatting.FormattingModelBuilder {
+
+    public static SpacingBuilder createSpacingBuilder(CodeStyleSettings settings) {
+        CommonCodeStyleSettings protoSettings = settings.getCommonSettings(ProtoLanguage.INSTANCE);
+        SpacingBuilder builder = new SpacingBuilder(settings, ProtoLanguage.INSTANCE);
+        builder.around(ASSIGN).spacing(1, 1, 0, false, 0);
+        builder.before(SEMICOLON).spacing(0, 0, 0, false, 0);
+        builder.after(LINE_COMMENT).spacing(0, 0, 1, true, 2);
+        builder.after(LCURLY).spacing(0, 0, 1, true, 2);
+        builder.before(RCURLY).spacing(0, 0, 1, true, 2);
+        builder.after(LPAREN).spacing(0, 0, 0, false, 0);
+        builder.before(RPAREN).spacing(0, 0, 0, false, 0);
+        builder.after(LSQUARE).spacing(0, 0, 0, false, 0);
+        builder.before(RSQUARE).spacing(0, 0, 0, false, 0);
+        builder.before(LT).spacing(0, 0, 0, false, 0);
+        builder.after(LT).spacing(0, 0, 0, false, 0);
+        builder.before(GT).spacing(0, 0, 0, false, 0);
+        builder.before(COMMA).spacing(0, 0, 0, false, 0);
+        builder.before(SEMICOLON).spacing(0, 0, 0, false, 0);
+        builder.after(COMMA).spacing(1, 1, 0, false, 0);
+        return builder;
+    }
 
     @NotNull
     @Override
@@ -31,26 +54,5 @@ public class FormattingModelBuilder implements com.intellij.formatting.Formattin
     @Override
     public TextRange getRangeAffectingIndent(PsiFile file, int offset, ASTNode elementAtOffset) {
         return null;
-    }
-
-    public static SpacingBuilder createSpacingBuilder(CodeStyleSettings settings) {
-        CommonCodeStyleSettings protoSettings = settings.getCommonSettings(ProtoLanguage.INSTANCE);
-        return new SpacingBuilder(settings, ProtoLanguage.INSTANCE)
-                .around(ASSIGN).spaceIf(protoSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS)
-                .before(SEMICOLON).spaceIf(protoSettings.SPACE_BEFORE_SEMICOLON)
-                .after(LINE_COMMENT).spacing(0, 0, 1, true, 2)
-                .after(LCURLY).spacing(0, 0, 1, true, 2)
-                .before(RCURLY).spacing(0, 0, 1, true, 2)
-                .after(LPAREN).spacing(0, 0, 0, false, 0)
-                .before(RPAREN).spacing(0, 0, 0, false, 0)
-                .after(LSQUARE).spacing(0, 0, 0, false, 0)
-                .before(RSQUARE).spacing(0, 0, 0, false, 0)
-                .before(LT).spacing(0, 0, 0, false, 0)
-                .after(LT).spacing(0, 0, 0, false, 0)
-                .before(GT).spacing(0, 0, 0, false, 0)
-                .before(COMMA).spacing(0, 0, 0, false, 0)
-                .before(SEMICOLON).spacing(0, 0, 0, false, 0)
-                .after(COMMA).spacing(1, 1, 0, false, 0);
-
     }
 }

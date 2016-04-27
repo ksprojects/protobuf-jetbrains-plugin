@@ -34,6 +34,7 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
 //                consumer.renameStandardOption("SPACE_AROUND_ASSIGNMENT_OPERATORS", "Space around assignment operator");
 //                break;
 //            case WRAPPING_AND_BRACES_SETTINGS:
+//                consumer.showStandardOptions("KEEP_LINE_BREAKS");
 //                consumer.showStandardOptions("BRACE_STYLE");
 //                break;
 //            case BLANK_LINES_SETTINGS:
@@ -60,6 +61,8 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
         settings.SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
         settings.SPACE_BEFORE_SEMICOLON = false;
         settings.BRACE_STYLE = END_OF_LINE;
+        settings.KEEP_BLANK_LINES_IN_CODE = 2;
+        settings.KEEP_LINE_BREAKS = false;
         return settings;
     }
 

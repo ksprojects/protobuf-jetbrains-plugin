@@ -53,10 +53,10 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
         });
     }
 
-    public void testDisableSpaceAroundAssignmentOperator() {
-        run("disable_space_around_assignment_operator", settings -> {
-            settings.SPACE_AROUND_ASSIGNMENT_OPERATORS = false;
-        });
-    }
+//    public void testDisableSpaceAroundAssignmentOperator() {
+//        run("disable_space_around_assignment_operator", settings -> {
+//            settings.SPACE_AROUND_ASSIGNMENT_OPERATORS = false;
+//        });
+//    }
 
 }
