@@ -42,8 +42,8 @@ intellij {
     // TODO: we do not need dependency on this plugin in runtime
     // TODO: should be removed, but then tests are failing with
     // TODO: ERROR: java.lang.ClassNotFoundException: com.intellij.lang.properties.PropertiesFileTypeFactory
-    plugins 'properties'
-//    downloadSources = false
+//    plugins 'properties'
+    downloadSources = false
     publish {
         username = project.hasProperty('jetbrainsUser')   \
              ? project.property('jetbrainsUser')   \
