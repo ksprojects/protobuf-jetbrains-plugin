@@ -27,9 +27,8 @@ final class MessageTreeElement extends AbstractTreeElement<MessageNode> {
     @Override
     public TreeElement[] getChildren() {
         List<TreeElement> treeElements = new ArrayList<>();
-        for (PsiElement psiElement : element.getChildren()) {
+        for (PsiElement node : element.getChildren()) {
             // first and the only child
-            PsiElement node = psiElement.getFirstChild();
             if (node instanceof MessageNode) {
                 TreeElement element = new MessageTreeElement((MessageNode) node);
                 treeElements.add(element);
