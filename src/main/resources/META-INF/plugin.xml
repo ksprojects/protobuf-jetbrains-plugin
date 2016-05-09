@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -31,38 +31,18 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.3.0">
-            <b>v0.3.0</b>
-        </a> (2016-04-24)
+        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.3.1">
+            <b>v0.3.1</b>
+        </a> (2016-05-09)
         <ul>
-            <li>Add code formatting.</li>
+            <li>Fixed highlighting of groups.</li>
+            <li>Fixed formatting of trailing line comments.</li>
+            <li>Fixed structure view bug - nested messages were not displayed.</li>
         </ul>
 
-        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.2.0">
-            <b>v0.2.0</b>
-        </a> (2016-04-16)
-        <ul>
-            <li>Add structure view.</li>
-            <li>Add brace matching.</li>
-            <li>Add commenter.</li>
-        </ul>
-
-        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.1.1">
-            <b>v0.1.1</b>
-        </a> (2016-04-08)
-        <ul>
-            <li>Add support for new keywords: "stream" and "reserved".</li>
-            <li>Enable syntax highlighting for embedded code blocks in Markdown editor.</li>
-        </ul>
-
-        <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.1.0">
-            <b>v0.1.0</b>
-        </a> (2016-04-03)
-        First public release. Supports syntax highlighting for proto2/proto3 and basic validations.
-        <br>
         <br>
         <a href="https://github.com/protostuff/protostuff-jetbrains-plugin/releases">
-            <b>Full Changelog History</b>
+            <b>Full Changelog</b>
         </a>
     ]]>
     </change-notes>
