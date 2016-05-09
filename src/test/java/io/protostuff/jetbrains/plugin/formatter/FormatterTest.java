@@ -21,6 +21,10 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
         return "src/test/resources/formatting";
     }
 
+    private void run(String test) {
+       run(test, commonCodeStyleSettings -> {});
+    }
+
     private void run(String test, Consumer<CommonCodeStyleSettings> settings) {
         myFixture.configureByFiles(test + "/Source.proto");
         CodeStyleSettings codeStyleSettings = CodeStyleSettingsManager.getSettings(getProject());
@@ -36,7 +40,7 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
     }
 
     public void testDefaultFormatter() {
-       run("default", settings -> {});
+       run("default");
     }
 
     public void testTab() {
@@ -53,10 +57,7 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
         });
     }
 
-//    public void testDisableSpaceAroundAssignmentOperator() {
-//        run("disable_space_around_assignment_operator", settings -> {
-//            settings.SPACE_AROUND_ASSIGNMENT_OPERATORS = false;
-//        });
-//    }
-
+    public void testTrailingComments() {
+        run("trailing_line_comments");
+    }
 }

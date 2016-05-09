@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.protostuff.jetbrains.plugin.formatter.BlockFactory.createBlock;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.COMMENT;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.LINE_COMMENT;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.SPACE_OR_NEW_LINE;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -64,6 +67,16 @@ class ProtoFileBlock extends AbstractBlock {
     public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
         if (child1 == null) {
             return StatementBlock.NONE;
+        }
+        if (child2 instanceof ASTBlock) {
+            ASTBlock block = (ASTBlock) child2;
+            IElementType elementType = block.getNode().getElementType();
+
+            // Do not move trailing comments to new line.
+            if (LINE_COMMENT.equals(elementType)
+                    || COMMENT.equals(elementType)) {
+                return SPACE_OR_NEW_LINE;
+            }
         }
         return StatementBlock.NEW_LINE;
     }
