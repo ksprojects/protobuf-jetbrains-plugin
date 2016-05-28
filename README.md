@@ -8,7 +8,7 @@ Plugin is compatible with IntelliJ IDEA 2016.1. Other JetBrains IDEs of the same
 
 ### Roadmap
 
-https://github.com/protostuff/protostuff-jetbrains-plugin/wiki/Roadmap
+https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap
 
 ### Build
 
@@ -28,8 +28,8 @@ Requirements:
 
 ### Screenshots
 
-![image](https://github.com/protostuff/protostuff-jetbrains-plugin/wiki/sample.png)
+![image](https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/sample.png)
 
 ### Links
 
-https://github.com/protostuff/protostuff-jetbrains-plugin/wiki/Links
+https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Links

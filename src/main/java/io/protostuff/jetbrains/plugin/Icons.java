@@ -11,7 +11,7 @@ import javax.swing.*;
  */
 public class Icons {
 
-    private static final String BASEDIR = "/io/protostuff/protostuff-jetbrains-plugin/icons/";
+    private static final String BASEDIR = "/io/protostuff/protobuf-jetbrains-plugin/icons/";
 
     public static final Icon PROTO = IconLoader.getIcon(BASEDIR + "proto.png");
     public static final Icon MESSAGE = IconLoader.getIcon(BASEDIR + "message.png");
