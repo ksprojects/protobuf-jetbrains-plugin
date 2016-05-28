@@ -28,7 +28,7 @@ Requirements:
 
 ### Screenshots
 
-![image](https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/sample.png)
+![image](https://github.com/protostuff/protostuff-jetbrains-plugin/wiki/sample-2016-04-11.png)
 
 ### Links
 
