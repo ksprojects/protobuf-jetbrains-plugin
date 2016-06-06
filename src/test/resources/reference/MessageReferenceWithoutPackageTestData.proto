@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message MessageA {
+
+}
+
+message TestMessage {
+    Message<caret>A messageA = 1;
+}

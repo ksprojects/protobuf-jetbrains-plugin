@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package reference;
+
+message MessageA {
+
+}
+
+message TestMessage {
+    Message<caret>A messageA = 1;
+}

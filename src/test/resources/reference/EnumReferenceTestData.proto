@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package reference;
+
+message EnumA {
+
+}
+
+message TestMessage {
+    Enum<caret>A enumA = 1;
+}

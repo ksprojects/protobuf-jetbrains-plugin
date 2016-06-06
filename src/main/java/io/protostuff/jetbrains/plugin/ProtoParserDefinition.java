@@ -65,7 +65,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         PSIElementTypeFactory.defineLanguageIElementTypes(ProtoLanguage.INSTANCE,
                 ProtoParser.tokenNames, ProtoParser.ruleNames);
         tokenTypes = PSIElementTypeFactory.getTokenIElementTypes(ProtoLanguage.INSTANCE);
-        ID = tokenTypes.get(ProtoLexer.NAME);
+        ID = tokenTypes.get(ProtoLexer.IDENT);
         FILE = new IFileElementType(ProtoLanguage.INSTANCE);
         COMMENTS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, COMMENT, LINE_COMMENT);
         WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS, NL);
@@ -116,7 +116,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         ruleTypes = PSIElementTypeFactory.getRuleIElementTypes(ProtoLanguage.INSTANCE);
 
         R_TYPE_REFERENCE = ruleTypes.get(ProtoParser.RULE_typeReference);
-        R_NAME = ruleTypes.get(ProtoParser.RULE_name);
+        R_NAME = ruleTypes.get(ProtoParser.RULE_ident);
         R_FIELD_MODIFIER = ruleTypes.get(ProtoParser.RULE_fieldModifier);
 
         LCURLY = tokenTypes.get(ProtoLexer.LCURLY);
@@ -156,7 +156,8 @@ public class ProtoParserDefinition implements ParserDefinition {
                     return ((ProtoParser) parser).proto();
                 }
                 // let's hope it's an ID as needed by "rename function"
-                return ((ProtoParser) parser).name();
+                throw new UnsupportedOperationException();
+//                return ((ProtoParser) parser).name();
             }
         };
     }
@@ -199,11 +200,15 @@ public class ProtoParserDefinition implements ParserDefinition {
             case ProtoParser.RULE_syntax:
                 return new SyntaxNode(node);
             case ProtoParser.RULE_packageStatement:
-                return new PackageNode(node);
+                return new PackageStatement(node);
             case ProtoParser.RULE_importStatement:
                 return new ImportNode(node);
+            case ProtoParser.RULE_fileReference:
+                return new FileReferenceNode(node);
             case ProtoParser.RULE_messageBlock:
                 return new MessageNode(node);
+            case ProtoParser.RULE_messageName:
+                return new MessageNameNode(node);
             case ProtoParser.RULE_field:
                 return new FieldNode(node);
             case ProtoParser.RULE_typeReference:
@@ -212,7 +217,7 @@ public class ProtoParserDefinition implements ParserDefinition {
                 return new GroupNode(node);
             case ProtoParser.RULE_enumBlock:
                 return new EnumNode(node);
-            case ProtoParser.RULE_enumConstant:
+            case ProtoParser.RULE_enumField:
                 return new EnumConstantNode(node);
             case ProtoParser.RULE_serviceBlock:
                 return new ServiceNode(node);
