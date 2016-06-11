@@ -81,10 +81,10 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
                 attrKey = STRING;
                 break;
             case ProtoLexer.COMMENT:
-                attrKey = LINE_COMMENT;
+                attrKey = BLOCK_COMMENT;
                 break;
             case ProtoLexer.LINE_COMMENT:
-                attrKey = BLOCK_COMMENT;
+                attrKey = LINE_COMMENT;
                 break;
             default:
                 return EMPTY_KEYS;
