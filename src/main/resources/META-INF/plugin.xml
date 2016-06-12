@@ -10,7 +10,8 @@
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin">GitHub</a> |
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/issues">Issues</a> |
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap">Roadmap</a> |
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Gallery">Gallery</a>
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Gallery">Gallery</a> |
+        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6">Donate</a>
         <br>
         <br>
         <a href="https://developers.google.com/protocol-buffers/">Google Protobuf</a> support for Jetbrains products.
@@ -19,6 +20,8 @@
         <b>Features:</b>
         <ul>
             <li>Full Proto3 support.</li>
+            <li>Reference support.</li>
+            <li>Usage search for messages/enums.</li>
             <li>Syntax highlighting and validation.</li>
             <li>Fonts & Colors configuration.</li>
             <li>Structure View.</li>
@@ -31,13 +34,12 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/protostuff-jetbrains-plugin-0.3.1">
-            <b>v0.3.1</b>
-        </a> (2016-05-09)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/release-0.4.0">
+            <b>v0.4.0</b>
+        </a> (2016-06-12)
         <ul>
-            <li>Fixed highlighting of groups.</li>
-            <li>Fixed formatting of trailing line comments.</li>
-            <li>Fixed structure view bug - nested messages were not displayed.</li>
+            <li>Add reference support.</li>
+            <li>Add "Find Usages" support for messages and enums.</li>
         </ul>
 
         <br>
@@ -63,32 +65,51 @@
     </project-components>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileTypeFactory implementation="io.protostuff.jetbrains.plugin.ProtoFileTypeFactory"/>
-        <lang.parserDefinition language="PROTO"
-                               implementationClass="io.protostuff.jetbrains.plugin.ProtoParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="PROTO"
-                                       implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxHighlighterFactory"/>
-        <annotator language="PROTO"
-                   implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxKeywordsAnnotator"/>
 
-        <colorSettingsPage implementation="io.protostuff.jetbrains.plugin.ProtoColorSettingsPage"/>
+        <fileTypeFactory
+                implementation="io.protostuff.jetbrains.plugin.ProtoFileTypeFactory"/>
 
-        <lang.commenter language="PROTO" implementationClass="io.protostuff.jetbrains.plugin.ProtoCommenter"/>
-        <lang.braceMatcher language="PROTO" implementationClass="io.protostuff.jetbrains.plugin.ProtoBraceMatcher"/>
+        <lang.parserDefinition
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.ProtoParserDefinition"/>
 
-        <lang.psiStructureViewFactory language="PROTO"
-                                      implementationClass="io.protostuff.jetbrains.plugin.view.structure.ProtoStructureViewFactory"/>
+        <lang.syntaxHighlighterFactory
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxHighlighterFactory"/>
 
-        <lang.formatter language="PROTO"
-                        implementationClass="io.protostuff.jetbrains.plugin.formatter.FormattingModelBuilder"/>
+        <annotator
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxKeywordsAnnotator"/>
+
+        <colorSettingsPage
+                implementation="io.protostuff.jetbrains.plugin.ProtoColorSettingsPage"/>
+
+        <lang.commenter
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.ProtoCommenter"/>
+
+        <lang.braceMatcher
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.ProtoBraceMatcher"/>
+
+        <lang.psiStructureViewFactory
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.view.structure.ProtoStructureViewFactory"/>
+
+        <lang.formatter
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.formatter.FormattingModelBuilder"/>
 
         <langCodeStyleSettingsProvider
                 implementation="io.protostuff.jetbrains.plugin.formatter.ProtoLanguageCodeStyleSettingsProvider"/>
 
         <codeStyleSettingsProvider
                 implementation="io.protostuff.jetbrains.plugin.formatter.ProtoCodeStyleSettingsProvider"/>
-        <lang.findUsagesProvider language="PROTO"
-                                 implementationClass="io.protostuff.jetbrains.plugin.ProtoFindUsagesProvider"/>
+
+        <lang.findUsagesProvider
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.ProtoFindUsagesProvider"/>
+
     </extensions>
 
     <actions>
