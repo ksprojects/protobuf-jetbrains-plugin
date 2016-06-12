@@ -87,6 +87,8 @@
 
         <codeStyleSettingsProvider
                 implementation="io.protostuff.jetbrains.plugin.formatter.ProtoCodeStyleSettingsProvider"/>
+        <lang.findUsagesProvider language="PROTO"
+                                 implementationClass="io.protostuff.jetbrains.plugin.ProtoFindUsagesProvider"/>
     </extensions>
 
     <actions>

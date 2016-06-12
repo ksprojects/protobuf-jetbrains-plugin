@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.psi.PsiElement;
+import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
 import io.protostuff.jetbrains.plugin.psi.KeywordsContainer;
 import org.jetbrains.annotations.NotNull;
@@ -33,11 +34,9 @@ public class ProtoSyntaxKeywordsAnnotator implements Annotator {
         }
         if (element instanceof EnumConstantNode) {
             ASTNode node = element.getNode();
-            ASTNode name = node.findChildByType(ProtoParserDefinition.R_NAME);
+            ASTNode name = node.findChildByType(ProtoParserDefinition.rule(ProtoParser.RULE_enumFieldName));
             if (name != null) {
-                // TODO: refactor, should be possible to highlight text with rule w/o finding token
-                PsiElement psiElement = (PsiElement) name.getFirstChildNode();
-                setHighlighting(psiElement, holder, ProtoSyntaxHighlighter.ENUM_CONSTANT);
+                setHighlighting(name.getPsi(), holder, ProtoSyntaxHighlighter.ENUM_CONSTANT);
             }
         }
     }

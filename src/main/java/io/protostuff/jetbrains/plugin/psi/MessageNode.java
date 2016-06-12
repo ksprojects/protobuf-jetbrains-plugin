@@ -1,15 +1,12 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.util.IncorrectOperationException;
+import com.intellij.navigation.ItemPresentation;
 import io.protostuff.compiler.parser.ProtoParser;
+import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
-import org.antlr.jetbrains.adapter.psi.ScopeNode;
+import io.protostuff.jetbrains.plugin.view.structure.ProtoItemPresentation;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,7 +30,6 @@ public class MessageNode extends UserType implements UserTypeContainer {
     }
 
 
-
     @Override
     public String getNamespace() {
         return getQualifiedName() + ".";
@@ -43,4 +39,11 @@ public class MessageNode extends UserType implements UserTypeContainer {
     public Collection<UserType> getChildrenTypes() {
         return Arrays.asList(findChildrenByClass(UserType.class));
     }
+
+    @Override
+    public ItemPresentation getPresentation() {
+        String fullName = getFullName();
+        return new ProtoItemPresentation(fullName, Icons.MESSAGE);
+    }
+
 }

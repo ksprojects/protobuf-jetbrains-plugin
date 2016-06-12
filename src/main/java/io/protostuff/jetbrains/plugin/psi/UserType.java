@@ -5,7 +5,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
-import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
 import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +41,13 @@ public class UserType
         }
         throw new IncorrectOperationException("Could not detect qualified name in given context: "
                 + parent.getClass().getName());
+    }
+
+    /**
+     * Returns full name of this type without leading dot.
+     */
+    public String getFullName() {
+        return getQualifiedName().substring(1);
     }
 
     @Nullable

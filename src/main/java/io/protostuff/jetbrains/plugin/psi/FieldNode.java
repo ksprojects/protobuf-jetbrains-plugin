@@ -4,7 +4,6 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.jetbrains.annotations.NotNull;
 

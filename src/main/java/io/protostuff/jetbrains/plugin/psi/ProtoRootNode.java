@@ -1,8 +1,6 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.openapi.diagnostic.Logger;
-import io.protostuff.compiler.model.*;
 import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
