@@ -45,12 +45,12 @@ intellij {
 //    plugins 'properties'
     downloadSources = false
     publish {
-        username = project.hasProperty('jetbrainsUser')   \
-             ? project.property('jetbrainsUser')   \
-             : System.getenv('JETBRAINS_USER')
-        password = project.hasProperty('jetbrainsPassword')   \
-             ? project.property('jetbrainsPassword')  \
-             : System.getenv('JETBRAINS_PASSWORD')
+        username = project.hasProperty('jetbrainsUser')    \
+              ? project.property('jetbrainsUser')    \
+              : System.getenv('JETBRAINS_USER')
+        password = project.hasProperty('jetbrainsPassword')    \
+              ? project.property('jetbrainsPassword')   \
+              : System.getenv('JETBRAINS_PASSWORD')
         pluginId = '8277'
     }
 }

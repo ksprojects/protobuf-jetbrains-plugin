@@ -8,12 +8,12 @@ import javax.swing.*;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-final class ProtoItemPresentation implements ItemPresentation {
+public final class ProtoItemPresentation implements ItemPresentation {
 
     private final String name;
     private final Icon icon;
 
-    ProtoItemPresentation(String name, Icon icon) {
+    public ProtoItemPresentation(String name, Icon icon) {
         this.name = name;
         this.icon = icon;
     }

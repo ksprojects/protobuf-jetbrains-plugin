@@ -32,7 +32,7 @@ public class ImportNode extends ANTLRPsiNode implements KeywordsContainer {
             return fileRoot.findChildByClass(ProtoRootNode.class);
         }
         return null;
-     }
+    }
 
     public boolean isPublic() {
         return findChildrenByType(ProtoParserDefinition.token(ProtoLexer.PUBLIC)) != null;

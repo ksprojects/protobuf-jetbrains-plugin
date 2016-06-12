@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package reference;
+
+message MessageA {
+
+}
+
+message TestMessage {
+    Message<caret>A firstUsage = 1;
+    MessageA secondUsage = 2;
+}

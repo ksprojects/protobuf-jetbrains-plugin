@@ -33,109 +33,178 @@ import static io.protostuff.compiler.parser.ProtoLexer.*;
  */
 public class ProtoParserDefinition implements ParserDefinition {
 
-    public static final TokenIElementType ID;
-    public static final TokenSet KEYWORDS;
-
-    // tokens
-
-    public static final TokenIElementType LCURLY;
-    public static final TokenIElementType RCURLY;
-    public static final TokenIElementType LPAREN;
-    public static final TokenIElementType RPAREN;
-    public static final TokenIElementType LSQUARE;
-    public static final TokenIElementType RSQUARE;
-    public static final TokenIElementType LT;
-    public static final TokenIElementType GT;
-    public static final TokenIElementType ASSIGN;
-
-    // Rules
-    public static final IElementType R_TYPE_REFERENCE;
-    public static final IElementType R_NAME;
-    public static final IElementType R_FIELD_MODIFIER;
-    private static final IFileElementType FILE;
-    private static final TokenSet COMMENTS;
-    public static final TokenSet WHITESPACE;
-
-    private static final TokenSet STRING;
-
-    private static List<TokenIElementType> tokenTypes;
-    private static List<RuleIElementType> ruleTypes;
-
     static {
         PSIElementTypeFactory.defineLanguageIElementTypes(ProtoLanguage.INSTANCE,
                 ProtoParser.tokenNames, ProtoParser.ruleNames);
-        tokenTypes = PSIElementTypeFactory.getTokenIElementTypes(ProtoLanguage.INSTANCE);
-        ID = tokenTypes.get(ProtoLexer.IDENT);
-        FILE = new IFileElementType(ProtoLanguage.INSTANCE);
-        COMMENTS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, COMMENT, LINE_COMMENT);
-        WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS, NL);
-        STRING = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, STRING_VALUE);
-
-
-        KEYWORDS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
-                ProtoLexer.PACKAGE,
-                ProtoLexer.SYNTAX,
-                ProtoLexer.IMPORT,
-                ProtoLexer.PUBLIC,
-                ProtoLexer.OPTION,
-                ProtoLexer.MESSAGE,
-                ProtoLexer.GROUP,
-                ProtoLexer.OPTIONAL,
-                ProtoLexer.REQUIRED,
-                ProtoLexer.REPEATED,
-                ProtoLexer.ONEOF,
-                ProtoLexer.EXTEND,
-                ProtoLexer.EXTENSIONS,
-                ProtoLexer.RESERVED,
-                ProtoLexer.TO,
-                ProtoLexer.MAX,
-                ProtoLexer.ENUM,
-                ProtoLexer.SERVICE,
-                ProtoLexer.RPC,
-                ProtoLexer.STREAM,
-                ProtoLexer.RETURNS,
-                ProtoLexer.MAP,
-                ProtoLexer.BOOLEAN_VALUE,
-                ProtoLexer.DOUBLE,
-                ProtoLexer.FLOAT,
-                ProtoLexer.INT32,
-                ProtoLexer.INT64,
-                ProtoLexer.UINT32,
-                ProtoLexer.UINT64,
-                ProtoLexer.SINT32,
-                ProtoLexer.SINT64,
-                ProtoLexer.FIXED32,
-                ProtoLexer.FIXED64,
-                ProtoLexer.SFIXED32,
-                ProtoLexer.SFIXED64,
-                ProtoLexer.BOOL,
-                ProtoLexer.STRING,
-                ProtoLexer.BYTES
-        );
-
-        ruleTypes = PSIElementTypeFactory.getRuleIElementTypes(ProtoLanguage.INSTANCE);
-
-        R_TYPE_REFERENCE = ruleTypes.get(ProtoParser.RULE_typeReference);
-        R_NAME = ruleTypes.get(ProtoParser.RULE_ident);
-        R_FIELD_MODIFIER = ruleTypes.get(ProtoParser.RULE_fieldModifier);
-
-        LCURLY = tokenTypes.get(ProtoLexer.LCURLY);
-        RCURLY = tokenTypes.get(ProtoLexer.RCURLY);
-        LPAREN = tokenTypes.get(ProtoLexer.LPAREN);
-        RPAREN = tokenTypes.get(ProtoLexer.RPAREN);
-        LSQUARE = tokenTypes.get(ProtoLexer.LSQUARE);
-        RSQUARE = tokenTypes.get(ProtoLexer.RSQUARE);
-        ASSIGN = tokenTypes.get(ProtoLexer.ASSIGN);
-        LT = tokenTypes.get(ProtoLexer.LT);
-        GT = tokenTypes.get(ProtoLexer.GT);
     }
 
+    private static final List<TokenIElementType> TOKEN_TYPES = PSIElementTypeFactory.getTokenIElementTypes(ProtoLanguage.INSTANCE);
+    private static final List<RuleIElementType> RULE_TYPES = PSIElementTypeFactory.getRuleIElementTypes(ProtoLanguage.INSTANCE);
+
+    public static final TokenIElementType ID = TOKEN_TYPES.get(ProtoLexer.IDENT);
+
+    public static final TokenSet KEYWORDS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+            ProtoLexer.PACKAGE,
+            ProtoLexer.SYNTAX,
+            ProtoLexer.IMPORT,
+            ProtoLexer.PUBLIC,
+            ProtoLexer.OPTION,
+            ProtoLexer.MESSAGE,
+            ProtoLexer.GROUP,
+            ProtoLexer.OPTIONAL,
+            ProtoLexer.REQUIRED,
+            ProtoLexer.REPEATED,
+            ProtoLexer.ONEOF,
+            ProtoLexer.EXTEND,
+            ProtoLexer.EXTENSIONS,
+            ProtoLexer.RESERVED,
+            ProtoLexer.TO,
+            ProtoLexer.MAX,
+            ProtoLexer.ENUM,
+            ProtoLexer.SERVICE,
+            ProtoLexer.RPC,
+            ProtoLexer.STREAM,
+            ProtoLexer.RETURNS,
+            ProtoLexer.MAP,
+            ProtoLexer.BOOLEAN_VALUE,
+            ProtoLexer.DOUBLE,
+            ProtoLexer.FLOAT,
+            ProtoLexer.INT32,
+            ProtoLexer.INT64,
+            ProtoLexer.UINT32,
+            ProtoLexer.UINT64,
+            ProtoLexer.SINT32,
+            ProtoLexer.SINT64,
+            ProtoLexer.FIXED32,
+            ProtoLexer.FIXED64,
+            ProtoLexer.SFIXED32,
+            ProtoLexer.SFIXED64,
+            ProtoLexer.BOOL,
+            ProtoLexer.STRING,
+            ProtoLexer.BYTES
+    );
+
+    // keywords also can be identifiers
+    public static final TokenSet IDENTIFIER_TOKEN_SET = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+            ProtoLexer.IDENT,
+            ProtoLexer.PACKAGE,
+            ProtoLexer.SYNTAX,
+            ProtoLexer.IMPORT,
+            ProtoLexer.PUBLIC,
+            ProtoLexer.OPTION,
+            ProtoLexer.MESSAGE,
+            ProtoLexer.GROUP,
+            ProtoLexer.OPTIONAL,
+            ProtoLexer.REQUIRED,
+            ProtoLexer.REPEATED,
+            ProtoLexer.ONEOF,
+            ProtoLexer.EXTEND,
+            ProtoLexer.EXTENSIONS,
+            ProtoLexer.RESERVED,
+            ProtoLexer.TO,
+            ProtoLexer.MAX,
+            ProtoLexer.ENUM,
+            ProtoLexer.SERVICE,
+            ProtoLexer.RPC,
+            ProtoLexer.STREAM,
+            ProtoLexer.RETURNS,
+            ProtoLexer.MAP,
+            ProtoLexer.BOOLEAN_VALUE,
+            ProtoLexer.DOUBLE,
+            ProtoLexer.FLOAT,
+            ProtoLexer.INT32,
+            ProtoLexer.INT64,
+            ProtoLexer.UINT32,
+            ProtoLexer.UINT64,
+            ProtoLexer.SINT32,
+            ProtoLexer.SINT64,
+            ProtoLexer.FIXED32,
+            ProtoLexer.FIXED64,
+            ProtoLexer.SFIXED32,
+            ProtoLexer.SFIXED64,
+            ProtoLexer.BOOL,
+            ProtoLexer.STRING,
+            ProtoLexer.BYTES
+    );
+
+    public static final TokenSet COMMENT_TOKEN_SET = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+            ProtoLexer.COMMENT,
+            ProtoLexer.LINE_COMMENT
+    );
+
+    public static final TokenSet LITERAL_TOKEN_SET = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+            ProtoLexer.STRING_VALUE,
+            ProtoLexer.FLOAT_VALUE,
+            ProtoLexer.INTEGER_VALUE,
+            ProtoLexer.IDENT,
+            ProtoLexer.PACKAGE,
+            ProtoLexer.SYNTAX,
+            ProtoLexer.IMPORT,
+            ProtoLexer.PUBLIC,
+            ProtoLexer.OPTION,
+            ProtoLexer.MESSAGE,
+            ProtoLexer.GROUP,
+            ProtoLexer.OPTIONAL,
+            ProtoLexer.REQUIRED,
+            ProtoLexer.REPEATED,
+            ProtoLexer.ONEOF,
+            ProtoLexer.EXTEND,
+            ProtoLexer.EXTENSIONS,
+            ProtoLexer.RESERVED,
+            ProtoLexer.TO,
+            ProtoLexer.MAX,
+            ProtoLexer.ENUM,
+            ProtoLexer.SERVICE,
+            ProtoLexer.RPC,
+            ProtoLexer.STREAM,
+            ProtoLexer.RETURNS,
+            ProtoLexer.MAP,
+            ProtoLexer.BOOLEAN_VALUE,
+            ProtoLexer.DOUBLE,
+            ProtoLexer.FLOAT,
+            ProtoLexer.INT32,
+            ProtoLexer.INT64,
+            ProtoLexer.UINT32,
+            ProtoLexer.UINT64,
+            ProtoLexer.SINT32,
+            ProtoLexer.SINT64,
+            ProtoLexer.FIXED32,
+            ProtoLexer.FIXED64,
+            ProtoLexer.SFIXED32,
+            ProtoLexer.SFIXED64,
+            ProtoLexer.BOOL,
+            ProtoLexer.STRING,
+            ProtoLexer.BYTES
+    );
+
+    // tokens
+
+    public static final TokenIElementType LCURLY = TOKEN_TYPES.get(ProtoLexer.LCURLY);
+    public static final TokenIElementType RCURLY = TOKEN_TYPES.get(ProtoLexer.RCURLY);
+    public static final TokenIElementType LPAREN = TOKEN_TYPES.get(ProtoLexer.LPAREN);
+    public static final TokenIElementType RPAREN = TOKEN_TYPES.get(ProtoLexer.RPAREN);
+    public static final TokenIElementType LSQUARE = TOKEN_TYPES.get(ProtoLexer.LSQUARE);
+    public static final TokenIElementType RSQUARE = TOKEN_TYPES.get(ProtoLexer.RSQUARE);
+    public static final TokenIElementType LT = TOKEN_TYPES.get(ProtoLexer.LT);
+    public static final TokenIElementType GT = TOKEN_TYPES.get(ProtoLexer.GT);
+    public static final TokenIElementType ASSIGN = TOKEN_TYPES.get(ProtoLexer.ASSIGN);
+
+    // Rules
+    public static final IElementType R_TYPE_REFERENCE = RULE_TYPES.get(ProtoParser.RULE_typeReference);
+    public static final IElementType R_NAME = RULE_TYPES.get(ProtoParser.RULE_ident);
+    public static final IElementType R_FIELD_MODIFIER = RULE_TYPES.get(ProtoParser.RULE_fieldModifier);
+    private static final IFileElementType FILE = new IFileElementType(ProtoLanguage.INSTANCE);
+    private static final TokenSet COMMENTS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, COMMENT, LINE_COMMENT);
+    public static final TokenSet WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS, NL);
+
+    private static final TokenSet STRING = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, STRING_VALUE);
+
     public static TokenIElementType token(int token) {
-        return tokenTypes.get(token);
+        return TOKEN_TYPES.get(token);
     }
 
     public static RuleIElementType rule(int rule) {
-        return ruleTypes.get(rule);
+        return RULE_TYPES.get(rule);
     }
 
     @NotNull

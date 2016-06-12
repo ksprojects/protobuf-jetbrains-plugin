@@ -1,14 +1,12 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
+import com.intellij.navigation.ItemPresentation;
 import io.protostuff.compiler.parser.ProtoParser;
+import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
-import org.antlr.jetbrains.adapter.psi.ScopeNode;
+import io.protostuff.jetbrains.plugin.view.structure.ProtoItemPresentation;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -18,6 +16,12 @@ public class EnumNode
 
     public EnumNode(@NotNull ASTNode node) {
         super(node, ProtoParserDefinition.rule(ProtoParser.RULE_enumName));
+    }
+
+    @Override
+    public ItemPresentation getPresentation() {
+        String fullName = getFullName();
+        return new ProtoItemPresentation(fullName, Icons.ENUM);
     }
 
 }
