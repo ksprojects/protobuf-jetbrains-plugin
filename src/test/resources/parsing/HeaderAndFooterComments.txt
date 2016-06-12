@@ -11,4 +11,3 @@ ProtobufFile: HeaderAndFooterComments.proto(0,118)
       PsiElement(';')(';')(67,68)
   PsiWhiteSpace('\n')(68,69)
   PsiComment(LINE_COMMENT)('// Footer comment does not belong to 'proto' rule')(69,118)
-
