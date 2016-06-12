@@ -1,5 +1,8 @@
 ## Protobuf Support for JetBrains IDEs
 
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6)
+
 [Protobuf Support Plugin](https://plugins.jetbrains.com/plugin/8277) for IntelliJ IDEA & other JetBrains products.
 
 Based on [antlr4-jetbrains-adapter](https://github.com/antlr/jetbrains/) and ANTLR 4 grammar from [protostuff-compiler](https://github.com/protostuff/protostuff-compiler/tree/master/protostuff-parser/src/main/antlr4/io/protostuff/compiler/parser).
