@@ -1,5 +1,5 @@
 <idea-plugin version="2">
-    <id>io.protostuff.protobuf-jetbrains-plugin</id>
+    <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
     <version>0.4.0</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
