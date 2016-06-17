@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -30,12 +30,11 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/release-0.4.0">
-            <b>v0.4.0</b>
-        </a> (2016-06-12)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.4.1">
+            <b>v0.4.1</b>
+        </a> (2016-06-17)
         <ul>
-            <li>Add reference support.</li>
-            <li>Add "Find Usages" support for messages and enums.</li>
+            <li>Fix NoClassDefFoundError in import reference resolver.</li>
         </ul>
 
         <br>
