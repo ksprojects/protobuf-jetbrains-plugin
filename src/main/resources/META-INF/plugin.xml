@@ -52,10 +52,12 @@
          on how to target different products -->
     <depends>com.intellij.modules.lang</depends>
 
-
     <project-components>
         <component>
             <implementation-class>io.protostuff.jetbrains.plugin.ProtostuffPluginController</implementation-class>
+        </component>
+        <component>
+            <implementation-class>io.protostuff.jetbrains.plugin.settings.ProtobufSettings</implementation-class>
         </component>
     </project-components>
 
@@ -104,6 +106,8 @@
         <lang.findUsagesProvider
                 language="PROTO"
                 implementationClass="io.protostuff.jetbrains.plugin.ProtoFindUsagesProvider"/>
+
+        <projectConfigurable instance="io.protostuff.jetbrains.plugin.settings.ProtobufSettingsConfigurable"/>
 
     </extensions>
 

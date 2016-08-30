@@ -15,22 +15,27 @@
  */
 package io.protostuff.jetbrains.plugin.reference.file;
 
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.containers.ContainerUtil;
+import io.protostuff.jetbrains.plugin.settings.ProtobufSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -170,6 +175,18 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
                 result.add(directory);
             }
         }
+
+        Project project = thisModule.getProject();
+        ProtobufSettings settings = ServiceManager.getService(project, ProtobufSettings.class);
+        List<String> includePaths = settings.getIncludePaths();
+        for (String includePath : includePaths) {
+            VirtualFile path = LocalFileSystem.getInstance().findFileByPath(includePath);
+            if (path != null && path.isDirectory()) {
+                PsiDirectory psiDirectory = psiManager.findDirectory(path);
+                result.add(psiDirectory);
+            }
+        }
+
         return result;
     }
 }
