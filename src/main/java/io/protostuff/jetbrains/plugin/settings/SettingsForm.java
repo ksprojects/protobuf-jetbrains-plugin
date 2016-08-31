@@ -16,28 +16,31 @@ import java.util.List;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
+@SuppressWarnings("WeakerAccess")
 public class SettingsForm {
 
     private final CollectionListModel<String> includePathModel;
     private final List<String> includePathListList;
-    private Project project;
+    private final Project project;
     private JPanel panel;
     private com.intellij.ui.components.JBList includePathList;
     private JButton addButton;
     private JButton removeButton;
     private JLabel includePathsLabel;
 
+    @SuppressWarnings("unchecked")
     public SettingsForm(Project project, ProtobufSettings settings) {
+        this.project = project;
         List<String> internalIncludePathList = new ArrayList<>();
         internalIncludePathList.addAll(settings.getIncludePaths());
         includePathListList = Collections.unmodifiableList(internalIncludePathList);
         includePathModel = new CollectionListModel<>(internalIncludePathList, true);
-        //noinspection unchecked
         includePathList.setModel(includePathModel);
         addButton.addActionListener(e -> {
             FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor();
-            FileChooser.chooseFile(descriptor, project, null, selectedFolder -> {
-                includePathModel.add(selectedFolder.getPath());
+            FileChooser.chooseFile(descriptor, this.project, null, selectedFolder -> {
+                String path = selectedFolder.getPath();
+                includePathModel.add(path);
             });
         });
         removeButton.addActionListener(e -> {

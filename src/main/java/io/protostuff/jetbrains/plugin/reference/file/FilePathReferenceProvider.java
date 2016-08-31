@@ -15,7 +15,6 @@
  */
 package io.protostuff.jetbrains.plugin.reference.file;
 
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
@@ -177,7 +176,7 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
         }
 
         Project project = thisModule.getProject();
-        ProtobufSettings settings = ServiceManager.getService(project, ProtobufSettings.class);
+        ProtobufSettings settings = project.getComponent(ProtobufSettings.class);
         List<String> includePaths = settings.getIncludePaths();
         for (String includePath : includePaths) {
             VirtualFile path = LocalFileSystem.getInstance().findFileByPath(includePath);

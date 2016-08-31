@@ -160,7 +160,7 @@ public class ProtostuffPluginController implements ProjectComponent {
                 if (type.match(filename)) {
                     Class<? extends FileType> fileTypeClass = type.fileType.getClass();
                     PluginId pluginId = PluginManager.getPluginByClassName(fileTypeClass.getName());
-                    if (!Objects.equals(self.getPluginId(), pluginId)) {
+                    if (pluginId != null && !Objects.equals(self.getPluginId(), pluginId)) {
                         plugins.put(pluginId, PluginManager.getPlugin(pluginId));
                     }
                 }
