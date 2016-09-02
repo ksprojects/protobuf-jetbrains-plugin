@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    int32 field1 = <error descr="Duplicate field tag: 42">42</error>;
+    map<int32, int32> field2 = <error descr="Duplicate field tag: 42">42</error>;
+}

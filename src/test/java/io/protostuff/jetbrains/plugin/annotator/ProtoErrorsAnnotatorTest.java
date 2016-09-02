@@ -1,0 +1,73 @@
+package io.protostuff.jetbrains.plugin.annotator;
+
+import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+
+/**
+ * @author Kostiantyn Shchepanovskyi
+ */
+public class ProtoErrorsAnnotatorTest extends LightCodeInsightFixtureTestCase {
+
+    @Override
+    protected String getTestDataPath() {
+        return "src/test/resources/annotator";
+    }
+
+    public void testInvalidTagValue() {
+        check();
+    }
+
+    public void testDuplicateFieldName() {
+        check();
+    }
+
+    public void testDuplicateTagValue() {
+        check();
+    }
+
+    public void testDuplicateMapFieldName() {
+        check();
+    }
+
+    public void testDuplicateMapTagValue() {
+        check();
+    }
+
+    public void testDuplicateOneofFieldName() {
+        check();
+    }
+
+    public void testDuplicateOneofTagValue() {
+        check();
+    }
+
+    public void testReservedTagValue() {
+        check();
+    }
+
+    public void testReservedFieldName() {
+        check();
+    }
+
+    public void testDuplicateEnumConstantName() {
+        check();
+    }
+
+    public void testDuplicateEnumConstantValue() {
+        check();
+    }
+
+    public void testDuplicateEnumConstantValue_Allowed() {
+        check();
+    }
+
+    public void testDuplicateServiceMethodName() {
+        check();
+    }
+
+    private void check() {
+        String file = getTestName(false) + ".proto";
+        myFixture.configureByFiles(file);
+        myFixture.checkHighlighting();
+    }
+
+}

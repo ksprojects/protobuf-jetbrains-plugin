@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package annotator;
+
+service TestService {
+    rpc <error descr="Duplicate RPC method name: name">name</error>(Msg) returns(Msg);
+    rpc <error descr="Duplicate RPC method name: name">name</error>(Msg) returns(Msg);
+}
+
+message Msg {
+}

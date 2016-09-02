@@ -74,9 +74,6 @@
                 language="PROTO"
                 implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxHighlighterFactory"/>
 
-        <annotator
-                language="PROTO"
-                implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxKeywordsAnnotator"/>
 
         <colorSettingsPage
                 implementation="io.protostuff.jetbrains.plugin.ProtoColorSettingsPage"/>
@@ -108,6 +105,13 @@
                 implementationClass="io.protostuff.jetbrains.plugin.ProtoFindUsagesProvider"/>
 
         <projectConfigurable instance="io.protostuff.jetbrains.plugin.settings.ProtobufSettingsConfigurable"/>
+
+        <annotator
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxKeywordsAnnotator"/>
+        <annotator
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.annotator.ProtoErrorsAnnotator"/>
 
     </extensions>
 

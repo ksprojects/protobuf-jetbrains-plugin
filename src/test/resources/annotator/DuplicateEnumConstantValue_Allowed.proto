@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package annotator;
+
+enum TestEnum {
+    option allow_alias = true;
+    A = 0;
+    B = 0;
+}

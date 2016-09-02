@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    int32 <error descr="Duplicate field name: field">field</error> = 1;
+    int32 <error descr="Duplicate field name: field">field</error> = 2;
+}
