@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.4.1</version>
+    <version>0.5.0</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -11,9 +11,11 @@
         Features:
         <ul>
             <li>Full Proto3 support.</li>
+            <li>Custom include path for proto files.</li>
             <li>Reference support.</li>
             <li>Usage search for messages/enums.</li>
             <li>Syntax highlighting and validation.</li>
+            <li>Error checks for reserved/duplicated field tags and names.</li>
             <li>Fonts & Colors configuration.</li>
             <li>Structure View.</li>
             <li>Brace matching.</li>
@@ -30,11 +32,13 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.4.1">
-            <b>v0.4.1</b>
-        </a> (2016-06-17)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.5.0">
+            <b>v0.5.0</b>
+        </a> (2016-09-04)
         <ul>
-            <li>Fix NoClassDefFoundError in import reference resolver.</li>
+            <li>Add support for custom include path.</li>
+            <li>Add validation for message fields, enum constants and service rpc methods.</li>
+            <li>Add startup check for conflicting plugins.</li>
         </ul>
 
         <br>
