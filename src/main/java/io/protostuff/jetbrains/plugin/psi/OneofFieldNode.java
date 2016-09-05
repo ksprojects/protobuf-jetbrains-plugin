@@ -17,11 +17,11 @@ import static io.protostuff.jetbrains.plugin.psi.Util.decodeIntegerFromText;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class FieldNode extends IdentifierDefSubtree implements KeywordsContainer, MessageField {
+public class OneofFieldNode extends IdentifierDefSubtree implements KeywordsContainer, MessageField {
 
-    private static final Logger LOGGER = Logger.getInstance(FieldNode.class);
+    private static final Logger LOGGER = Logger.getInstance(OneofFieldNode.class);
 
-    public FieldNode(@NotNull ASTNode node) {
+    public OneofFieldNode(@NotNull ASTNode node) {
         super(node, ProtoParserDefinition.rule(ProtoParser.RULE_fieldName));
     }
 

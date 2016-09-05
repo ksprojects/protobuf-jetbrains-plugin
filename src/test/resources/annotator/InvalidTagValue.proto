@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    int32 field = <error descr="Invalid tag: 19,500, allowed range is [1 ... 19,000) and (19,999 ... 536,870,911]">19500</error>;
+}

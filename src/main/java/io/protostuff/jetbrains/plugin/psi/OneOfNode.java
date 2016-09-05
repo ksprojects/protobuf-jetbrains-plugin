@@ -4,6 +4,9 @@ import com.intellij.lang.ASTNode;
 import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * @author Kostiantyn Shchepanovskyi
  */
@@ -13,4 +16,8 @@ public class OneOfNode extends ANTLRPsiNode implements KeywordsContainer {
         super(node);
     }
 
+    public Collection<MessageField> getFields() {
+        MessageField[] fields = findChildrenByClass(OneofFieldNode.class);
+        return Arrays.asList(fields);
+    }
 }

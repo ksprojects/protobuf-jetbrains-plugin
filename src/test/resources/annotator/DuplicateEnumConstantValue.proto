@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package annotator;
+
+enum TestEnum {
+    A = <error descr="Duplicate constant value: 0">0</error>;
+    B = <error descr="Duplicate constant value: 0">0</error>;
+}

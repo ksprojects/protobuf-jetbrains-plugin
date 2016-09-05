@@ -10,6 +10,9 @@ import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Kostiantyn Shchepanovskyi
  */
@@ -25,6 +28,11 @@ public class ServiceNode
     @Override
     public PsiElement resolve(PsiNamedElement element) {
         return null;
+    }
+
+    public List<RpcMethodNode> getRpcMethods() {
+        RpcMethodNode[] nodes = findChildrenByClass(RpcMethodNode.class);
+        return Arrays.asList(nodes);
     }
 
 }

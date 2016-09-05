@@ -39,10 +39,9 @@ class BlockFactory {
         register(rule(RULE_optionValue), LeafBlock::new);
         register(rule(RULE_fieldModifier), LeafBlock::new);
         register(rule(RULE_typeReference), LeafBlock::new);
-        register(rule(RULE_ranges), StatementBlock::new);
         register(rule(RULE_range), StatementBlock::new);
-        register(rule(RULE_reserved), StatementBlock::new);
-        register(rule(RULE_fieldNames), StatementBlock::new);
+        register(rule(RULE_reservedFieldNames), StatementBlock::new);
+        register(rule(RULE_reservedFieldRanges), StatementBlock::new);
         register(rule(RULE_fieldOptions), StatementBlock::new);
         register(rule(RULE_map), StatementBlock::new);
         register(rule(RULE_syntax), StatementBlock::new);
@@ -68,14 +67,17 @@ class BlockFactory {
 
         register(rule(RULE_enumName), LeafBlock::new);
         register(rule(RULE_enumFieldName), LeafBlock::new);
+        register(rule(RULE_enumFieldValue), LeafBlock::new);
         register(rule(RULE_serviceName), LeafBlock::new);
         register(rule(RULE_rpcName), LeafBlock::new);
         register(rule(RULE_messageName), LeafBlock::new);
         register(rule(RULE_oneofName), LeafBlock::new);
         register(rule(RULE_groupName), LeafBlock::new);
-        register(rule(RULE_fieldNameString), LeafBlock::new);
         register(rule(RULE_fullIdent), LeafBlock::new);
         register(rule(RULE_fileReference), LeafBlock::new);
+        register(rule(RULE_rangeFrom), LeafBlock::new);
+        register(rule(RULE_rangeTo), LeafBlock::new);
+        register(rule(RULE_reservedFieldName), LeafBlock::new);
     }
 
     private static void register(IElementType elementType, Factory factory) {

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package annotator;
+
+enum TestEnum {
+    <error descr="Duplicate constant name: CONSTANT">CONSTANT</error> = 0;
+    <error descr="Duplicate constant name: CONSTANT">CONSTANT</error> = 1;
+}

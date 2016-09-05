@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    int32 <error descr="Reserved field name: field">field</error> = 1;
+
+    reserved "field";
+}
