@@ -7,6 +7,8 @@ import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
 import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 /**
  * @author Kostiantyn Shchepanovskyi
  */
@@ -34,4 +36,9 @@ public class OptionNode extends ANTLRPsiNode implements KeywordsContainer {
         return "";
     }
 
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
+    }
 }

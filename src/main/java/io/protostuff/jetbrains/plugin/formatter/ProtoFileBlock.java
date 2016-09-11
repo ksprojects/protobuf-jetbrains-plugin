@@ -33,7 +33,7 @@ class ProtoFileBlock extends AbstractBlock {
 
     @Override
     protected List<Block> buildChildren() {
-        List<Block> blocks = new ArrayList<>();
+        List<Block> blocks = new ArrayList<Block>();
         ASTNode child = myNode.getFirstChildNode();
         while (child != null) {
             if (!FormatterUtil.containsWhiteSpacesOnly(child)) {

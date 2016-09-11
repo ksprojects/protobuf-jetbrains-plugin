@@ -7,6 +7,7 @@ import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static io.protostuff.compiler.parser.ProtoParser.RULE_reservedFieldName;
@@ -41,7 +42,7 @@ public class ReservedFieldNamesNode extends ANTLRPsiNode
 
     public List<String> getNames() {
         List<PsiElement> nodes = findChildrenByType(rule(RULE_reservedFieldName));
-        List<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<String>();
         for (PsiElement node : nodes) {
             String s = removeFirstAndLastChar(node.getText());
             result.add(s);
@@ -49,4 +50,9 @@ public class ReservedFieldNamesNode extends ANTLRPsiNode
         return result;
     }
 
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
+    }
 }

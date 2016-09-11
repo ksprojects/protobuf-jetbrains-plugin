@@ -1,6 +1,7 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.psi.PsiElement;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
@@ -12,8 +13,7 @@ public interface KeywordsContainer extends PsiElement {
     /**
      * Returns a collection of keyword elements in this block.
      */
-    default Collection<PsiElement> keywords() {
-        return Util.findKeywords(getNode());
-    }
+    @NotNull
+    Collection<PsiElement> keywords();
 
 }

@@ -58,7 +58,7 @@ public class ProtoErrorsAnnotator implements Annotator {
     }
 
     private void checkDuplicateServiceMethodNames(List<RpcMethodNode> rpcMethods) {
-        Map<String, RpcMethodNode> methodByName = new HashMap<>();
+        Map<String, RpcMethodNode> methodByName = new HashMap<String, RpcMethodNode>();
         for (RpcMethodNode methods : rpcMethods) {
             String name = methods.getMethodName();
             if (methodByName.containsKey(name)) {
@@ -74,7 +74,7 @@ public class ProtoErrorsAnnotator implements Annotator {
         if (anEnum.allowAlias()) {
             return;
         }
-        Map<Integer, EnumConstantNode> fieldByTag = new HashMap<>();
+        Map<Integer, EnumConstantNode> fieldByTag = new HashMap<Integer, EnumConstantNode>();
         for (EnumConstantNode constant : constants) {
             int tag = constant.getConstantValue();
             if (fieldByTag.containsKey(tag)) {
@@ -87,7 +87,7 @@ public class ProtoErrorsAnnotator implements Annotator {
     }
 
     private void checkDuplicateEnumConstantNames(List<EnumConstantNode> constants) {
-        Map<String, EnumConstantNode> fieldByName = new HashMap<>();
+        Map<String, EnumConstantNode> fieldByName = new HashMap<String, EnumConstantNode>();
         for (EnumConstantNode constant : constants) {
             String name = constant.getConstantName();
             if (fieldByName.containsKey(name)) {
@@ -164,7 +164,7 @@ public class ProtoErrorsAnnotator implements Annotator {
     }
 
     private void checkDuplicateFieldTags(Collection<MessageField> fields) {
-        Map<Integer, MessageField> fieldByTag = new HashMap<>();
+        Map<Integer, MessageField> fieldByTag = new HashMap<Integer, MessageField>();
         for (MessageField field : fields) {
             int tag = field.getTag();
             if (fieldByTag.containsKey(tag)) {
@@ -177,7 +177,7 @@ public class ProtoErrorsAnnotator implements Annotator {
     }
 
     private void checkDuplicateFieldNames(Collection<MessageField> fields) {
-        Map<String, MessageField> fieldByName = new HashMap<>();
+        Map<String, MessageField> fieldByName = new HashMap<String, MessageField>();
         for (MessageField field : fields) {
             String name = field.getFieldName();
             if (fieldByName.containsKey(name)) {

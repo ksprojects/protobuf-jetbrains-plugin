@@ -10,6 +10,7 @@ import io.protostuff.jetbrains.plugin.view.structure.ProtoItemPresentation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -47,5 +48,11 @@ public class EnumNode
             }
         }
         return false;
+    }
+
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
     }
 }

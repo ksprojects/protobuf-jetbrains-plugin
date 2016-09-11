@@ -1,6 +1,8 @@
 package io.protostuff.jetbrains.plugin.psi;
 
+import com.google.common.base.Objects;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -8,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
-import java.util.Objects;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -94,7 +95,7 @@ public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, Us
         Collection<UserType> childrenTypes = container.getChildrenTypes();
         for (UserType type : childrenTypes) {
             String qualifiedName = type.getQualifiedName();
-            if (Objects.equals(targetName, qualifiedName)) {
+            if (Objects.equal(targetName, qualifiedName)) {
                 return type;
             }
             if (type instanceof UserTypeContainer && targetName.startsWith(qualifiedName + ".")) {
@@ -121,5 +122,11 @@ public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, Us
     @Override
     public Collection<UserType> getChildrenTypes() {
         return Arrays.asList(findChildrenByClass(UserType.class));
+    }
+
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
     }
 }

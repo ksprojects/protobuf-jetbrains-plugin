@@ -10,6 +10,8 @@ import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+
 /**
  * @author Kostiantyn Shchepanovskyi
  */
@@ -54,5 +56,11 @@ public class UserType
     @Override
     public PsiElement resolve(PsiNamedElement element) {
         return null;
+    }
+
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
     }
 }

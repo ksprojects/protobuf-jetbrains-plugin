@@ -1,5 +1,6 @@
 package io.protostuff.jetbrains.plugin;
 
+import com.google.common.base.Throwables;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
@@ -23,10 +24,10 @@ import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 import static io.protostuff.compiler.parser.ProtoLexer.*;
 
@@ -211,43 +212,43 @@ public class ProtoParserDefinition implements ParserDefinition {
         return RULE_TYPES.get(rule);
     }
 
-    private final Map<Integer, Function<ASTNode, ANTLRPsiNode>> elementFactories = new HashMap<>();
+    private final Map<Integer, Class<? extends ANTLRPsiNode>> classByRuleIndex = new HashMap<Integer, Class<? extends ANTLRPsiNode>>();
 
     public ProtoParserDefinition() {
-        register(ProtoParser.RULE_syntax, SyntaxNode::new);
-        register(ProtoParser.RULE_packageStatement, PackageStatement::new);
-        register(ProtoParser.RULE_importStatement, ImportNode::new);
-        register(ProtoParser.RULE_fileReference, FileReferenceNode::new);
-        register(ProtoParser.RULE_messageBlock, MessageNode::new);
-        register(ProtoParser.RULE_messageName, MessageNameNode::new);
-        register(ProtoParser.RULE_field, FieldNode::new);
-        register(ProtoParser.RULE_typeReference, TypeReferenceNode::new);
-        register(ProtoParser.RULE_groupBlock, GroupNode::new);
-        register(ProtoParser.RULE_enumBlock, EnumNode::new);
-        register(ProtoParser.RULE_enumField, EnumConstantNode::new);
-        register(ProtoParser.RULE_serviceBlock, ServiceNode::new);
-        register(ProtoParser.RULE_rpcMethod, RpcMethodNode::new);
-        register(ProtoParser.RULE_optionEntry, OptionEntryNode::new);
-        register(ProtoParser.RULE_option, OptionNode::new);
-        register(ProtoParser.RULE_oneof, OneOfNode::new);
-        register(ProtoParser.RULE_oneofField, OneofFieldNode::new);
-        register(ProtoParser.RULE_extendBlock, ExtendNode::new);
-        register(ProtoParser.RULE_extensions, ExtensionsNode::new);
-        register(ProtoParser.RULE_map, MapNode::new);
-        register(ProtoParser.RULE_mapKey, MapKeyNode::new);
-        register(ProtoParser.RULE_optionValue, OptionValueNode::new);
-        register(ProtoParser.RULE_range, RangeNode::new);
-        register(ProtoParser.RULE_reservedFieldRanges, ReservedFieldRangesNode::new);
-        register(ProtoParser.RULE_reservedFieldNames, ReservedFieldNamesNode::new);
-        register(ProtoParser.RULE_rpcType, RpcMethodTypeNode::new);
-        register(ProtoParser.RULE_proto, ProtoRootNode::new);
+        register(ProtoParser.RULE_syntax, SyntaxNode.class);
+        register(ProtoParser.RULE_packageStatement, PackageStatement.class);
+        register(ProtoParser.RULE_importStatement, ImportNode.class);
+        register(ProtoParser.RULE_fileReference, FileReferenceNode.class);
+        register(ProtoParser.RULE_messageBlock, MessageNode.class);
+        register(ProtoParser.RULE_messageName, MessageNameNode.class);
+        register(ProtoParser.RULE_field, FieldNode.class);
+        register(ProtoParser.RULE_typeReference, TypeReferenceNode.class);
+        register(ProtoParser.RULE_groupBlock, GroupNode.class);
+        register(ProtoParser.RULE_enumBlock, EnumNode.class);
+        register(ProtoParser.RULE_enumField, EnumConstantNode.class);
+        register(ProtoParser.RULE_serviceBlock, ServiceNode.class);
+        register(ProtoParser.RULE_rpcMethod, RpcMethodNode.class);
+        register(ProtoParser.RULE_optionEntry, OptionEntryNode.class);
+        register(ProtoParser.RULE_option, OptionNode.class);
+        register(ProtoParser.RULE_oneof, OneOfNode.class);
+        register(ProtoParser.RULE_oneofField, OneofFieldNode.class);
+        register(ProtoParser.RULE_extendBlock, ExtendNode.class);
+        register(ProtoParser.RULE_extensions, ExtensionsNode.class);
+        register(ProtoParser.RULE_map, MapNode.class);
+        register(ProtoParser.RULE_mapKey, MapKeyNode.class);
+        register(ProtoParser.RULE_optionValue, OptionValueNode.class);
+        register(ProtoParser.RULE_range, RangeNode.class);
+        register(ProtoParser.RULE_reservedFieldRanges, ReservedFieldRangesNode.class);
+        register(ProtoParser.RULE_reservedFieldNames, ReservedFieldNamesNode.class);
+        register(ProtoParser.RULE_rpcType, RpcMethodTypeNode.class);
+        register(ProtoParser.RULE_proto, ProtoRootNode.class);
     }
 
-    private void register(int rule, Function<ASTNode, ANTLRPsiNode> factory) {
-        if (elementFactories.containsKey(rule)) {
+    private void register(int rule, Class<? extends ANTLRPsiNode> resultNodeClass) {
+        if (classByRuleIndex.containsKey(rule)) {
             throw new IllegalStateException("Duplicate rule");
         }
-        elementFactories.put(rule, factory);
+        classByRuleIndex.put(rule, resultNodeClass);
     }
 
     @NotNull
@@ -309,9 +310,14 @@ public class ProtoParserDefinition implements ParserDefinition {
         }
         RuleIElementType ruleElType = (RuleIElementType) elType;
         int ruleIndex = ruleElType.getRuleIndex();
-        if (elementFactories.containsKey(ruleIndex)) {
-            Function<ASTNode, ANTLRPsiNode> factory = elementFactories.get(ruleIndex);
-            return factory.apply(node);
+        if (classByRuleIndex.containsKey(ruleIndex)) {
+            Class<? extends ANTLRPsiNode> nodeClass = classByRuleIndex.get(ruleIndex);
+            try {
+                Constructor<? extends ANTLRPsiNode> constructor = nodeClass.getConstructor(ASTNode.class);
+                return constructor.newInstance(node);
+            } catch (Exception e) {
+                throw Throwables.propagate(e);
+            }
         }
         return new ANTLRPsiNode(node);
     }

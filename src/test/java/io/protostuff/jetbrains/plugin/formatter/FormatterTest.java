@@ -22,7 +22,11 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
     }
 
     private void run(String test) {
-       run(test, commonCodeStyleSettings -> {});
+       run(test, new Consumer<CommonCodeStyleSettings>() {
+           @Override
+           public void accept(CommonCodeStyleSettings commonCodeStyleSettings) {
+           }
+       });
     }
 
     private void run(String test, Consumer<CommonCodeStyleSettings> settings) {
@@ -44,16 +48,22 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
     }
 
     public void testTab() {
-       run("use_tab", settings -> {
-           CommonCodeStyleSettings.IndentOptions indentOptions = settings.initIndentOptions();
-           indentOptions.USE_TAB_CHARACTER = true;
+       run("use_tab", new Consumer<CommonCodeStyleSettings>() {
+           @Override
+           public void accept(CommonCodeStyleSettings settings) {
+               CommonCodeStyleSettings.IndentOptions indentOptions = settings.initIndentOptions();
+               indentOptions.USE_TAB_CHARACTER = true;
+           }
        });
     }
 
     public void testCustomIndent() {
-        run("custom_indent", settings -> {
-            CommonCodeStyleSettings.IndentOptions indentOptions = settings.initIndentOptions();
-            indentOptions.INDENT_SIZE = 2;
+        run("custom_indent", new Consumer<CommonCodeStyleSettings>() {
+            @Override
+            public void accept(CommonCodeStyleSettings settings) {
+                CommonCodeStyleSettings.IndentOptions indentOptions = settings.initIndentOptions();
+                indentOptions.INDENT_SIZE = 2;
+            }
         });
     }
 

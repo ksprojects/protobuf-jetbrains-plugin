@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -32,13 +32,12 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.5.0">
-            <b>v0.5.0</b>
-        </a> (2016-09-04)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.6.0">
+            <b>v0.6.0</b>
+        </a> (2016-09-14)
         <ul>
-            <li>Add support for custom include path.</li>
-            <li>Add validation for message fields, enum constants and service rpc methods.</li>
-            <li>Add startup check for conflicting plugins.</li>
+            <li>Add support for older IDE versions: IntelliJ IDEA 13, PhpStorm 7, PyCharm 3.1, WebStorm 7, RubyMine 7,
+                Android Studio 1.3, AppCode 3.3, CLion 1.2, DataGrip 1.0</li>
         </ul>
 
         <br>
@@ -50,7 +49,7 @@
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
          for description -->
-    <idea-version since-build="145"/>
+    <idea-version since-build="133" until-build="144.*"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -76,6 +75,7 @@
 
         <lang.syntaxHighlighterFactory
                 language="PROTO"
+                key="PROTO"
                 implementationClass="io.protostuff.jetbrains.plugin.ProtoSyntaxHighlighterFactory"/>
 
 

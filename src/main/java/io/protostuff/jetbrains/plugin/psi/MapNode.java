@@ -1,8 +1,11 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_FIELD_NAME;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_TAG;
@@ -46,4 +49,9 @@ public class MapNode extends ANTLRPsiNode
         return node.findChildByType(R_TAG);
     }
 
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
+    }
 }

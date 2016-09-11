@@ -16,7 +16,7 @@ final class ProtoStructureViewModel extends StructureViewModelBase
         implements StructureViewModel.ElementInfoProvider {
 
     private static final Collection<NodeProvider> NODE_PROVIDERS =
-            Collections.singletonList(new ProtoFieldsNodeProvider());
+            Collections.singletonList((NodeProvider)new ProtoFieldsNodeProvider());
 
     ProtoStructureViewModel(ProtoPsiFileRoot root, Editor editor) {
         super(root, editor, getProtoRootElement(root));

@@ -6,6 +6,8 @@ import io.protostuff.compiler.parser.ProtoParser;
 import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
 
 /**
@@ -23,5 +25,11 @@ public class PackageStatement extends ANTLRPsiNode implements KeywordsContainer 
             return element.getText();
         }
         return null;
+    }
+
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
     }
 }

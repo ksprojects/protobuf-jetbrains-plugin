@@ -22,7 +22,7 @@ public class BlockFactoryTest {
 
         Set<String> allRules = ImmutableSet.copyOf(ProtoParser.ruleNames);
 
-        Set<String> registeredRules = new HashSet<>();
+        Set<String> registeredRules = new HashSet<String>();
         for (IElementType type : registry.keySet()) {
             registeredRules.add(type.toString());
         }

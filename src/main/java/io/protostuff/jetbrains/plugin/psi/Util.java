@@ -29,7 +29,7 @@ public class Util {
 
     public static Collection<PsiElement> findKeywords(ASTNode parent) {
         ASTNode[] keywords = parent.getChildren(ProtoParserDefinition.KEYWORDS);
-        List<PsiElement> result = new ArrayList<>(keywords.length);
+        List<PsiElement> result = new ArrayList<PsiElement>(keywords.length);
         for (ASTNode keyword : keywords) {
             result.add((PsiElement) keyword);
         }

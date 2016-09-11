@@ -25,7 +25,7 @@ public class ProtoColorSettingsPage implements ColorSettingsPage {
     private Map<String, TextAttributesKey> additionalTags;
 
     public ProtoColorSettingsPage() {
-        additionalTags = new HashMap<>();
+        additionalTags = new HashMap<String, TextAttributesKey>();
         additionalTags.put("keyword", ProtoSyntaxHighlighter.KEYWORD);
         additionalTags.put("constant", ProtoSyntaxHighlighter.ENUM_CONSTANT);
 

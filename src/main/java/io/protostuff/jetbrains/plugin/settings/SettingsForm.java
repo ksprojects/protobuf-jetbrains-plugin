@@ -6,9 +6,13 @@ import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.CollectionListModel;
+import com.intellij.util.Consumer;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +24,6 @@ import java.util.List;
 public class SettingsForm {
 
     private final CollectionListModel<String> includePathModel;
-    private final List<String> includePathListList;
     private final Project project;
     private JPanel panel;
     private com.intellij.ui.components.JBList includePathList;
@@ -31,22 +34,28 @@ public class SettingsForm {
     @SuppressWarnings("unchecked")
     public SettingsForm(Project project, ProtobufSettings settings) {
         this.project = project;
-        List<String> internalIncludePathList = new ArrayList<>();
-        internalIncludePathList.addAll(settings.getIncludePaths());
-        includePathListList = Collections.unmodifiableList(internalIncludePathList);
-        includePathModel = new CollectionListModel<>(internalIncludePathList, true);
+        includePathModel = new CollectionListModel<String>(settings.getIncludePaths());
         includePathList.setModel(includePathModel);
-        addButton.addActionListener(e -> {
-            FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor();
-            FileChooser.chooseFile(descriptor, this.project, null, selectedFolder -> {
-                String path = selectedFolder.getPath();
-                includePathModel.add(path);
-            });
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor();
+                FileChooser.chooseFile(descriptor, SettingsForm.this.project, null, new Consumer<VirtualFile>() {
+                    @Override
+                    public void consume(VirtualFile selectedFolder) {
+                        String path = selectedFolder.getPath();
+                        includePathModel.add(path);
+                    }
+                });
+            }
         });
-        removeButton.addActionListener(e -> {
-            int selectedIndex = includePathList.getSelectedIndex();
-            if (selectedIndex != -1) {
-                includePathModel.removeRow(selectedIndex);
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedIndex = includePathList.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    includePathModel.removeRow(selectedIndex);
+                }
             }
         });
     }
@@ -57,7 +66,7 @@ public class SettingsForm {
 
     public ProtobufSettings getSettings() {
         ProtobufSettings settings = new ProtobufSettings();
-        settings.setIncludePaths(Lists.newArrayList(includePathListList));
+        settings.setIncludePaths(Lists.newArrayList(includePathModel.getItems()));
         return settings;
     }
 

@@ -25,6 +25,7 @@ public class OneofFieldNode extends IdentifierDefSubtree implements KeywordsCont
         super(node, ProtoParserDefinition.rule(ProtoParser.RULE_fieldName));
     }
 
+    @NotNull
     @Override
     public Collection<PsiElement> keywords() {
         ASTNode node = getNode();

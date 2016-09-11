@@ -53,7 +53,7 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
     // each package considered to be "inner" to its parent package.
     public static Deque<String> createScopeLookupList(UserTypeContainer container) {
         String namespace = container.getNamespace();
-        Deque<String> scopeLookupList = new ArrayDeque<>();
+        Deque<String> scopeLookupList = new ArrayDeque<String>();
         int end = 0;
         while (end >= 0) {
             end = namespace.indexOf('.', end);

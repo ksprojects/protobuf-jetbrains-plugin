@@ -29,7 +29,7 @@ final class RootTreeElement extends AbstractTreeElement<ProtoRootNode> {
     @NotNull
     @Override
     public TreeElement[] getChildren() {
-        List<TreeElement> treeElements = new ArrayList<>();
+        List<TreeElement> treeElements = new ArrayList<TreeElement>();
         for (PsiElement node : element.getChildren()) {
             if (node instanceof MessageNode) {
                 TreeElement element = new MessageTreeElement((MessageNode) node);

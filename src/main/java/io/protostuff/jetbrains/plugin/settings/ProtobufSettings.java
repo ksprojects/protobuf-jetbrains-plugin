@@ -1,22 +1,25 @@
 package io.protostuff.jetbrains.plugin.settings;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
+import com.google.common.base.Objects;
+import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @SuppressWarnings("WeakerAccess")
-@State(name = "ProtobufSettings", storages = @Storage("tools.protobuf.xml"))
+@State(
+        name = "ProtobufSettings",
+        storages = @Storage(
+                id = "dir",
+                file = StoragePathMacros.PROJECT_CONFIG_DIR + "/protobuf.xml",
+                scheme = StorageScheme.DIRECTORY_BASED)
+)
 public class ProtobufSettings implements PersistentStateComponent<ProtobufSettings> {
 
-    private List<String> includePaths = new ArrayList<>();
+    private List<String> includePaths = new ArrayList<String>();
 
     public static ProtobufSettings getInstance(Project project) {
         return ServiceManager.getService(project, ProtobufSettings.class);
@@ -28,7 +31,7 @@ public class ProtobufSettings implements PersistentStateComponent<ProtobufSettin
     }
 
     public void setIncludePaths(@NotNull List<String> includePaths) {
-        this.includePaths = new ArrayList<>(includePaths);
+        this.includePaths = new ArrayList<String>(includePaths);
     }
 
     @Override
@@ -50,11 +53,11 @@ public class ProtobufSettings implements PersistentStateComponent<ProtobufSettin
         if (this == o) return true;
         if (!(o instanceof ProtobufSettings)) return false;
         ProtobufSettings that = (ProtobufSettings) o;
-        return Objects.equals(includePaths, that.includePaths);
+        return Objects.equal(includePaths, that.includePaths);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(includePaths);
+        return Objects.hashCode(includePaths);
     }
 }

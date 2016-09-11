@@ -55,7 +55,7 @@ class StatementBlock extends AbstractBlock {
     @Override
     protected List<Block> buildChildren() {
         ASTNode child = getNode().getFirstChildNode();
-        List<Block> result = new ArrayList<>();
+        List<Block> result = new ArrayList<Block>();
         while (child != null) {
             if (!FormatterUtil.containsWhiteSpacesOnly(child)) {
                 Block block = BlockFactory.createBlock(child, Alignment.createAlignment(), Indent.getNoneIndent(), settings);

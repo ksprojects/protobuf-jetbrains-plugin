@@ -1,13 +1,11 @@
 package io.protostuff.jetbrains.plugin.view.structure;
 
-import com.intellij.ide.util.ActionShortcutProvider;
 import com.intellij.ide.util.FileStructureNodeProvider;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.openapi.actionSystem.Shortcut;
 import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
 import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.ProtostuffBundle;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
@@ -23,7 +21,7 @@ import java.util.List;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-final class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeElement>, ActionShortcutProvider {
+final class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeElement> /*, ActionShortcutProvider*/ {
 
     private static final String ID = "SHOW_FIELDS";
 
@@ -36,14 +34,17 @@ final class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeEle
     @NotNull
     @Override
     public Shortcut[] getShortcut() {
-        throw new IncorrectOperationException("see getActionIdForShortcut()");
+        // commented out as a part of Idea 13 support
+        // throw new IncorrectOperationException("see getActionIdForShortcut()");
+        return new Shortcut[]{};
     }
 
-    @NotNull
-    @Override
-    public String getActionIdForShortcut() {
-        return "FileStructurePopup";
-    }
+// commented out as a part of Idea 13 support
+//    @NotNull
+//    @Override
+//    public String getActionIdForShortcut() {
+//        return "FileStructurePopup";
+//    }
 
     @Override
     @NotNull
@@ -64,7 +65,7 @@ final class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeEle
         if (parent instanceof AbstractTreeElement) {
             AbstractTreeElement element = (AbstractTreeElement) parent;
             PsiElement psiElement = element.getValue();
-            List<TreeElement> treeElements = new ArrayList<>();
+            List<TreeElement> treeElements = new ArrayList<TreeElement>();
             for (PsiElement node : psiElement.getChildren()) {
                 if (node instanceof FieldNode) {
                     treeElements.add(new MessageFieldTreeElement((FieldNode) node));

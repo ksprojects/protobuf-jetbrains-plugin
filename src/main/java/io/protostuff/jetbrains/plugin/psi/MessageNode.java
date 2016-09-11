@@ -2,6 +2,7 @@ package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.psi.PsiElement;
 import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
@@ -48,7 +49,7 @@ public class MessageNode extends UserType implements AntlrParserRuleNode, UserTy
     }
 
     public Collection<MessageField> getFields() {
-        List<MessageField> result = new ArrayList<>();
+        List<MessageField> result = new ArrayList<MessageField>();
         // normal fields and maps
         MessageField[] fields = findChildrenByClass(MessageField.class);
         result.addAll(Arrays.asList(fields));
@@ -68,16 +69,22 @@ public class MessageNode extends UserType implements AntlrParserRuleNode, UserTy
 
     @NotNull
     public List<RangeNode> getReservedFieldRanges() {
-        return Stream.of(findChildrenByClass(ReservedFieldRangesNode.class))
-                .flatMap(rangesNode -> Arrays.stream(rangesNode.getRanges()))
-                .collect(Collectors.toList());
+        List<RangeNode> result = new ArrayList<RangeNode>();
+        ReservedFieldRangesNode[] childrenByClass = findChildrenByClass(ReservedFieldRangesNode.class);
+        for (ReservedFieldRangesNode rangesNode : childrenByClass) {
+            result.addAll(Arrays.asList(rangesNode.getRanges()));
+        }
+        return result;
     }
 
     @NotNull
     public Set<String> getReservedFieldNames() {
-        return Stream.of(findChildrenByClass(ReservedFieldNamesNode.class))
-                .flatMap(namesNode -> namesNode.getNames().stream())
-                .collect(Collectors.toSet());
+        Set<String> result = new HashSet<String>();
+        ReservedFieldNamesNode[] namesNodes = findChildrenByClass(ReservedFieldNamesNode.class);
+        for (ReservedFieldNamesNode namesNode : namesNodes) {
+            result.addAll(namesNode.getNames());
+        }
+        return result;
     }
 
     @Override
@@ -91,5 +98,11 @@ public class MessageNode extends UserType implements AntlrParserRuleNode, UserTy
             syntaxErrors = Util.checkForSyntaxErrors(this);
         }
         return syntaxErrors;
+    }
+
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
     }
 }

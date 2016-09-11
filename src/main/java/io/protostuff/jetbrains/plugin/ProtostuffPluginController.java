@@ -2,7 +2,9 @@ package io.protostuff.jetbrains.plugin;
 
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
+import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.NotificationListener;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
@@ -56,17 +58,20 @@ public class ProtostuffPluginController implements ProjectComponent {
         }
     }
 
-    private void askUserToDisablePlugins(Collection<IdeaPluginDescriptor> conflictingPlugins) {
+    private void askUserToDisablePlugins(final Collection<IdeaPluginDescriptor> conflictingPlugins) {
         final String text = formatMessage(conflictingPlugins);
         NotificationGroup ng = NotificationGroup.balloonGroup("Conflicting Plugins");
         ng.createNotification(PLUGIN_NAME, text, NotificationType.WARNING,
-                (notification, event) -> {
-                    if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                        for (IdeaPluginDescriptor foreignPlugin : conflictingPlugins) {
-                            PluginManager.disablePlugin(foreignPlugin.getPluginId().toString());
+                new NotificationListener() {
+                    @Override
+                    public void hyperlinkUpdate(@NotNull Notification notification, @NotNull HyperlinkEvent event) {
+                        if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                            for (IdeaPluginDescriptor foreignPlugin : conflictingPlugins) {
+                                PluginManager.disablePlugin(foreignPlugin.getPluginId().toString());
+                            }
+                            Application application = ApplicationManager.getApplication();
+                            application.restart();
                         }
-                        Application application = ApplicationManager.getApplication();
-                        application.restart();
                     }
                 }).notify(project);
     }
@@ -78,10 +83,15 @@ public class ProtostuffPluginController implements ProjectComponent {
     }
 
     private String formatHtmlPluginList(Collection<IdeaPluginDescriptor> conflictingPlugins) {
-        return String.join("\n", conflictingPlugins.stream()
-                .map(IdeaPluginDescriptor::getName)
-                .map(name -> "<li>" + name + "</li>")
-                .collect(Collectors.toList()));
+        StringBuilder sb = new StringBuilder();
+        for (IdeaPluginDescriptor plugin : conflictingPlugins) {
+            String name = plugin.getName();
+            sb.append("<li>");
+            sb.append(name);
+            sb.append("</li>");
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     @Override
@@ -101,7 +111,7 @@ public class ProtostuffPluginController implements ProjectComponent {
     private static class FileTypeUtil {
 
         private final IdeaPluginDescriptor self = PluginManager.getPlugin(PluginId.getId(PLUGIN_ID));
-        private final Map<String, FileTypeEntry> fileTypes = new LinkedHashMap<>();
+        private final Map<String, FileTypeEntry> fileTypes = new LinkedHashMap<String, FileTypeEntry>();
 
         FileTypeUtil() {
             ExtensionPoint<FileTypeFactory> ep = Extensions.getRootArea().getExtensionPoint(FILE_TYPE_FACTORY_EP);
@@ -119,7 +129,7 @@ public class ProtostuffPluginController implements ProjectComponent {
 
                     @Override
                     public void consume(@NotNull final FileType fileType, @NotNull final FileNameMatcher... matchers) {
-                        register(fileType, new ArrayList<>(Arrays.asList(matchers)));
+                        register(fileType, new ArrayList<FileNameMatcher>(Arrays.asList(matchers)));
                     }
 
                     @Override
@@ -147,7 +157,7 @@ public class ProtostuffPluginController implements ProjectComponent {
             }
 
             StringTokenizer tokenizer = new StringTokenizer(semicolonDelimited, FileTypeConsumer.EXTENSION_DELIMITER, false);
-            ArrayList<FileNameMatcher> list = new ArrayList<>();
+            ArrayList<FileNameMatcher> list = new ArrayList<FileNameMatcher>();
             while (tokenizer.hasMoreTokens()) {
                 list.add(new ExtensionFileNameMatcher(tokenizer.nextToken().trim()));
             }
@@ -155,8 +165,8 @@ public class ProtostuffPluginController implements ProjectComponent {
         }
 
         Collection<IdeaPluginDescriptor> getPluginsForFile(String filename) {
-            Map<PluginId, IdeaPluginDescriptor> plugins = new HashMap<>();
-            fileTypes.values().forEach(type -> {
+            Map<PluginId, IdeaPluginDescriptor> plugins = new HashMap<PluginId, IdeaPluginDescriptor>();
+            for (FileTypeEntry type : fileTypes.values()) {
                 if (type.match(filename)) {
                     Class<? extends FileType> fileTypeClass = type.fileType.getClass();
                     PluginId pluginId = PluginManager.getPluginByClassName(fileTypeClass.getName());
@@ -164,7 +174,7 @@ public class ProtostuffPluginController implements ProjectComponent {
                         plugins.put(pluginId, PluginManager.getPlugin(pluginId));
                     }
                 }
-            });
+            }
             return plugins.values();
         }
 

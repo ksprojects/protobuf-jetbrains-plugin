@@ -20,7 +20,7 @@ import java.util.Set;
  */
 class ParentBlock extends StatementBlock {
 
-    private final Set<Block> headerBlocks = new HashSet<>();
+    private final Set<Block> headerBlocks = new HashSet<Block>();
     private Alignment childAlignment;
 
     ParentBlock(@NotNull ASTNode node, @Nullable Alignment alignment,
@@ -33,7 +33,7 @@ class ParentBlock extends StatementBlock {
     protected List<Block> buildChildren() {
         ASTNode child = getNode().getFirstChildNode();
         State state = State.BEFORE_LEFT_CURLY_BRACE;
-        List<Block> result = new ArrayList<>();
+        List<Block> result = new ArrayList<Block>();
         while (child != null) {
             if (!FormatterUtil.containsWhiteSpacesOnly(child)) {
                 IElementType elementType = child.getElementType();

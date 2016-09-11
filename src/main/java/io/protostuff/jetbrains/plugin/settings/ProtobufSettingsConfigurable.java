@@ -1,12 +1,12 @@
 package io.protostuff.jetbrains.plugin.settings;
 
+import com.google.common.base.Objects;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 
 import javax.swing.*;
-import java.util.Objects;
 
 public class ProtobufSettingsConfigurable implements Configurable {
 
@@ -40,7 +40,7 @@ public class ProtobufSettingsConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        return !Objects.equals(settings, settingsForm.getSettings());
+        return !Objects.equal(settings, settingsForm.getSettings());
     }
 
     @Override

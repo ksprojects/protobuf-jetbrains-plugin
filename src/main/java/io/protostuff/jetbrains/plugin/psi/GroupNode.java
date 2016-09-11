@@ -20,10 +20,11 @@ public class GroupNode extends ANTLRPsiNode implements KeywordsContainer {
         super(node);
     }
 
+    @NotNull
     @Override
     public Collection<PsiElement> keywords() {
         ASTNode node = getNode();
-        List<PsiElement> result = new ArrayList<>();
+        List<PsiElement> result = new ArrayList<PsiElement>();
         result.addAll(Util.findKeywords(getNode()));
         ASTNode fieldModifier = node.findChildByType(R_FIELD_MODIFIER);
         if (fieldModifier != null) {

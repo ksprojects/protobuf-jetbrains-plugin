@@ -8,6 +8,8 @@ import io.protostuff.compiler.parser.ProtoLexer;
 import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 import static io.protostuff.compiler.parser.ProtoParser.RULE_rangeFrom;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_rangeTo;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
@@ -45,4 +47,9 @@ public class RangeNode extends ANTLRPsiNode implements KeywordsContainer {
         return tag >= fromValue && tag <= toValue;
     }
 
+    @NotNull
+    @Override
+    public Collection<PsiElement> keywords() {
+        return Util.findKeywords(getNode());
+    }
 }
