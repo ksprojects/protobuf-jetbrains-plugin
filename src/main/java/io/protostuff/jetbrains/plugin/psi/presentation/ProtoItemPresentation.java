@@ -1,4 +1,4 @@
-package io.protostuff.jetbrains.plugin.view.structure;
+package io.protostuff.jetbrains.plugin.psi.presentation;
 
 import com.intellij.navigation.ItemPresentation;
 import org.jetbrains.annotations.Nullable;
@@ -11,10 +11,18 @@ import javax.swing.*;
 public final class ProtoItemPresentation implements ItemPresentation {
 
     private final String name;
+    private final String location;
     private final Icon icon;
 
     public ProtoItemPresentation(String name, Icon icon) {
         this.name = name;
+        this.icon = icon;
+        this.location = null;
+    }
+
+    public ProtoItemPresentation(String name, String location, Icon icon) {
+        this.name = name;
+        this.location = location;
         this.icon = icon;
     }
 
@@ -27,7 +35,7 @@ public final class ProtoItemPresentation implements ItemPresentation {
     @Nullable
     @Override
     public String getLocationString() {
-        return null;
+        return location;
     }
 
     @Nullable

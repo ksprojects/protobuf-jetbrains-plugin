@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public interface UserTypeContainer {
+public interface DataTypeContainer {
 
     /**
      * Returns string prefix that is common for all children full names.
@@ -13,5 +13,6 @@ public interface UserTypeContainer {
      */
     String getNamespace();
 
-    Collection<UserType> getChildrenTypes();
+    Collection<DataType> getDeclaredDataTypes();
+
 }

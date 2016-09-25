@@ -4,7 +4,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
-import io.protostuff.jetbrains.plugin.psi.UserType;
+import io.protostuff.jetbrains.plugin.psi.DataType;
 import org.junit.Assert;
 
 /**
@@ -43,8 +43,8 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
                 .getParent() // ident
                 .getParent(); // typeReference
         PsiElement target = element.getReference().resolve();
-        Assert.assertTrue(target instanceof UserType);
-        UserType userType = (UserType) target;
-        Assert.assertEquals(typeReference, userType.getQualifiedName());
+        Assert.assertTrue(target instanceof DataType);
+        DataType dataType = (DataType) target;
+        Assert.assertEquals(typeReference, dataType.getQualifiedName());
     }
 }

@@ -11,19 +11,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * User-defined proto type that can be used as a field - message or enum.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
-public class UserType
+public class DataType
         extends IdentifierDefSubtree
-        implements ScopeNode, KeywordsContainer {
+        implements ScopeNode, KeywordsContainer, ProtoType {
 
-    public UserType(@NotNull ASTNode node, IElementType idElementType) {
+    public DataType(@NotNull ASTNode node, IElementType idElementType) {
         super(node, idElementType);
     }
 
     /**
      * Returns fully qualified name of this message (starting with dot).
      */
+    @NotNull
     public String getQualifiedName() {
         PsiElement parent = getParent();
         if (parent instanceof ProtoRootNode) {
@@ -46,6 +49,7 @@ public class UserType
     /**
      * Returns full name of this type without leading dot.
      */
+    @NotNull
     public String getFullName() {
         return getQualifiedName().substring(1);
     }

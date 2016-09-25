@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.5.0</version>
+    <version>0.7.0</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -21,6 +21,7 @@
             <li>Brace matching.</li>
             <li>Line and block commenting.</li>
             <li>Code formatting.</li>
+            <li>Navigating to message, enum or service by name (Ctrl+N)</li>
         </ul>
         <br>
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin">GitHub</a> |
@@ -32,13 +33,12 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.5.0">
-            <b>v0.5.0</b>
-        </a> (2016-09-04)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.7.0">
+            <b>v0.7.0</b>
+        </a> (2016-10-01)
         <ul>
-            <li>Add support for custom include path.</li>
-            <li>Add validation for message fields, enum constants and service rpc methods.</li>
-            <li>Add startup check for conflicting plugins.</li>
+            <li>Add navigation to message, enum or service by name (Ctrl+N).</li>
+            <li>Fix syntax error highlighting for missing tokens.</li>
         </ul>
 
         <br>
@@ -116,6 +116,19 @@
         <annotator
                 language="PROTO"
                 implementationClass="io.protostuff.jetbrains.plugin.annotator.ProtoErrorsAnnotator"/>
+
+        <itemPresentationProvider
+                forClass="io.protostuff.jetbrains.plugin.psi.MessageNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.MessagePresentationProvider"/>
+        <itemPresentationProvider
+                forClass="io.protostuff.jetbrains.plugin.psi.EnumNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.EnumPresentationProvider"/>
+        <itemPresentationProvider
+                forClass="io.protostuff.jetbrains.plugin.psi.ServiceNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.ServicePresentationProvider"/>
+
+        <gotoClassContributor
+                implementation="io.protostuff.jetbrains.plugin.GoToClassContributor"/>
 
     </extensions>
 

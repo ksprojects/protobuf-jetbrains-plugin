@@ -2,10 +2,9 @@ package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.navigation.ItemPresentationProviders;
 import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import io.protostuff.jetbrains.plugin.view.structure.ProtoItemPresentation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +15,7 @@ import java.util.stream.Stream;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class MessageNode extends UserType implements AntlrParserRuleNode, UserTypeContainer {
+public class MessageNode extends DataType implements AntlrParserRuleNode, DataTypeContainer {
 
 
     public static final int RULE_INDEX = ProtoParser.RULE_messageBlock;
@@ -43,8 +42,8 @@ public class MessageNode extends UserType implements AntlrParserRuleNode, UserTy
     }
 
     @Override
-    public Collection<UserType> getChildrenTypes() {
-        return Arrays.asList(findChildrenByClass(UserType.class));
+    public Collection<DataType> getDeclaredDataTypes() {
+        return Arrays.asList(findChildrenByClass(DataType.class));
     }
 
     public Collection<MessageField> getFields() {
@@ -62,8 +61,7 @@ public class MessageNode extends UserType implements AntlrParserRuleNode, UserTy
 
     @Override
     public ItemPresentation getPresentation() {
-        String fullName = getFullName();
-        return new ProtoItemPresentation(fullName, Icons.MESSAGE);
+        return ItemPresentationProviders.getItemPresentation(this);
     }
 
     @NotNull

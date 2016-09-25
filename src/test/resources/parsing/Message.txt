@@ -1,4 +1,4 @@
-ProtobufFile: Message.proto(0,110)
+Protobuf File: Message.proto(0,110)
   ProtoRootNode(proto)(0,110)
     MessageNode(messageBlock)(0,110)
       PsiElement('message')('message')(0,7)
