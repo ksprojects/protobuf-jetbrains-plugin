@@ -4,6 +4,7 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
+import io.protostuff.jetbrains.plugin.psi.presentation.ProtoItemPresentation;
 import org.jetbrains.annotations.NotNull;
 
 final class ServiceTreeElement extends AbstractTreeElement<ServiceNode> {

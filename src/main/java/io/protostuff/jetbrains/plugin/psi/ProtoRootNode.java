@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, UserTypeContainer {
+public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, DataTypeContainer {
 
     public ProtoRootNode(@NotNull ASTNode node) {
         super(node);
@@ -33,19 +33,19 @@ public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, Us
     }
 
 
-    public UserType resolve(String typeName, Deque<String> scopeLookupList) {
+    public DataType resolve(String typeName, Deque<String> scopeLookupList) {
         return resolve(typeName, scopeLookupList, true);
     }
 
-    public UserType resolve(String typeName, Deque<String> scopeLookupList, boolean resolveInImports) {
-        UserType result = null;
+    public DataType resolve(String typeName, Deque<String> scopeLookupList, boolean resolveInImports) {
+        DataType result = null;
         // A leading '.' (for example, .foo.bar.Baz) means to start from the outermost scope
         if (typeName.startsWith(".")) {
             result = resolveByQualifiedName(typeName);
         } else {
             for (String scope : scopeLookupList) {
                 String fullTypeName = scope + typeName;
-                UserType type = resolveByQualifiedName(fullTypeName);
+                DataType type = resolveByQualifiedName(fullTypeName);
                 if (type != null) {
                     result = type;
                     break;
@@ -73,7 +73,7 @@ public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, Us
         return null;
     }
 
-    public UserType resolveByQualifiedName(String qualifiedName) {
+    public DataType resolveByQualifiedName(String qualifiedName) {
         String prefix = getCurrentProtoPrefix();
         if (qualifiedName.startsWith(prefix)) {
             return resolveRecursive(this, qualifiedName);
@@ -90,15 +90,15 @@ public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, Us
         return "." + getPackageName() + ".";
     }
 
-    public UserType resolveRecursive(UserTypeContainer container, String targetName) {
-        Collection<UserType> childrenTypes = container.getChildrenTypes();
-        for (UserType type : childrenTypes) {
+    public DataType resolveRecursive(DataTypeContainer container, String targetName) {
+        Collection<DataType> childrenTypes = container.getDeclaredDataTypes();
+        for (DataType type : childrenTypes) {
             String qualifiedName = type.getQualifiedName();
             if (Objects.equals(targetName, qualifiedName)) {
                 return type;
             }
-            if (type instanceof UserTypeContainer && targetName.startsWith(qualifiedName + ".")) {
-                return resolveRecursive((UserTypeContainer) type, targetName);
+            if (type instanceof DataTypeContainer && targetName.startsWith(qualifiedName + ".")) {
+                return resolveRecursive((DataTypeContainer) type, targetName);
             }
         }
         return null;
@@ -119,7 +119,11 @@ public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, Us
     }
 
     @Override
-    public Collection<UserType> getChildrenTypes() {
-        return Arrays.asList(findChildrenByClass(UserType.class));
+    public Collection<DataType> getDeclaredDataTypes() {
+        return Arrays.asList(findChildrenByClass(DataType.class));
+    }
+
+    public Collection<ProtoType> getDeclaredTypes() {
+        return Arrays.asList(findChildrenByClass(ProtoType.class));
     }
 }

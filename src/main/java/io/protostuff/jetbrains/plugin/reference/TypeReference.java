@@ -4,8 +4,8 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReferenceBase;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
-import io.protostuff.jetbrains.plugin.psi.UserType;
-import io.protostuff.jetbrains.plugin.psi.UserTypeContainer;
+import io.protostuff.jetbrains.plugin.psi.DataType;
+import io.protostuff.jetbrains.plugin.psi.DataTypeContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,9 +30,9 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
         return resolveInScope(getElement(), this);
     }
 
-    public static UserType resolveInScope(PsiElement scopeElement, TypeReference ref) {
+    public static DataType resolveInScope(PsiElement scopeElement, TypeReference ref) {
         PsiElement element = scopeElement;
-        while (element != null && !(element instanceof UserTypeContainer)) {
+        while (element != null && !(element instanceof DataTypeContainer)) {
             element = element.getParent();
         }
         PsiElement protoElement = element;
@@ -42,7 +42,7 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
         if (element == null || protoElement == null) {
             return null;
         }
-        UserTypeContainer scope = (UserTypeContainer) element;
+        DataTypeContainer scope = (DataTypeContainer) element;
         ProtoRootNode proto = (ProtoRootNode) protoElement;
         Deque<String> scopeLookupList = createScopeLookupList(scope);
         return proto.resolve(ref.key, scopeLookupList);
@@ -51,7 +51,7 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
     // Type name resolution in the protocol buffer language works like C++: first
     // the innermost scope is searched, then the next-innermost, and so on, with
     // each package considered to be "inner" to its parent package.
-    public static Deque<String> createScopeLookupList(UserTypeContainer container) {
+    public static Deque<String> createScopeLookupList(DataTypeContainer container) {
         String namespace = container.getNamespace();
         Deque<String> scopeLookupList = new ArrayDeque<>();
         int end = 0;

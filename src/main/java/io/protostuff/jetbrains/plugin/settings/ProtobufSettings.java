@@ -5,6 +5,9 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiDirectory;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +28,19 @@ public class ProtobufSettings implements PersistentStateComponent<ProtobufSettin
     @NotNull
     public List<String> getIncludePaths() {
         return includePaths;
+    }
+
+    @NotNull
+    public List<VirtualFile> getIncludePathsVf() {
+        List<VirtualFile> result = new ArrayList<>();
+        List<String> includePaths = getIncludePaths();
+        for (String includePath : includePaths) {
+            VirtualFile path = LocalFileSystem.getInstance().findFileByPath(includePath);
+            if (path != null && path.isDirectory()) {
+                result.add(path);
+            }
+        }
+        return result;
     }
 
     public void setIncludePaths(@NotNull List<String> includePaths) {

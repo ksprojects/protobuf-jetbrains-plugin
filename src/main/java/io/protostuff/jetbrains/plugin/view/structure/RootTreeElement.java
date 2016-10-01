@@ -5,6 +5,7 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
 import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.psi.*;
+import io.protostuff.jetbrains.plugin.psi.presentation.ProtoItemPresentation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

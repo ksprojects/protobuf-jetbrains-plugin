@@ -2,11 +2,9 @@ package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
-import com.intellij.psi.PsiElement;
+import com.intellij.navigation.ItemPresentationProviders;
 import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import io.protostuff.jetbrains.plugin.view.structure.ProtoItemPresentation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -16,7 +14,7 @@ import java.util.List;
  * @author Kostiantyn Shchepanovskyi
  */
 public class EnumNode
-        extends UserType {
+        extends DataType {
 
     public static final String ALLOW_ALIAS = "allow_alias";
     public static final String TRUE = "true";
@@ -27,8 +25,7 @@ public class EnumNode
 
     @Override
     public ItemPresentation getPresentation() {
-        String fullName = getFullName();
-        return new ProtoItemPresentation(fullName, Icons.ENUM);
+        return ItemPresentationProviders.getItemPresentation(this);
     }
 
     public List<EnumConstantNode> getConstants() {

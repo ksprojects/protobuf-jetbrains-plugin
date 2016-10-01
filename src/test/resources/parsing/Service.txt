@@ -1,4 +1,4 @@
-ProtobufFile: Service.proto(0,77)
+Protobuf File: Service.proto(0,77)
   ProtoRootNode(proto)(0,77)
     ServiceNode(serviceBlock)(0,77)
       PsiElement('service')('service')(0,7)

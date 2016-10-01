@@ -1,4 +1,4 @@
-ProtobufFile: Enum.proto(0,61)
+Protobuf File: Enum.proto(0,61)
   ProtoRootNode(proto)(0,61)
     EnumNode(enumBlock)(0,61)
       PsiElement('enum')('enum')(0,4)

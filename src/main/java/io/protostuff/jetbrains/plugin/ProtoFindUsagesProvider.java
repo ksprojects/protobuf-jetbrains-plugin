@@ -4,13 +4,9 @@ import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.tree.TokenSet;
-import io.protostuff.compiler.parser.ProtoLexer;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
-import io.protostuff.jetbrains.plugin.psi.UserType;
-import org.antlr.jetbrains.adapter.lexer.PSIElementTypeFactory;
+import io.protostuff.jetbrains.plugin.psi.DataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +27,7 @@ public class ProtoFindUsagesProvider implements FindUsagesProvider {
 
     @Override
     public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
-        return psiElement instanceof UserType;
+        return psiElement instanceof DataType;
     }
 
     @Nullable
@@ -55,8 +51,8 @@ public class ProtoFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getDescriptiveName(@NotNull PsiElement element) {
-        if (element instanceof UserType) {
-            UserType type = (UserType) element;
+        if (element instanceof DataType) {
+            DataType type = (DataType) element;
             return type.getFullName();
         }
         return "";
@@ -65,8 +61,8 @@ public class ProtoFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
-        if (element instanceof UserType) {
-            UserType type = (UserType) element;
+        if (element instanceof DataType) {
+            DataType type = (DataType) element;
             if (useFullName) {
                 return type.getFullName();
             }

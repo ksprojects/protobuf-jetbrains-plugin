@@ -1,4 +1,4 @@
-ProtobufFile: HeaderAndFooterComments.proto(0,118)
+Protobuf File: HeaderAndFooterComments.proto(0,118)
   PsiComment(LINE_COMMENT)('// Header comment does not belong to 'proto' rule')(0,49)
   PsiWhiteSpace('\n')(49,50)
   ProtoRootNode(proto)(50,68)

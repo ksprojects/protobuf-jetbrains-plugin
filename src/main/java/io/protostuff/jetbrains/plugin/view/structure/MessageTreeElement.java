@@ -6,6 +6,7 @@ import com.intellij.psi.PsiElement;
 import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.presentation.ProtoItemPresentation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
