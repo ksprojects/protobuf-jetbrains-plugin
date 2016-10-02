@@ -5,7 +5,7 @@
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
-        <a href="https://developers.google.com/protocol-buffers/">Google Protobuf</a> support for Jetbrains products.
+        <a href="https://developers.google.com/protocol-buffers/">Google Protobuf</a> support for JetBrains products.
         <br>
         <br>
         Features:
@@ -24,10 +24,9 @@
             <li>Navigating to message, enum or service by name (Ctrl+N)</li>
         </ul>
         <br>
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin">GitHub</a> |
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/issues">Issues</a> |
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Gallery">Gallery</a> |
-        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6">Donate</a>
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap">Roadmap</a> |
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/issues">Bug Tracker</a> |
+        Donate (<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6">PayPal</a>)
         <br>
     ]]></description>
 
