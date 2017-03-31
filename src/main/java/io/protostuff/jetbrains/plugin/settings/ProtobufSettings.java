@@ -1,13 +1,11 @@
 package io.protostuff.jetbrains.plugin.settings;
 
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +20,7 @@ public class ProtobufSettings implements PersistentStateComponent<ProtobufSettin
     private List<String> includePaths = new ArrayList<>();
 
     public static ProtobufSettings getInstance(Project project) {
-        return ServiceManager.getService(project, ProtobufSettings.class);
+        return project.getComponent(ProtobufSettings.class);
     }
 
     @NotNull
