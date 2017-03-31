@@ -11,6 +11,7 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.psi.PsiElement;
 import com.intellij.testFramework.EdtTestUtil;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+import com.intellij.util.ThrowableRunnable;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.ProtoType;
 import io.protostuff.jetbrains.plugin.settings.ProtobufSettings;
@@ -172,13 +173,10 @@ public class GoToClassTest extends LightCodeInsightFixtureTestCase {
         if (popup != null) {
             popup.close(false);
         }
-        EdtTestUtil.runInEdtAndWait(new Runnable() {
-            @Override
-            public void run() {
-                ChooseByNamePopup popup = ChooseByNamePopup.createPopup(getProject(), model, context, "");
-                Disposer.register(getTestRootDisposable(), () -> popup.close(false));
-                GoToClassTest.this.popup = popup;
-            }
+        EdtTestUtil.runInEdtAndWait((ThrowableRunnable<Throwable>) () -> {
+            ChooseByNamePopup popup = ChooseByNamePopup.createPopup(getProject(), model, context, "");
+            Disposer.register(getTestRootDisposable(), () -> popup.close(false));
+            GoToClassTest.this.popup = popup;
         });
         return popup;
     }
