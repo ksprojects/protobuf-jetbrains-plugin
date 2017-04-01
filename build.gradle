@@ -1,12 +1,13 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
         mavenLocal()
     }
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.0.43"
+    id "org.jetbrains.intellij" version "0.2.7"
 }
 
 group = 'io.protostuff'
@@ -21,12 +22,12 @@ repositories {
 }
 
 dependencies {
-    compile 'org.antlr:antlr4-runtime:4.5.1'
+    compile 'org.antlr:antlr4-runtime:4.7'
     compile ('org.antlr:antlr4-jetbrains-adapter:1.2.0') {
         exclude group: 'com.jetbrains'
     }
-    compile 'com.google.guava:guava:19.0'
-    compile 'io.protostuff:protostuff-parser:2.0.0-alpha25'
+    compile 'com.google.guava:guava:21.0'
+    compile 'io.protostuff:protostuff-parser:2.0.0-alpha35'
 }
 
 apply plugin: 'idea'
@@ -54,10 +55,16 @@ intellij {
 }
 
 apply plugin: 'java'
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.12'
+    gradleVersion = '3.4.1'
 }
