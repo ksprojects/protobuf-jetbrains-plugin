@@ -41,6 +41,7 @@ idea {
 apply plugin: 'org.jetbrains.intellij'
 intellij {
     version = ideaVersion
+    type = 'IU'
     updateSinceUntilBuild = false
     downloadSources = true
     publish {

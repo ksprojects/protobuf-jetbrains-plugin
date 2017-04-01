@@ -1,19 +1,21 @@
 package io.protostuff.jetbrains.plugin.reference;
 
 import com.google.common.collect.ImmutableMap;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiReferenceBase;
+import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import io.protostuff.jetbrains.plugin.psi.*;
-import io.protostuff.jetbrains.plugin.resources.BundledResourceProvider;
+import io.protostuff.jetbrains.plugin.resources.BundledFileProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import static io.protostuff.compiler.model.ProtobufConstants.*;
@@ -33,7 +35,6 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
     // https://github.com/google/protobuf/blob/master/src/google/protobuf/descriptor.proto
     private static final String DESCRIPTOR_PROTO_RESOURCE = "google/protobuf/__descriptor.proto";
     private static final String DESCRIPTOR_PROTO_NAME = "google/protobuf/descriptor.proto";
-    private static final VirtualFile DESCRIPTOR_PROTO = loadInMemoryDescriptorProto();
 
     private String key;
 
@@ -140,15 +141,13 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
     }
 
     private PsiFile getBundledDescriptorProto() {
-        Project project = getElement().getProject();
-        return PsiManager.getInstance(project).findFile(DESCRIPTOR_PROTO);
+        return loadInMemoryDescriptorProto();
     }
 
     @NotNull
-    private static VirtualFile loadInMemoryDescriptorProto() {
-        Application application = ApplicationManager.getApplication();
-        BundledResourceProvider resourceProvider = application.getComponent(BundledResourceProvider.class);
-        Optional<VirtualFile> descriptor = resourceProvider.getResource(DESCRIPTOR_PROTO_RESOURCE, DESCRIPTOR_PROTO_NAME);
+    private PsiFile loadInMemoryDescriptorProto() {
+        BundledFileProvider bundledFileProvider = getElement().getProject().getComponent(BundledFileProvider.class);
+        Optional<PsiFile> descriptor = bundledFileProvider.getFile(DESCRIPTOR_PROTO_RESOURCE, ProtoLanguage.INSTANCE, DESCRIPTOR_PROTO_NAME);
         if (!descriptor.isPresent()) {
             throw new IllegalStateException("Could not load bundled resource: " + DESCRIPTOR_PROTO_RESOURCE);
         }

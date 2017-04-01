@@ -1,14 +1,19 @@
 package io.protostuff.jetbrains.plugin.resources;
 
 import com.google.common.collect.Maps;
+import com.intellij.lang.Language;
+import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.StreamUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.testFramework.LightVirtualFile;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
+import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import io.protostuff.jetbrains.plugin.reference.OptionReference;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -18,35 +23,45 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class BundledResourceProviderImpl implements BundledResourceProvider {
+public class BundledFileProviderImpl implements BundledFileProvider, ProjectComponent {
 
-    private static final Logger LOGGER = Logger.getInstance(BundledResourceProviderImpl.class);
+    private static final Logger LOGGER = Logger.getInstance(BundledFileProviderImpl.class);
 
-    private ConcurrentMap<ResourceId, Optional<VirtualFile>> cache = Maps.newConcurrentMap();
+    private final Project project;
+
+    private ConcurrentMap<ResourceId, Optional<PsiFile>> cache = Maps.newConcurrentMap();
+
+    public BundledFileProviderImpl(Project project) {
+        this.project = project;
+    }
 
     @Override
-    public Optional<VirtualFile> getResource(String resource, String displayName) {
-        return cache.computeIfAbsent(new ResourceId(resource, displayName),
+    public Optional<PsiFile> getFile(String resource, Language language, String displayName) {
+        return cache.computeIfAbsent(new ResourceId(resource, language, displayName),
                 this::getResourceImpl);
     }
 
-    private Optional<VirtualFile> getResourceImpl(ResourceId resourceId) {
+    private Optional<PsiFile> getResourceImpl(ResourceId resourceId) {
         String resource = resourceId.resource;
         String displayName = resourceId.displayName;
         String content = readClasspathResource(resource);
         if (content == null) {
             return Optional.empty();
         }
-        LightVirtualFile vf = createVirtualFile(displayName, content);
-        vf.markReadOnly();
+        PsiFile vf = createVirtualFile(displayName, content);
         return Optional.of(vf);
     }
 
     @NotNull
-    private LightVirtualFile createVirtualFile(String resource, String content) {
-        LightVirtualFile vf = new LightVirtualFile(resource, content);
-        vf.markReadOnly();
-        return vf;
+    private PsiFile createVirtualFile(String resource, String content) {
+        PsiFileFactory fileFactory = PsiFileFactory.getInstance(project);
+        PsiFile psiFile = fileFactory.createFileFromText(resource, ProtoLanguage.INSTANCE, content);
+        try {
+            psiFile.getVirtualFile().setWritable(false);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not mark " + resource + " as read-only.");
+        }
+        return psiFile;
     }
 
     @Nullable
@@ -70,12 +85,40 @@ public class BundledResourceProviderImpl implements BundledResourceProvider {
         return null;
     }
 
+    @Override
+    public void projectOpened() {
+
+    }
+
+    @Override
+    public void projectClosed() {
+
+    }
+
+    @Override
+    public void initComponent() {
+
+    }
+
+    @Override
+    public void disposeComponent() {
+
+    }
+
+    @NotNull
+    @Override
+    public String getComponentName() {
+        return getClass().getSimpleName();
+    }
+
     static class ResourceId {
         final String resource;
+        final Language language;
         final String displayName;
 
-        public ResourceId(String resource, String displayName) {
+        public ResourceId(String resource, Language language, String displayName) {
             this.resource = resource;
+            this.language = language;
             this.displayName = displayName;
         }
 
@@ -85,12 +128,13 @@ public class BundledResourceProviderImpl implements BundledResourceProvider {
             if (o == null || getClass() != o.getClass()) return false;
             ResourceId that = (ResourceId) o;
             return Objects.equals(resource, that.resource) &&
+                    Objects.equals(language, that.language) &&
                     Objects.equals(displayName, that.displayName);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(resource, displayName);
+            return Objects.hash(resource, language, displayName);
         }
     }
 

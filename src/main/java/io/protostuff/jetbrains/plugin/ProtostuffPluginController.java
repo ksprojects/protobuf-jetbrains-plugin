@@ -27,7 +27,7 @@ public class ProtostuffPluginController implements ProjectComponent {
     private static final String PLUGIN_NAME = "Protobuf Support";
     private static final String PLUGIN_ID = "io.protostuff.protostuff-jetbrains-plugin";
     private static final Logger LOGGER = Logger.getInstance(ProtostuffPluginController.class);
-    private Project project;
+    private final Project project;
 
     public ProtostuffPluginController(Project project) {
         this.project = project;
@@ -36,7 +36,6 @@ public class ProtostuffPluginController implements ProjectComponent {
     @Override
     public void projectClosed() {
         LOGGER.info("projectClosed " + project.getName());
-        project = null;
     }
 
     @Override
