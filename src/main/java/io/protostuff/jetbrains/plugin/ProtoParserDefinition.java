@@ -35,17 +35,14 @@ import static io.protostuff.compiler.parser.ProtoLexer.*;
  */
 public class ProtoParserDefinition implements ParserDefinition {
 
-    static {
-        PSIElementTypeFactory.defineLanguageIElementTypes(ProtoLanguage.INSTANCE,
-                ProtoParser.tokenNames, ProtoParser.ruleNames);
-    }
+    public static final PSIElementTypeFactory ELEMENT_FACTORY = PSIElementTypeFactory.create(ProtoLanguage.INSTANCE, new ProtoParser(null));
 
-    private static final List<TokenIElementType> TOKEN_TYPES = PSIElementTypeFactory.getTokenIElementTypes(ProtoLanguage.INSTANCE);
-    private static final List<RuleIElementType> RULE_TYPES = PSIElementTypeFactory.getRuleIElementTypes(ProtoLanguage.INSTANCE);
+    private static final List<TokenIElementType> TOKEN_TYPES = ELEMENT_FACTORY.getTokenIElementTypes();
+    private static final List<RuleIElementType> RULE_TYPES = ELEMENT_FACTORY.getRuleIElementTypes();
 
     public static final TokenIElementType ID = TOKEN_TYPES.get(ProtoLexer.IDENT);
 
-    public static final TokenSet KEYWORDS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+    public static final TokenSet KEYWORDS = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.PACKAGE,
             ProtoLexer.SYNTAX,
             ProtoLexer.IMPORT,
@@ -87,7 +84,7 @@ public class ProtoParserDefinition implements ParserDefinition {
     );
 
     // keywords also can be identifiers
-    public static final TokenSet IDENTIFIER_TOKEN_SET = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+    public static final TokenSet IDENTIFIER_TOKEN_SET = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.IDENT,
             ProtoLexer.PACKAGE,
             ProtoLexer.SYNTAX,
@@ -129,12 +126,12 @@ public class ProtoParserDefinition implements ParserDefinition {
             ProtoLexer.BYTES
     );
 
-    public static final TokenSet COMMENT_TOKEN_SET = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+    public static final TokenSet COMMENT_TOKEN_SET = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.COMMENT,
             ProtoLexer.LINE_COMMENT
     );
 
-    public static final TokenSet LITERAL_TOKEN_SET = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE,
+    public static final TokenSet LITERAL_TOKEN_SET = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.STRING_VALUE,
             ProtoLexer.FLOAT_VALUE,
             ProtoLexer.INTEGER_VALUE,
@@ -198,10 +195,10 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final IElementType R_FIELD_NAME = RULE_TYPES.get(ProtoParser.RULE_fieldName);
     public static final IElementType R_TAG = RULE_TYPES.get(ProtoParser.RULE_tag);
     private static final IFileElementType FILE = new IFileElementType(ProtoLanguage.INSTANCE);
-    private static final TokenSet COMMENTS = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, COMMENT, LINE_COMMENT);
-    public static final TokenSet WHITESPACE = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, WS, NL);
+    private static final TokenSet COMMENTS = ELEMENT_FACTORY.createTokenSet(COMMENT, LINE_COMMENT);
+    public static final TokenSet WHITESPACE = ELEMENT_FACTORY.createTokenSet(WS, NL);
 
-    private static final TokenSet STRING = PSIElementTypeFactory.createTokenSet(ProtoLanguage.INSTANCE, STRING_VALUE);
+    private static final TokenSet STRING = ELEMENT_FACTORY.createTokenSet(STRING_VALUE);
 
     public static TokenIElementType token(int token) {
         return TOKEN_TYPES.get(token);
@@ -255,13 +252,13 @@ public class ProtoParserDefinition implements ParserDefinition {
     @Override
     public Lexer createLexer(Project project) {
         ProtoLexer lexer = new ProtoLexer(null);
-        return new ANTLRLexerAdaptor(ProtoLanguage.INSTANCE, lexer);
+        return new ANTLRLexerAdaptor(ProtoLanguage.INSTANCE, lexer, ELEMENT_FACTORY);
     }
 
     @Override
     public PsiParser createParser(Project project) {
         final ProtoParser parser = new ProtoParser(null);
-        return new ANTLRParserAdaptor(ProtoLanguage.INSTANCE, parser) {
+        return new ANTLRParserAdaptor(ProtoLanguage.INSTANCE, parser, ELEMENT_FACTORY) {
             @Override
             protected ParseTree parse(Parser parser, IElementType root) {
                 // start rule depends on root passed in; sometimes we want to create an ID node etc...

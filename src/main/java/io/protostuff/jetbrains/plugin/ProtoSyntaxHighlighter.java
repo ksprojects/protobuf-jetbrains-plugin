@@ -6,9 +6,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import io.protostuff.compiler.parser.ProtoLexer;
-import io.protostuff.compiler.parser.ProtoParser;
 import org.antlr.jetbrains.adapter.lexer.ANTLRLexerAdaptor;
-import org.antlr.jetbrains.adapter.lexer.PSIElementTypeFactory;
 import org.antlr.jetbrains.adapter.lexer.TokenIElementType;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,17 +50,11 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
 
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
-    static {
-        PSIElementTypeFactory.defineLanguageIElementTypes(ProtoLanguage.INSTANCE,
-                ProtoParser.tokenNames,
-                ProtoParser.ruleNames);
-    }
-
     @NotNull
     @Override
     public Lexer getHighlightingLexer() {
         ProtoLexer lexer = new ProtoLexer(null);
-        return new ANTLRLexerAdaptor(ProtoLanguage.INSTANCE, lexer);
+        return new ANTLRLexerAdaptor(ProtoLanguage.INSTANCE, lexer, ProtoParserDefinition.ELEMENT_FACTORY);
     }
 
     @NotNull

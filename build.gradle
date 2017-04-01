@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     compile 'org.antlr:antlr4-runtime:4.7'
-    compile ('org.antlr:antlr4-jetbrains-adapter:1.2.0') {
+    compile ('org.antlr:antlr4-jetbrains-adapter:2.0.0') {
         exclude group: 'com.jetbrains'
     }
     compile 'com.google.guava:guava:21.0'
