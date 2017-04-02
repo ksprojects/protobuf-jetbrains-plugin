@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 import static io.protostuff.compiler.model.ProtobufConstants.*;
 
@@ -28,12 +27,6 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
 
     // "default" field option (a special case)
     private static final String DEFAULT = "default";
-
-    // File descriptor.proto from io.protostuff.compiler:protostuff-parser.
-    // Originally copied from
-    // https://github.com/google/protobuf/blob/master/src/google/protobuf/descriptor.proto
-    private static final String DESCRIPTOR_PROTO_RESOURCE = "google/protobuf/__descriptor.proto";
-    private static final String DESCRIPTOR_PROTO_NAME = "google/protobuf/descriptor.proto";
 
     private String key;
 
@@ -142,11 +135,7 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
     @NotNull
     private PsiFile loadInMemoryDescriptorProto() {
         BundledFileProvider bundledFileProvider = getElement().getProject().getComponent(BundledFileProvider.class);
-        Optional<PsiFile> descriptor = bundledFileProvider.getFile(DESCRIPTOR_PROTO_RESOURCE, ProtoLanguage.INSTANCE, DESCRIPTOR_PROTO_NAME);
-        if (!descriptor.isPresent()) {
-            throw new IllegalStateException("Could not load bundled resource: " + DESCRIPTOR_PROTO_RESOURCE);
-        }
-        return descriptor.get();
+        return bundledFileProvider.getFile(BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE, ProtoLanguage.INSTANCE, BundledFileProvider.DESCRIPTOR_PROTO_NAME);
     }
 
     @Nullable

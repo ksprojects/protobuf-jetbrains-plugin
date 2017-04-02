@@ -4,12 +4,14 @@ import com.intellij.navigation.GotoClassContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.FileBasedIndex;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.ProtoType;
+import io.protostuff.jetbrains.plugin.resources.BundledFileProvider;
 import io.protostuff.jetbrains.plugin.settings.ProtobufSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +19,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
+
+import static io.protostuff.jetbrains.plugin.resources.BundledFileProvider.DESCRIPTOR_PROTO_NAME;
+import static io.protostuff.jetbrains.plugin.resources.BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -80,6 +86,7 @@ public class GoToClassContributor implements GotoClassContributor {
         addProjectAndLibraryFiles(project, includeNonProjectItems, files);
         if (includeNonProjectItems) {
             addFilesFromCustomIncludePath(project, files);
+            addDescriptorProto(project, files);
         }
         for (VirtualFile virtualFile : files) {
             ProtoPsiFileRoot file = (ProtoPsiFileRoot) PsiManager.getInstance(project).findFile(virtualFile);
@@ -95,10 +102,23 @@ public class GoToClassContributor implements GotoClassContributor {
         return result;
     }
 
+    private void addDescriptorProto(Project project, List<VirtualFile> files) {
+        Optional<VirtualFile> descriptorProto = files.stream()
+                .filter(f -> {
+                    String path = f.getCanonicalPath();
+                    return path != null && path.endsWith("google/protobuf/descriptor.proto");
+                })
+                .findAny();
+        if (!descriptorProto.isPresent()) {
+            BundledFileProvider bundledFileProvider = project.getComponent(BundledFileProvider.class);
+            PsiFile descriptorProtoFile = bundledFileProvider.getFile(DESCRIPTOR_PROTO_RESOURCE, ProtoLanguage.INSTANCE, DESCRIPTOR_PROTO_NAME);
+            files.add(descriptorProtoFile.getVirtualFile());
+        }
+    }
+
     private void addProjectAndLibraryFiles(Project project, boolean includeNonProjectItems, List<VirtualFile> files) {
-        FileBasedIndex index = FileBasedIndex.getInstance();
         GlobalSearchScope scope = getSearchScope(project, includeNonProjectItems);
-        files.addAll(index.getContainingFiles(FileTypeIndex.NAME, ProtoFileType.INSTANCE, scope));
+        files.addAll(FileTypeIndex.getFiles(ProtoFileType.INSTANCE, scope));
     }
 
     private void addFilesFromCustomIncludePath(Project project, List<VirtualFile> files) {

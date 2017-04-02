@@ -36,9 +36,19 @@ public class BundledFileProviderImpl implements BundledFileProvider, ProjectComp
     }
 
     @Override
-    public Optional<PsiFile> getFile(String resource, Language language, String displayName) {
+    public Optional<PsiFile> findFile(String resource, Language language, String displayName) {
         return cache.computeIfAbsent(new ResourceId(resource, language, displayName),
                 this::getResourceImpl);
+    }
+
+    @NotNull
+    @Override
+    public PsiFile getFile(String resource, Language language, String displayName) {
+        Optional<PsiFile> descriptor = findFile(BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE, ProtoLanguage.INSTANCE, BundledFileProvider.DESCRIPTOR_PROTO_NAME);
+        if (!descriptor.isPresent()) {
+            throw new IllegalStateException("Could not load bundled resource: " + BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE);
+        }
+        return descriptor.get();
     }
 
     private Optional<PsiFile> getResourceImpl(ResourceId resourceId) {
