@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package reference.options;
+
+option depre<caret>cated = true;

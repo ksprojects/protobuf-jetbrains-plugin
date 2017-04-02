@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package reference.options;
+
+message A {
+    option depre<caret>cated = true;
+}

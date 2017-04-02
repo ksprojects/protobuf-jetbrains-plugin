@@ -16,7 +16,6 @@ import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import static io.protostuff.compiler.model.ProtobufConstants.*;
 
@@ -43,15 +42,15 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
         key = element.getText();
     }
 
-    private static final Map<Predicate<PsiElement>, String> TARGET_MAPPING
-            = ImmutableMap.<Predicate<PsiElement>, String>builder()
-            .put(e -> e instanceof FieldNode, MSG_FIELD_OPTIONS)
-            .put(e -> e instanceof MessageNode, MSG_MESSAGE_OPTIONS)
-            .put(e -> e instanceof EnumConstantNode, MSG_ENUM_VALUE_OPTIONS)
-            .put(e -> e instanceof EnumNode, MSG_ENUM_OPTIONS)
-            .put(e -> e instanceof RpcMethodNode, MSG_METHOD_OPTIONS)
-            .put(e -> e instanceof ServiceNode, MSG_SERVICE_OPTIONS)
-            .put(e -> e instanceof ProtoRootNode, MSG_FILE_OPTIONS)
+    private static final Map<Class<? extends PsiElement>, String> TARGET_MAPPING
+            = ImmutableMap.<Class<? extends PsiElement>, String>builder()
+            .put(FieldNode.class, MSG_FIELD_OPTIONS)
+            .put(MessageNode.class, MSG_MESSAGE_OPTIONS)
+            .put(EnumConstantNode.class, MSG_ENUM_VALUE_OPTIONS)
+            .put(EnumNode.class, MSG_ENUM_OPTIONS)
+            .put(RpcMethodNode.class, MSG_METHOD_OPTIONS)
+            .put(ServiceNode.class, MSG_SERVICE_OPTIONS)
+            .put(ProtoRootNode.class, MSG_FILE_OPTIONS)
             .build();
 
 
@@ -59,13 +58,9 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
     private String getTarget() {
         PsiElement element = getElement();
         while (element != null) {
-            PsiElement el = element;
-            Optional<String> result = TARGET_MAPPING.entrySet().stream()
-                    .filter(e -> e.getKey().test(el))
-                    .map(Map.Entry::getValue)
-                    .findFirst();
-            if (result.isPresent()) {
-                return result.get();
+            String result = TARGET_MAPPING.get(element.getClass());
+            if (result != null) {
+                return result;
             }
             element = element.getParent();
         }

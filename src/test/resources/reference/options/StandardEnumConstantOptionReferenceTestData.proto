@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package reference.options;
+
+enum A {
+    X = 0 [depre<caret>cated = true];
+}

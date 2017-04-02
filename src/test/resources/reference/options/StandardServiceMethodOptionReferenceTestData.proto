@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package reference.options;
+
+service S {
+    rpc call(A) returns(A) {
+        option depre<caret>cated = true;
+    };
+}
+
+message A {
+
+}
