@@ -135,7 +135,8 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
     @NotNull
     private PsiFile loadInMemoryDescriptorProto() {
         BundledFileProvider bundledFileProvider = getElement().getProject().getComponent(BundledFileProvider.class);
-        return bundledFileProvider.getFile(BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE, ProtoLanguage.INSTANCE, BundledFileProvider.DESCRIPTOR_PROTO_NAME);
+        return bundledFileProvider.getFile(BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE,
+                ProtoLanguage.INSTANCE, BundledFileProvider.DESCRIPTOR_PROTO_NAME);
     }
 
     @Nullable

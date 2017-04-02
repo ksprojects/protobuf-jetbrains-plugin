@@ -10,7 +10,7 @@ import org.junit.Assert;
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class OptionReferenceTest extends LightCodeInsightFixtureTestCase {
+public class StandardOptionReferenceTest extends LightCodeInsightFixtureTestCase {
 
     @Override
     protected String getTestDataPath() {
