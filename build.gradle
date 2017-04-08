@@ -74,11 +74,11 @@ task wrapper(type: Wrapper) {
 }
 
 
-//apply plugin: 'checkstyle'
-//checkstyle {
-//    config = resources.text.fromString(getClass().getResource("checkstyle.xml").text)
-//    toolVersion = '7.6.1'
-//    // Exclude generated code from Checkstyle checks
-//    checkstyleMain.source = "src/main/java"
-//    checkstyleTest.source = "src/test/java"
-//}
+apply plugin: 'checkstyle'
+checkstyle {
+    config = resources.text.fromString(getClass().getResource("checkstyle.xml").text)
+    toolVersion = '7.6.1'
+    // Exclude generated code from Checkstyle checks
+    checkstyleMain.source = "src/main/java"
+    checkstyleTest.source = "src/test/java"
+}

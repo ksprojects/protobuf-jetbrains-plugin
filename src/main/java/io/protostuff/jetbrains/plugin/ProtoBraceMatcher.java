@@ -1,13 +1,20 @@
 package io.protostuff.jetbrains.plugin;
 
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.GT;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.LCURLY;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.LPAREN;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.LSQUARE;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.LT;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.RCURLY;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.RPAREN;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.RSQUARE;
+
 import com.intellij.lang.BracePair;
 import com.intellij.lang.PairedBraceMatcher;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.*;
 
 /**
  * @author Kostiantyn Shchepanovskyi

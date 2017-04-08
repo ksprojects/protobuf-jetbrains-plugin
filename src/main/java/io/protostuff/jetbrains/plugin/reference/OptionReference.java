@@ -1,5 +1,13 @@
 package io.protostuff.jetbrains.plugin.reference;
 
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_ENUM_OPTIONS;
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_ENUM_VALUE_OPTIONS;
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_FIELD_OPTIONS;
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_FILE_OPTIONS;
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_MESSAGE_OPTIONS;
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_METHOD_OPTIONS;
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_SERVICE_OPTIONS;
+
 import com.google.common.collect.ImmutableMap;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.TextRange;
@@ -7,16 +15,21 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReferenceBase;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
-import io.protostuff.jetbrains.plugin.psi.*;
+import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
+import io.protostuff.jetbrains.plugin.psi.EnumNode;
+import io.protostuff.jetbrains.plugin.psi.FieldNode;
+import io.protostuff.jetbrains.plugin.psi.MessageField;
+import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
+import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
+import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
+import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.resources.BundledFileProvider;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Objects;
-
-import static io.protostuff.compiler.model.ProtobufConstants.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -27,14 +40,6 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
 
     // "default" field option (a special case)
     private static final String DEFAULT = "default";
-
-    private String key;
-
-    public OptionReference(PsiElement element, TextRange textRange) {
-        super(element, textRange, true);
-        key = element.getText();
-    }
-
     private static final Map<Class<? extends PsiElement>, String> TARGET_MAPPING
             = ImmutableMap.<Class<? extends PsiElement>, String>builder()
             .put(FieldNode.class, MSG_FIELD_OPTIONS)
@@ -45,7 +50,12 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
             .put(ServiceNode.class, MSG_SERVICE_OPTIONS)
             .put(ProtoRootNode.class, MSG_FILE_OPTIONS)
             .build();
+    private String key;
 
+    public OptionReference(PsiElement element, TextRange textRange) {
+        super(element, textRange, true);
+        key = element.getText();
+    }
 
     @Nullable
     private String getTarget() {

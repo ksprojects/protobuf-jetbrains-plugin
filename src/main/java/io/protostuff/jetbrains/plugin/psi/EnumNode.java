@@ -5,10 +5,9 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Kostiantyn Shchepanovskyi

@@ -6,11 +6,17 @@ import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.NodeProvider;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
 import com.intellij.openapi.editor.Editor;
-import io.protostuff.jetbrains.plugin.psi.*;
-import org.jetbrains.annotations.NotNull;
-
+import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
+import io.protostuff.jetbrains.plugin.psi.EnumNode;
+import io.protostuff.jetbrains.plugin.psi.FieldNode;
+import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
+import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
+import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
+import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import java.util.Collection;
 import java.util.Collections;
+import org.jetbrains.annotations.NotNull;
 
 final class ProtoStructureViewModel extends StructureViewModelBase
         implements StructureViewModel.ElementInfoProvider {

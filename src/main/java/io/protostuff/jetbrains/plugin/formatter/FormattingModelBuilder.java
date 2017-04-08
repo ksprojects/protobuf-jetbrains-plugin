@@ -1,6 +1,24 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
-import com.intellij.formatting.*;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.ASSIGN;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.COMMA;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.GT;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.LCURLY;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.LINE_COMMENT;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.LPAREN;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.LSQUARE;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.LT;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.RCURLY;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.RPAREN;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.RSQUARE;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.SEMICOLON;
+
+import com.intellij.formatting.Alignment;
+import com.intellij.formatting.FormattingModel;
+import com.intellij.formatting.FormattingModelProvider;
+import com.intellij.formatting.SpacingBuilder;
+import com.intellij.formatting.Wrap;
+import com.intellij.formatting.WrapType;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -10,8 +28,6 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.*;
 
 /**
  * @author Kostiantyn Shchepanovskyi

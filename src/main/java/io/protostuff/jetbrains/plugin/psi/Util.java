@@ -6,7 +6,6 @@ import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.PsiRecursiveElementVisitor;
 import com.intellij.psi.tree.IElementType;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

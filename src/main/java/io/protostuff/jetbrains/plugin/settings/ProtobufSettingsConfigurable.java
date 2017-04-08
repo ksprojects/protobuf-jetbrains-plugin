@@ -3,10 +3,9 @@ package io.protostuff.jetbrains.plugin.settings;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.Nls;
-
-import javax.swing.*;
 import java.util.Objects;
+import javax.swing.JComponent;
+import org.jetbrains.annotations.Nls;
 
 public class ProtobufSettingsConfigurable implements Configurable {
 

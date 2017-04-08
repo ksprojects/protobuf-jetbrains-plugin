@@ -1,5 +1,8 @@
 package io.protostuff.jetbrains.plugin;
 
+import static io.protostuff.jetbrains.plugin.resources.BundledFileProvider.DESCRIPTOR_PROTO_NAME;
+import static io.protostuff.jetbrains.plugin.resources.BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE;
+
 import com.intellij.navigation.GotoClassContributor;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.project.Project;
@@ -13,17 +16,13 @@ import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.ProtoType;
 import io.protostuff.jetbrains.plugin.resources.BundledFileProvider;
 import io.protostuff.jetbrains.plugin.settings.ProtobufSettings;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import static io.protostuff.jetbrains.plugin.resources.BundledFileProvider.DESCRIPTOR_PROTO_NAME;
-import static io.protostuff.jetbrains.plugin.resources.BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi

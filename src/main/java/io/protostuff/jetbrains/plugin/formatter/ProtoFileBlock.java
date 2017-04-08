@@ -1,6 +1,16 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
-import com.intellij.formatting.*;
+import static io.protostuff.jetbrains.plugin.formatter.BlockFactory.createBlock;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.COMMENT;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.LINE_COMMENT;
+import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.SPACE_OR_NEW_LINE;
+
+import com.intellij.formatting.ASTBlock;
+import com.intellij.formatting.Alignment;
+import com.intellij.formatting.Block;
+import com.intellij.formatting.Indent;
+import com.intellij.formatting.Spacing;
+import com.intellij.formatting.Wrap;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.formatter.FormatterUtil;
@@ -8,16 +18,10 @@ import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
 import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static io.protostuff.jetbrains.plugin.formatter.BlockFactory.createBlock;
-import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.COMMENT;
-import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.LINE_COMMENT;
-import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.SPACE_OR_NEW_LINE;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -25,6 +29,7 @@ import static io.protostuff.jetbrains.plugin.formatter.StatementBlock.SPACE_OR_N
 class ProtoFileBlock extends AbstractBlock {
 
     private final CodeStyleSettings settings;
+
     ProtoFileBlock(@NotNull ASTNode node, @Nullable Wrap wrap, @Nullable Alignment alignment, CodeStyleSettings settings) {
         super(node, wrap, alignment);
         this.settings = settings;

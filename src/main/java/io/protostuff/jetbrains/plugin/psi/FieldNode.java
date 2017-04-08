@@ -1,18 +1,19 @@
 package io.protostuff.jetbrains.plugin.psi;
 
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_FIELD_MODIFIER;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_FIELD_NAME;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_TAG;
+import static io.protostuff.jetbrains.plugin.psi.Util.decodeIntegerFromText;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
 import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
 import java.util.Collections;
-
-import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.*;
-import static io.protostuff.jetbrains.plugin.psi.Util.decodeIntegerFromText;
+import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Kostiantyn Shchepanovskyi

@@ -1,9 +1,8 @@
 package io.protostuff.jetbrains.plugin;
 
 import com.intellij.CommonBundle;
-import org.jetbrains.annotations.PropertyKey;
-
 import java.util.ResourceBundle;
+import org.jetbrains.annotations.PropertyKey;
 
 public class ProtostuffBundle {
     private static final String BUNDLE_NAME = "io.protostuff.protobuf-jetbrains-plugin.messages.ProtostuffBundle";

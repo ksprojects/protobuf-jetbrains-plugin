@@ -1,7 +1,6 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.psi.PsiElement;
-
 import java.util.Collection;
 
 /**

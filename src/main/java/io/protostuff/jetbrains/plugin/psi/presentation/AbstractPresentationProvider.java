@@ -5,12 +5,10 @@ import com.intellij.navigation.ItemPresentationProvider;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
+import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -34,9 +32,11 @@ public abstract class AbstractPresentationProvider<T extends PsiElement & Naviga
     private String getLocationString(@NotNull T item) {
         PsiFile file = item.getContainingFile();
         if (file instanceof ProtoPsiFileRoot) {
-            ProtoPsiFileRoot classOwner = (ProtoPsiFileRoot)file;
+            ProtoPsiFileRoot classOwner = (ProtoPsiFileRoot) file;
             String packageName = classOwner.getPackageName();
-            if (packageName.isEmpty()) return null;
+            if (packageName.isEmpty()) {
+                return null;
+            }
             return "(" + packageName + ")";
         }
         return null;

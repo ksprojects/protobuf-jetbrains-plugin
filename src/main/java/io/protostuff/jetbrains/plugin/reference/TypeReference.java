@@ -3,14 +3,13 @@ package io.protostuff.jetbrains.plugin.reference;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReferenceBase;
-import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.DataType;
 import io.protostuff.jetbrains.plugin.psi.DataTypeContainer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
+import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -22,12 +21,6 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
     public TypeReference(PsiElement element, TextRange textRange) {
         super(element, textRange, true);
         key = element.getText();
-    }
-
-    @Nullable
-    @Override
-    public PsiElement resolve() {
-        return resolveInScope(getElement(), this);
     }
 
     public static DataType resolveInScope(PsiElement scopeElement, TypeReference ref) {
@@ -64,6 +57,12 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
             }
         }
         return scopeLookupList;
+    }
+
+    @Nullable
+    @Override
+    public PsiElement resolve() {
+        return resolveInScope(getElement(), this);
     }
 
     @NotNull

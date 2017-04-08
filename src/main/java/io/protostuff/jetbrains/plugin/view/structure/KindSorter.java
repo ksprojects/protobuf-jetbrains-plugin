@@ -2,9 +2,8 @@ package io.protostuff.jetbrains.plugin.view.structure;
 
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Comparator;
+import org.jetbrains.annotations.NotNull;
 
 final class KindSorter implements Sorter {
 

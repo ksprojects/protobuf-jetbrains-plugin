@@ -38,7 +38,9 @@ abstract class AbstractTreeElement<ElementT extends NavigatablePsiElement> imple
     @Override
     public String getAlphaSortKey() {
         String s = element instanceof PsiNamedElement ? element.getName() : null;
-        if (s == null) return "unknown key";
+        if (s == null) {
+            return "unknown key";
+        }
         return s;
     }
 

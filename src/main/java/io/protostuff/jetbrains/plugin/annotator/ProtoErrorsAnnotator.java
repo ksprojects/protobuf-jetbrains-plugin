@@ -1,5 +1,7 @@
 package io.protostuff.jetbrains.plugin.annotator;
 
+import static io.protostuff.jetbrains.plugin.ProtostuffBundle.message;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.ASTNode;
@@ -10,13 +12,21 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.PsiRecursiveElementVisitor;
 import io.protostuff.compiler.model.Field;
-import io.protostuff.jetbrains.plugin.psi.*;
+import io.protostuff.jetbrains.plugin.psi.AntlrParserRuleNode;
+import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
+import io.protostuff.jetbrains.plugin.psi.EnumNode;
+import io.protostuff.jetbrains.plugin.psi.MessageField;
+import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.RangeNode;
+import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
+import io.protostuff.jetbrains.plugin.psi.ServiceNode;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
-
-import static io.protostuff.jetbrains.plugin.ProtostuffBundle.message;
 
 /**
  * @author Kostiantyn Shchepanovskyi

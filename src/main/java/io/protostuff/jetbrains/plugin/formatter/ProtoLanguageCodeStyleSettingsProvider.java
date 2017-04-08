@@ -1,5 +1,7 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
+import static com.intellij.psi.codeStyle.CommonCodeStyleSettings.END_OF_LINE;
+
 import com.google.common.base.Joiner;
 import com.intellij.application.options.IndentOptionsEditor;
 import com.intellij.application.options.SmartIndentOptionsEditor;
@@ -10,8 +12,6 @@ import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import static com.intellij.psi.codeStyle.CommonCodeStyleSettings.END_OF_LINE;
 
 /**
  * @author Kostiantyn Shchepanovskyi

@@ -31,12 +31,20 @@ public class PresentationUtil {
 
     private static String getContextName(@NotNull PsiElement element) {
         PsiElement parent = PsiTreeUtil.getParentOfType(element, MessageNode.class);
-        if (parent == null) parent = element.getContainingFile();
+        if (parent == null) {
+            parent = element.getContainingFile();
+        }
         while (true) {
-            if (parent == null) return null;
-            if (parent instanceof PsiFile) return null;
+            if (parent == null) {
+                return null;
+            }
+            if (parent instanceof PsiFile) {
+                return null;
+            }
             String name = getNameForElement(parent);
-            if (name != null) return name;
+            if (name != null) {
+                return name;
+            }
             parent = parent.getParent();
         }
     }

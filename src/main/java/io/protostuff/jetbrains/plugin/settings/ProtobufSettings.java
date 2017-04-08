@@ -7,11 +7,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("WeakerAccess")
 @State(name = "ProtobufSettings", storages = @Storage("tools.protobuf.xml"))
@@ -28,6 +27,10 @@ public class ProtobufSettings implements PersistentStateComponent<ProtobufSettin
         return includePaths;
     }
 
+    public void setIncludePaths(@NotNull List<String> includePaths) {
+        this.includePaths = new ArrayList<>(includePaths);
+    }
+
     @NotNull
     public List<VirtualFile> getIncludePathsVf() {
         List<VirtualFile> result = new ArrayList<>();
@@ -39,10 +42,6 @@ public class ProtobufSettings implements PersistentStateComponent<ProtobufSettin
             }
         }
         return result;
-    }
-
-    public void setIncludePaths(@NotNull List<String> includePaths) {
-        this.includePaths = new ArrayList<>(includePaths);
     }
 
     @Override
@@ -61,8 +60,12 @@ public class ProtobufSettings implements PersistentStateComponent<ProtobufSettin
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ProtobufSettings)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ProtobufSettings)) {
+            return false;
+        }
         ProtobufSettings that = (ProtobufSettings) o;
         return Objects.equals(includePaths, that.includePaths);
     }

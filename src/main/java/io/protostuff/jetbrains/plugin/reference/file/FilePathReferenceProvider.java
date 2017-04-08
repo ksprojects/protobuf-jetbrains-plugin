@@ -23,19 +23,25 @@ import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiCompiledElement;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFileSystemItem;
+import com.intellij.psi.PsiLiteralExpression;
+import com.intellij.psi.PsiManager;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.PsiReferenceProvider;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.containers.ContainerUtil;
 import io.protostuff.jetbrains.plugin.settings.ProtobufSettings;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author cdr
@@ -50,6 +56,45 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
 
     public FilePathReferenceProvider(boolean endingSlashNotAllowed) {
         myEndingSlashNotAllowed = endingSlashNotAllowed;
+    }
+
+    @NotNull
+    public static Collection<PsiFileSystemItem> getRoots(@Nullable final Module thisModule) {
+        if (thisModule == null) {
+            return Collections.emptyList();
+        }
+
+        ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(thisModule);
+        Set<PsiFileSystemItem> result = ContainerUtil.newLinkedHashSet();
+        final PsiManager psiManager = PsiManager.getInstance(thisModule.getProject());
+
+        VirtualFile[] libraryUrls = moduleRootManager.orderEntries().getAllLibrariesAndSdkClassesRoots();
+        for (VirtualFile file : libraryUrls) {
+            PsiDirectory directory = psiManager.findDirectory(file);
+            if (directory != null) {
+                result.add(directory);
+            }
+        }
+
+        VirtualFile[] sourceRoots = moduleRootManager.orderEntries().getAllSourceRoots();
+        for (VirtualFile root : sourceRoots) {
+            final PsiDirectory directory = psiManager.findDirectory(root);
+            if (directory != null) {
+                result.add(directory);
+            }
+        }
+
+        Project project = thisModule.getProject();
+        ProtobufSettings settings = project.getComponent(ProtobufSettings.class);
+        List<String> includePaths = settings.getIncludePaths();
+        for (String includePath : includePaths) {
+            VirtualFile path = LocalFileSystem.getInstance().findFileByPath(includePath);
+            if (path != null && path.isDirectory()) {
+                PsiDirectory psiDirectory = psiManager.findDirectory(path);
+                result.add(psiDirectory);
+            }
+        }
+        return result;
     }
 
     @NotNull
@@ -144,44 +189,9 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
         //else if (element instanceof XmlAttributeValue) {
         //  text = ((XmlAttributeValue)element).getValue();
         //}
-        if (text == null) return PsiReference.EMPTY_ARRAY;
+        if (text == null) {
+            return PsiReference.EMPTY_ARRAY;
+        }
         return getReferencesByElement(element, text, 1, true);
-    }
-
-    @NotNull
-    public static Collection<PsiFileSystemItem> getRoots(@Nullable final Module thisModule) {
-        if (thisModule == null) return Collections.emptyList();
-
-        ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(thisModule);
-        Set<PsiFileSystemItem> result = ContainerUtil.newLinkedHashSet();
-        final PsiManager psiManager = PsiManager.getInstance(thisModule.getProject());
-
-        VirtualFile[] libraryUrls = moduleRootManager.orderEntries().getAllLibrariesAndSdkClassesRoots();
-        for (VirtualFile file : libraryUrls) {
-            PsiDirectory directory = psiManager.findDirectory(file);
-            if (directory != null) {
-                result.add(directory);
-            }
-        }
-
-        VirtualFile[] sourceRoots = moduleRootManager.orderEntries().getAllSourceRoots();
-        for (VirtualFile root : sourceRoots) {
-            final PsiDirectory directory = psiManager.findDirectory(root);
-            if (directory != null) {
-                result.add(directory);
-            }
-        }
-
-        Project project = thisModule.getProject();
-        ProtobufSettings settings = project.getComponent(ProtobufSettings.class);
-        List<String> includePaths = settings.getIncludePaths();
-        for (String includePath : includePaths) {
-            VirtualFile path = LocalFileSystem.getInstance().findFileByPath(includePath);
-            if (path != null && path.isDirectory()) {
-                PsiDirectory psiDirectory = psiManager.findDirectory(path);
-                result.add(psiDirectory);
-            }
-        }
-        return result;
     }
 }

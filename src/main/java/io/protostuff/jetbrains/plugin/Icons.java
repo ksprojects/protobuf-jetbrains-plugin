@@ -1,8 +1,7 @@
 package io.protostuff.jetbrains.plugin;
 
 import com.intellij.openapi.util.IconLoader;
-
-import javax.swing.*;
+import javax.swing.Icon;
 
 /**
  * All icons used in the plugin.
@@ -21,6 +20,7 @@ public class Icons {
     public static final Icon CONSTANT = IconLoader.getIcon(BASEDIR + "constant.png");
     public static final Icon RPC = IconLoader.getIcon(BASEDIR + "rpc.png");
 
-    private Icons(){}
+    private Icons() {
+    }
 
 }

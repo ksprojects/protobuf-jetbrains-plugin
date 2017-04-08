@@ -60,7 +60,9 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (!(tokenType instanceof TokenIElementType)) return EMPTY_KEYS;
+        if (!(tokenType instanceof TokenIElementType)) {
+            return EMPTY_KEYS;
+        }
         TokenIElementType myType = (TokenIElementType) tokenType;
         int antlrTokenType = myType.getAntlrTokenType();
         TextAttributesKey attrKey;

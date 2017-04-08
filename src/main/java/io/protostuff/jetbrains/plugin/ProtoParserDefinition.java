@@ -67,12 +67,6 @@ import org.jetbrains.annotations.NotNull;
 public class ProtoParserDefinition implements ParserDefinition {
 
     public static final PsiElementTypeFactory ELEMENT_FACTORY = PsiElementTypeFactory.create(ProtoLanguage.INSTANCE, new ProtoParser(null));
-
-    private static final List<TokenIElementType> TOKEN_TYPES = ELEMENT_FACTORY.getTokenIElementTypes();
-    private static final List<RuleIElementType> RULE_TYPES = ELEMENT_FACTORY.getRuleIElementTypes();
-
-    public static final TokenIElementType ID = TOKEN_TYPES.get(ProtoLexer.IDENT);
-
     public static final TokenSet KEYWORDS = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.PACKAGE,
             ProtoLexer.SYNTAX,
@@ -113,7 +107,6 @@ public class ProtoParserDefinition implements ParserDefinition {
             ProtoLexer.STRING,
             ProtoLexer.BYTES
     );
-
     // keywords also can be identifiers
     public static final TokenSet IDENTIFIER_TOKEN_SET = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.IDENT,
@@ -156,12 +149,10 @@ public class ProtoParserDefinition implements ParserDefinition {
             ProtoLexer.STRING,
             ProtoLexer.BYTES
     );
-
     public static final TokenSet COMMENT_TOKEN_SET = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.COMMENT,
             ProtoLexer.LINE_COMMENT
     );
-
     public static final TokenSet LITERAL_TOKEN_SET = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.STRING_VALUE,
             ProtoLexer.FLOAT_VALUE,
@@ -206,9 +197,11 @@ public class ProtoParserDefinition implements ParserDefinition {
             ProtoLexer.STRING,
             ProtoLexer.BYTES
     );
+    public static final TokenSet WHITESPACE = ELEMENT_FACTORY.createTokenSet(WS, NL);
+    private static final List<TokenIElementType> TOKEN_TYPES = ELEMENT_FACTORY.getTokenIElementTypes();
+    public static final TokenIElementType ID = TOKEN_TYPES.get(ProtoLexer.IDENT);
 
     // tokens
-
     public static final TokenIElementType LCURLY = TOKEN_TYPES.get(ProtoLexer.LCURLY);
     public static final TokenIElementType RCURLY = TOKEN_TYPES.get(ProtoLexer.RCURLY);
     public static final TokenIElementType LPAREN = TOKEN_TYPES.get(ProtoLexer.LPAREN);
@@ -218,7 +211,7 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final TokenIElementType LT = TOKEN_TYPES.get(ProtoLexer.LT);
     public static final TokenIElementType GT = TOKEN_TYPES.get(ProtoLexer.GT);
     public static final TokenIElementType ASSIGN = TOKEN_TYPES.get(ProtoLexer.ASSIGN);
-
+    private static final List<RuleIElementType> RULE_TYPES = ELEMENT_FACTORY.getRuleIElementTypes();
     // Rules
     public static final IElementType R_TYPE_REFERENCE = RULE_TYPES.get(ProtoParser.RULE_typeReference);
     public static final IElementType R_NAME = RULE_TYPES.get(ProtoParser.RULE_ident);
@@ -227,18 +220,7 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final IElementType R_TAG = RULE_TYPES.get(ProtoParser.RULE_tag);
     private static final IFileElementType FILE = new IFileElementType(ProtoLanguage.INSTANCE);
     private static final TokenSet COMMENTS = ELEMENT_FACTORY.createTokenSet(COMMENT, LINE_COMMENT);
-    public static final TokenSet WHITESPACE = ELEMENT_FACTORY.createTokenSet(WS, NL);
-
     private static final TokenSet STRING = ELEMENT_FACTORY.createTokenSet(STRING_VALUE);
-
-    public static TokenIElementType token(int token) {
-        return TOKEN_TYPES.get(token);
-    }
-
-    public static RuleIElementType rule(int rule) {
-        return RULE_TYPES.get(rule);
-    }
-
     private final Map<Integer, Function<ASTNode, AntlrPsiNode>> elementFactories = new HashMap<>();
 
     public ProtoParserDefinition() {
@@ -270,6 +252,14 @@ public class ProtoParserDefinition implements ParserDefinition {
         register(ProtoParser.RULE_reservedFieldNames, ReservedFieldNamesNode::new);
         register(ProtoParser.RULE_rpcType, RpcMethodTypeNode::new);
         register(ProtoParser.RULE_proto, ProtoRootNode::new);
+    }
+
+    public static TokenIElementType token(int token) {
+        return TOKEN_TYPES.get(token);
+    }
+
+    public static RuleIElementType rule(int rule) {
+        return RULE_TYPES.get(rule);
     }
 
     private void register(int rule, Function<ASTNode, AntlrPsiNode> factory) {

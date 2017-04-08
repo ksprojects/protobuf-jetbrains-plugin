@@ -1,9 +1,8 @@
 package io.protostuff.jetbrains.plugin.psi.presentation;
 
 import com.intellij.navigation.ItemPresentation;
+import javax.swing.Icon;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * @author Kostiantyn Shchepanovskyi

@@ -10,15 +10,14 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import io.protostuff.jetbrains.plugin.reference.OptionReference;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
@@ -134,8 +133,12 @@ public class BundledFileProviderImpl implements BundledFileProvider, ProjectComp
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             ResourceId that = (ResourceId) o;
             return Objects.equals(resource, that.resource) &&
                     Objects.equals(language, that.language) &&

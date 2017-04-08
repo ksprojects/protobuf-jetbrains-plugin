@@ -1,19 +1,21 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
-import com.intellij.formatting.*;
+import com.intellij.formatting.Alignment;
+import com.intellij.formatting.Block;
+import com.intellij.formatting.Indent;
+import com.intellij.formatting.Spacing;
+import com.intellij.formatting.SpacingBuilder;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.formatter.FormatterUtil;
 import com.intellij.psi.formatter.common.AbstractBlock;
 import com.intellij.psi.tree.IElementType;
 import io.protostuff.compiler.parser.ProtoLexer;
-import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Abstract block for all constructs that have children in curly braces.
@@ -41,10 +43,10 @@ class StatementBlock extends AbstractBlock {
     public static final IElementType COMMENT = ProtoParserDefinition.token(ProtoLexer.COMMENT);
     public static final IElementType COMMA = ProtoParserDefinition.token(ProtoLexer.COMMA);
     public static final IElementType ASSIGN = ProtoParserDefinition.token(ProtoLexer.ASSIGN);
-
-    private final Indent indent;
     protected final CodeStyleSettings settings;
+    private final Indent indent;
     private final SpacingBuilder spacingBuilder;
+
     protected StatementBlock(@NotNull ASTNode node, @Nullable Alignment alignment, Indent indent, CodeStyleSettings settings) {
         super(node, null, alignment);
         this.indent = indent;

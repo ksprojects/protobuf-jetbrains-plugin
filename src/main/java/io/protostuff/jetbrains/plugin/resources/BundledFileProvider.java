@@ -2,9 +2,8 @@ package io.protostuff.jetbrains.plugin.resources;
 
 import com.intellij.lang.Language;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Kostiantyn Shchepanovskyi

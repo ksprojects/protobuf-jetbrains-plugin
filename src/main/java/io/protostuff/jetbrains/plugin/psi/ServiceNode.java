@@ -8,13 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
+import java.util.Arrays;
+import java.util.List;
 import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Kostiantyn Shchepanovskyi

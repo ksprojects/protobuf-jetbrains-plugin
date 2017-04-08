@@ -1,18 +1,68 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumField;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumFieldName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumFieldValue;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_extendBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_extendBlockEntry;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_extensions;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_field;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fieldModifier;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fieldName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fieldOptions;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fileReference;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fullIdent;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_groupBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_groupName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_ident;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_importStatement;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_map;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_mapKey;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_mapValue;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_messageBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_messageName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_oneof;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_oneofField;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_oneofGroup;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_oneofName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_option;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_optionEntry;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_optionName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_optionValue;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_packageName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_packageStatement;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_proto;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_range;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_rangeFrom;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_rangeTo;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_reservedFieldName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_reservedFieldNames;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_reservedFieldRanges;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_rpcMethod;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_rpcName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_rpcType;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_serviceBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_serviceName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_syntax;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_tag;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_textFormat;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_textFormatEntry;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_textFormatOptionName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_textFormatOptionValue;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_typeReference;
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
+
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
 import com.intellij.formatting.Indent;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.protostuff.compiler.parser.ProtoParser.*;
-import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Kostiantyn Shchepanovskyi
