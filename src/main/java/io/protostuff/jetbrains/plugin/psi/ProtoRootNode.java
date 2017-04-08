@@ -1,19 +1,18 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Objects;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class ProtoRootNode extends ANTLRPsiNode implements KeywordsContainer, DataTypeContainer {
+public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, DataTypeContainer {
 
     public ProtoRootNode(@NotNull ASTNode node) {
         super(node);

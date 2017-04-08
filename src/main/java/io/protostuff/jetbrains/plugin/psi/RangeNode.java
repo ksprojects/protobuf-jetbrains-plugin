@@ -1,22 +1,21 @@
 package io.protostuff.jetbrains.plugin.psi;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.psi.PsiElement;
-import io.protostuff.compiler.model.Field;
-import io.protostuff.compiler.parser.ProtoLexer;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
-import org.jetbrains.annotations.NotNull;
-
 import static io.protostuff.compiler.parser.ProtoParser.RULE_rangeFrom;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_rangeTo;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.token;
 
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import io.protostuff.compiler.model.Field;
+import io.protostuff.compiler.parser.ProtoLexer;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class RangeNode extends ANTLRPsiNode implements KeywordsContainer {
+public class RangeNode extends AntlrPsiNode implements KeywordsContainer {
 
     public RangeNode(@NotNull ASTNode node) {
         super(node);

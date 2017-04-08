@@ -1,5 +1,11 @@
 package io.protostuff.jetbrains.plugin;
 
+import static io.protostuff.compiler.parser.ProtoLexer.COMMENT;
+import static io.protostuff.compiler.parser.ProtoLexer.LINE_COMMENT;
+import static io.protostuff.compiler.parser.ProtoLexer.NL;
+import static io.protostuff.compiler.parser.ProtoLexer.STRING_VALUE;
+import static io.protostuff.compiler.parser.ProtoLexer.WS;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
@@ -12,30 +18,55 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import io.protostuff.compiler.parser.ProtoLexer;
 import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.psi.*;
-import org.antlr.jetbrains.adapter.lexer.ANTLRLexerAdaptor;
-import org.antlr.jetbrains.adapter.lexer.PSIElementTypeFactory;
-import org.antlr.jetbrains.adapter.lexer.RuleIElementType;
-import org.antlr.jetbrains.adapter.lexer.TokenIElementType;
-import org.antlr.jetbrains.adapter.parser.ANTLRParserAdaptor;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.jetbrains.annotations.NotNull;
-
+import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
+import io.protostuff.jetbrains.plugin.psi.EnumNode;
+import io.protostuff.jetbrains.plugin.psi.ExtendNode;
+import io.protostuff.jetbrains.plugin.psi.ExtensionsNode;
+import io.protostuff.jetbrains.plugin.psi.FieldNode;
+import io.protostuff.jetbrains.plugin.psi.FileReferenceNode;
+import io.protostuff.jetbrains.plugin.psi.GroupNode;
+import io.protostuff.jetbrains.plugin.psi.ImportNode;
+import io.protostuff.jetbrains.plugin.psi.MapKeyNode;
+import io.protostuff.jetbrains.plugin.psi.MapNode;
+import io.protostuff.jetbrains.plugin.psi.MessageNameNode;
+import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.OneOfNode;
+import io.protostuff.jetbrains.plugin.psi.OneofFieldNode;
+import io.protostuff.jetbrains.plugin.psi.OptionEntryNode;
+import io.protostuff.jetbrains.plugin.psi.OptionNameNode;
+import io.protostuff.jetbrains.plugin.psi.OptionNode;
+import io.protostuff.jetbrains.plugin.psi.OptionValueNode;
+import io.protostuff.jetbrains.plugin.psi.PackageStatement;
+import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
+import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
+import io.protostuff.jetbrains.plugin.psi.RangeNode;
+import io.protostuff.jetbrains.plugin.psi.ReservedFieldNamesNode;
+import io.protostuff.jetbrains.plugin.psi.ReservedFieldRangesNode;
+import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
+import io.protostuff.jetbrains.plugin.psi.RpcMethodTypeNode;
+import io.protostuff.jetbrains.plugin.psi.ServiceNode;
+import io.protostuff.jetbrains.plugin.psi.SyntaxNode;
+import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-
-import static io.protostuff.compiler.parser.ProtoLexer.*;
+import org.antlr.jetbrains.adapter.lexer.AntlrLexerAdapter;
+import org.antlr.jetbrains.adapter.lexer.PsiElementTypeFactory;
+import org.antlr.jetbrains.adapter.lexer.RuleIElementType;
+import org.antlr.jetbrains.adapter.lexer.TokenIElementType;
+import org.antlr.jetbrains.adapter.parser.AntlrParserAdapter;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoParserDefinition implements ParserDefinition {
 
-    public static final PSIElementTypeFactory ELEMENT_FACTORY = PSIElementTypeFactory.create(ProtoLanguage.INSTANCE, new ProtoParser(null));
+    public static final PsiElementTypeFactory ELEMENT_FACTORY = PsiElementTypeFactory.create(ProtoLanguage.INSTANCE, new ProtoParser(null));
 
     private static final List<TokenIElementType> TOKEN_TYPES = ELEMENT_FACTORY.getTokenIElementTypes();
     private static final List<RuleIElementType> RULE_TYPES = ELEMENT_FACTORY.getRuleIElementTypes();
@@ -208,7 +239,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         return RULE_TYPES.get(rule);
     }
 
-    private final Map<Integer, Function<ASTNode, ANTLRPsiNode>> elementFactories = new HashMap<>();
+    private final Map<Integer, Function<ASTNode, AntlrPsiNode>> elementFactories = new HashMap<>();
 
     public ProtoParserDefinition() {
         register(ProtoParser.RULE_syntax, SyntaxNode::new);
@@ -241,7 +272,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         register(ProtoParser.RULE_proto, ProtoRootNode::new);
     }
 
-    private void register(int rule, Function<ASTNode, ANTLRPsiNode> factory) {
+    private void register(int rule, Function<ASTNode, AntlrPsiNode> factory) {
         if (elementFactories.containsKey(rule)) {
             throw new IllegalStateException("Duplicate rule");
         }
@@ -252,13 +283,13 @@ public class ProtoParserDefinition implements ParserDefinition {
     @Override
     public Lexer createLexer(Project project) {
         ProtoLexer lexer = new ProtoLexer(null);
-        return new ANTLRLexerAdaptor(ProtoLanguage.INSTANCE, lexer, ELEMENT_FACTORY);
+        return new AntlrLexerAdapter(ProtoLanguage.INSTANCE, lexer, ELEMENT_FACTORY);
     }
 
     @Override
     public PsiParser createParser(Project project) {
         final ProtoParser parser = new ProtoParser(null);
-        return new ANTLRParserAdaptor(ProtoLanguage.INSTANCE, parser, ELEMENT_FACTORY) {
+        return new AntlrParserAdapter(ProtoLanguage.INSTANCE, parser, ELEMENT_FACTORY) {
             @Override
             protected ParseTree parse(Parser parser, IElementType root) {
                 // start rule depends on root passed in; sometimes we want to create an ID node etc...
@@ -297,21 +328,21 @@ public class ProtoParserDefinition implements ParserDefinition {
 
     @NotNull
     @Override
-    public ANTLRPsiNode createElement(ASTNode node) {
+    public AntlrPsiNode createElement(ASTNode node) {
         IElementType elType = node.getElementType();
         if (elType instanceof TokenIElementType) {
-            return new ANTLRPsiNode(node);
+            return new AntlrPsiNode(node);
         }
         if (!(elType instanceof RuleIElementType)) {
-            return new ANTLRPsiNode(node);
+            return new AntlrPsiNode(node);
         }
         RuleIElementType ruleElType = (RuleIElementType) elType;
         int ruleIndex = ruleElType.getRuleIndex();
         if (elementFactories.containsKey(ruleIndex)) {
-            Function<ASTNode, ANTLRPsiNode> factory = elementFactories.get(ruleIndex);
+            Function<ASTNode, AntlrPsiNode> factory = elementFactories.get(ruleIndex);
             return factory.apply(node);
         }
-        return new ANTLRPsiNode(node);
+        return new AntlrPsiNode(node);
     }
 
     @Override

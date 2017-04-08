@@ -11,16 +11,15 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiReference;
 import io.protostuff.compiler.parser.Util;
 import io.protostuff.jetbrains.plugin.reference.file.FilePathReferenceProvider;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
+import java.util.Collection;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class FileReferenceNode extends ANTLRPsiNode {
+public class FileReferenceNode extends AntlrPsiNode {
 
     private final FilePathReferenceProvider referenceProvider;
 

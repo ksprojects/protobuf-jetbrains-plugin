@@ -1,20 +1,19 @@
 package io.protostuff.jetbrains.plugin.psi;
 
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_FIELD_MODIFIER;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_FIELD_MODIFIER;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class GroupNode extends ANTLRPsiNode implements KeywordsContainer {
+public class GroupNode extends AntlrPsiNode implements KeywordsContainer {
 
     public GroupNode(@NotNull ASTNode node) {
         super(node);

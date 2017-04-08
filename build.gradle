@@ -4,6 +4,9 @@ buildscript {
         maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
         mavenLocal()
     }
+    dependencies {
+        classpath 'org.ksprojects:java-code-style:1.1'
+    }
 }
 
 plugins {
@@ -69,3 +72,13 @@ tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 task wrapper(type: Wrapper) {
     gradleVersion = '3.4.1'
 }
+
+
+//apply plugin: 'checkstyle'
+//checkstyle {
+//    config = resources.text.fromString(getClass().getResource("checkstyle.xml").text)
+//    toolVersion = '7.6.1'
+//    // Exclude generated code from Checkstyle checks
+//    checkstyleMain.source = "src/main/java"
+//    checkstyleTest.source = "src/test/java"
+//}

@@ -1,17 +1,17 @@
 package io.protostuff.jetbrains.plugin.psi;
 
-import com.intellij.lang.ASTNode;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
-import org.jetbrains.annotations.NotNull;
-
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_FIELD_NAME;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_TAG;
 import static io.protostuff.jetbrains.plugin.psi.Util.decodeIntegerFromText;
 
+import com.intellij.lang.ASTNode;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class MapNode extends ANTLRPsiNode
+public class MapNode extends AntlrPsiNode
         implements MessageField, KeywordsContainer {
 
     public MapNode(@NotNull ASTNode node) {

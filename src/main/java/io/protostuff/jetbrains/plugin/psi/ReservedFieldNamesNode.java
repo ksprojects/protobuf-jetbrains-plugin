@@ -1,22 +1,21 @@
 package io.protostuff.jetbrains.plugin.psi;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import io.protostuff.compiler.parser.ProtoParser;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static io.protostuff.compiler.parser.ProtoParser.RULE_reservedFieldName;
 import static io.protostuff.compiler.parser.Util.removeFirstAndLastChar;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
 
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import io.protostuff.compiler.parser.ProtoParser;
+import java.util.ArrayList;
+import java.util.List;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class ReservedFieldNamesNode extends ANTLRPsiNode
+public class ReservedFieldNamesNode extends AntlrPsiNode
         implements AntlrParserRuleNode, KeywordsContainer {
 
     public static final int RULE_INDEX = ProtoParser.RULE_reservedFieldNames;

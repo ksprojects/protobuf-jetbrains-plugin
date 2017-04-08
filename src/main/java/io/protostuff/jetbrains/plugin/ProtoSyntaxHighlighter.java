@@ -1,16 +1,16 @@
 package io.protostuff.jetbrains.plugin;
 
+import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
+
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import io.protostuff.compiler.parser.ProtoLexer;
-import org.antlr.jetbrains.adapter.lexer.ANTLRLexerAdaptor;
+import org.antlr.jetbrains.adapter.lexer.AntlrLexerAdapter;
 import org.antlr.jetbrains.adapter.lexer.TokenIElementType;
 import org.jetbrains.annotations.NotNull;
-
-import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 /**
  * A highlighter is really just a mapping from token type to
@@ -54,7 +54,7 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
     @Override
     public Lexer getHighlightingLexer() {
         ProtoLexer lexer = new ProtoLexer(null);
-        return new ANTLRLexerAdaptor(ProtoLanguage.INSTANCE, lexer, ProtoParserDefinition.ELEMENT_FACTORY);
+        return new AntlrLexerAdapter(ProtoLanguage.INSTANCE, lexer, ProtoParserDefinition.ELEMENT_FACTORY);
     }
 
     @NotNull
@@ -62,7 +62,7 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
         if (!(tokenType instanceof TokenIElementType)) return EMPTY_KEYS;
         TokenIElementType myType = (TokenIElementType) tokenType;
-        int antlrTokenType = myType.getANTLRTokenType();
+        int antlrTokenType = myType.getAntlrTokenType();
         TextAttributesKey attrKey;
         switch (antlrTokenType) {
             case ProtoLexer.INTEGER_VALUE:

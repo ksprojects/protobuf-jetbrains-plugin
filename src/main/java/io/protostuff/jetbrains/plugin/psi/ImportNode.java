@@ -3,14 +3,14 @@ package io.protostuff.jetbrains.plugin.psi;
 import com.intellij.lang.ASTNode;
 import io.protostuff.compiler.parser.ProtoLexer;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class ImportNode extends ANTLRPsiNode implements KeywordsContainer {
+public class ImportNode extends AntlrPsiNode implements KeywordsContainer {
 
     public ImportNode(@NotNull ASTNode node) {
         super(node);

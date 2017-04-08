@@ -1,17 +1,17 @@
 package io.protostuff.jetbrains.plugin.psi;
 
+import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import io.protostuff.compiler.parser.ProtoParser;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
-
-import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class PackageStatement extends ANTLRPsiNode implements KeywordsContainer {
+public class PackageStatement extends AntlrPsiNode implements KeywordsContainer {
 
     public PackageStatement(@NotNull ASTNode node) {
         super(node);

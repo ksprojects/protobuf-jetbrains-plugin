@@ -4,13 +4,13 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiReference;
 import io.protostuff.jetbrains.plugin.reference.TypeReference;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class TypeReferenceNode extends ANTLRPsiNode implements KeywordsContainer {
+public class TypeReferenceNode extends AntlrPsiNode implements KeywordsContainer {
 
     public TypeReferenceNode(@NotNull ASTNode node) {
         super(node);

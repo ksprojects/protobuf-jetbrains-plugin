@@ -1,16 +1,13 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.psi.ANTLRPsiNode;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Kostiantyn Shchepanovskyi
  */
-public class OptionEntryNode extends ANTLRPsiNode implements KeywordsContainer {
+public class OptionEntryNode extends AntlrPsiNode implements KeywordsContainer {
 
     public OptionEntryNode(@NotNull ASTNode node) {
         super(node);
