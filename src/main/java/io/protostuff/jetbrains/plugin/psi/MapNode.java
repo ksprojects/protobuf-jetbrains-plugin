@@ -48,4 +48,10 @@ public class MapNode extends AntlrPsiNode
         return node.findChildByType(R_TAG);
     }
 
+    @Override
+    public TypeReferenceNode getFieldType() {
+        // TODO
+        return null;
+    }
+
 }

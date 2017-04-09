@@ -18,6 +18,7 @@ description = 'Protobuf Plugin for JetBrains IDEs'
 
 repositories {
     jcenter()
+    mavenCentral()
     mavenLocal()
     maven {
         url "https://dl.bintray.com/antlr/maven/"
@@ -30,7 +31,7 @@ dependencies {
         exclude group: 'com.jetbrains'
     }
     compile 'com.google.guava:guava:21.0'
-    compile 'io.protostuff:protostuff-parser:2.0.0-alpha35'
+    compile 'io.protostuff:protostuff-parser:2.0.0-alpha36'
 }
 
 apply plugin: 'idea'

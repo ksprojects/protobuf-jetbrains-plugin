@@ -17,4 +17,6 @@ public interface MessageField extends PsiElement {
     int getTag();
 
     ASTNode getTagNode();
+
+    TypeReferenceNode getFieldType();
 }

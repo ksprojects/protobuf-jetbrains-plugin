@@ -48,6 +48,10 @@ public class FieldNode extends IdentifierDefSubtree implements KeywordsContainer
         return "";
     }
 
+    public TypeReferenceNode getFieldType() {
+        return findChildByClass(TypeReferenceNode.class);
+    }
+
     @Override
     public ASTNode getFieldNameNode() {
         ASTNode node = getNode();

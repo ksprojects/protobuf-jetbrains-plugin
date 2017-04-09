@@ -59,11 +59,12 @@ public class StandardOptionReferenceTest extends LightCodeInsightFixtureTestCase
         ProtoPsiFileRoot proto = (ProtoPsiFileRoot) myFixture.getFile();
         PsiElement elementAtCaret = proto
                 .findElementAt(myFixture.getCaretOffset());
-        while (elementAtCaret != null && elementAtCaret.getReference() == null) {
+        while (elementAtCaret != null
+                && elementAtCaret.getReferences().length == 0) {
             elementAtCaret = elementAtCaret.getParent();
         }
         assertNotNull(elementAtCaret);
-        PsiElement target = elementAtCaret.getReference().resolve();
+        PsiElement target = elementAtCaret.getReferences()[0].resolve();
         Assert.assertTrue(target instanceof FieldNode);
         FieldNode field = (FieldNode) target;
         Assert.assertEquals(fieldName, field.getFieldName());

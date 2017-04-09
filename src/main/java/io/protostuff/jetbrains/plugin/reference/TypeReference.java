@@ -48,7 +48,7 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
      * the innermost scope is searched, then the next-innermost, and so on, with
      * each package considered to be "inner" to its parent package.
      */
-    private static Deque<String> createScopeLookupList(DataTypeContainer container) {
+    public static Deque<String> createScopeLookupList(DataTypeContainer container) {
         String namespace = container.getNamespace();
         Deque<String> scopeLookupList = new ArrayDeque<>();
         int end = 0;

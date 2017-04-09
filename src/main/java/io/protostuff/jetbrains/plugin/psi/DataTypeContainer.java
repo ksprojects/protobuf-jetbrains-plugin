@@ -17,4 +17,6 @@ public interface DataTypeContainer {
 
     Collection<DataType> getDeclaredDataTypes();
 
+    Collection<ExtendNode> getDeclaredExtensions();
+
 }

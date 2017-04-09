@@ -23,7 +23,7 @@ public class OptionNode extends AntlrPsiNode implements KeywordsContainer {
      */
     @NotNull
     public String getOptionNameText() {
-        PsiElement element = findChildByType(ProtoParserDefinition.rule(ProtoParser.RULE_optionName));
+        PsiElement element = findChildByType(ProtoParserDefinition.rule(ProtoParser.RULE_fieldRerefence));
         if (element != null) {
             return element.getText();
         }

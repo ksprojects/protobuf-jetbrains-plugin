@@ -18,6 +18,7 @@ public class TypeReferenceNode extends AntlrPsiNode implements KeywordsContainer
         super(node);
     }
 
+    @NotNull
     @Override
     public PsiReference getReference() {
         return new TypeReference(this, TextRange.create(0, getNode().getTextLength()));
