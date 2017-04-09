@@ -3,6 +3,8 @@ package io.protostuff.jetbrains.plugin.annotator;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 
 /**
+ * Errors annotator tests.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoErrorsAnnotatorTest extends LightCodeInsightFixtureTestCase {

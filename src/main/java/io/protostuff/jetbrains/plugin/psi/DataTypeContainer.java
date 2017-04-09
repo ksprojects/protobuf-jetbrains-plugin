@@ -3,6 +3,8 @@ package io.protostuff.jetbrains.plugin.psi;
 import java.util.Collection;
 
 /**
+ * Container node that can hold user types - can be a message or proto file.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public interface DataTypeContainer {

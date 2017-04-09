@@ -8,6 +8,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Type reference node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class TypeReferenceNode extends AntlrPsiNode implements KeywordsContainer {

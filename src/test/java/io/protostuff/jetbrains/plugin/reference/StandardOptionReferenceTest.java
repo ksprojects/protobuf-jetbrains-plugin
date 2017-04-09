@@ -8,6 +8,8 @@ import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import org.junit.Assert;
 
 /**
+ * Tests for resolving standard options.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class StandardOptionReferenceTest extends LightCodeInsightFixtureTestCase {
@@ -65,6 +67,6 @@ public class StandardOptionReferenceTest extends LightCodeInsightFixtureTestCase
         Assert.assertTrue(target instanceof FieldNode);
         FieldNode field = (FieldNode) target;
         Assert.assertEquals(fieldName, field.getFieldName());
-        Assert.assertEquals(typeReference, ((DataType)field.getParent()).getQualifiedName());
+        Assert.assertEquals(typeReference, ((DataType) field.getParent()).getQualifiedName());
     }
 }

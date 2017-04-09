@@ -13,6 +13,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Reserved field names node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ReservedFieldNamesNode extends AntlrPsiNode
@@ -38,6 +40,9 @@ public class ReservedFieldNamesNode extends AntlrPsiNode
         return syntaxErrors;
     }
 
+    /**
+     * Get reserved field names.
+     */
     public List<String> getNames() {
         List<PsiElement> nodes = findChildrenByType(rule(RULE_reservedFieldName));
         List<String> result = new ArrayList<>();

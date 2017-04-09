@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * "Go To Class" contributor.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class GoToClassContributor implements GotoClassContributor {

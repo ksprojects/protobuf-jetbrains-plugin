@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Message node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class MessageNode extends DataType implements AntlrParserRuleNode, DataTypeContainer {
@@ -49,6 +51,9 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
         return Arrays.asList(findChildrenByClass(DataType.class));
     }
 
+    /**
+     * Returns all fields of this message.
+     */
     public Collection<MessageField> getFields() {
         List<MessageField> result = new ArrayList<>();
         // normal fields and maps
@@ -67,6 +72,9 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
         return ItemPresentationProviders.getItemPresentation(this);
     }
 
+    /**
+     * Returns reserved field ranges for this message.
+     */
     @NotNull
     public List<RangeNode> getReservedFieldRanges() {
         return Stream.of(findChildrenByClass(ReservedFieldRangesNode.class))
@@ -74,6 +82,9 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns reserved field names for this message.
+     */
     @NotNull
     public Set<String> getReservedFieldNames() {
         return Stream.of(findChildrenByClass(ReservedFieldNamesNode.class))

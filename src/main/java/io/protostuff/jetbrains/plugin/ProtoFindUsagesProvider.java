@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Find usages provider.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoFindUsagesProvider implements FindUsagesProvider {

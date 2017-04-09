@@ -7,6 +7,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * One-of node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class OneOfNode extends AntlrPsiNode implements KeywordsContainer {

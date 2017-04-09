@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Code style settings provider.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
@@ -53,9 +55,6 @@ public class ProtoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
         @Override
         protected void initTabs(CodeStyleSettings settings) {
             addIndentOptionsTab(settings);
-//            addSpacesTab(settings);
-//            addBlankLinesTab(settings);
-//            addWrappingAndBracesTab(settings);
         }
     }
 }

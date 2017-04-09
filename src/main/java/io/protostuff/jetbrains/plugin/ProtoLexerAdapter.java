@@ -4,6 +4,8 @@ import io.protostuff.compiler.parser.ProtoLexer;
 import org.antlr.jetbrains.adapter.lexer.AntlrLexerAdapter;
 
 /**
+ * Lexer adapter.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoLexerAdapter extends AntlrLexerAdapter {

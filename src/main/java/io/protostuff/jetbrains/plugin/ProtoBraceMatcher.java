@@ -17,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Brace matcher.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoBraceMatcher implements PairedBraceMatcher {
@@ -35,7 +37,7 @@ public class ProtoBraceMatcher implements PairedBraceMatcher {
     }
 
     @Override
-    public boolean isPairedBracesAllowedBeforeType(@NotNull IElementType iElementType, @Nullable IElementType iElementType1) {
+    public boolean isPairedBracesAllowedBeforeType(@NotNull IElementType leftBraceType, @Nullable IElementType contextType) {
         return true;
     }
 

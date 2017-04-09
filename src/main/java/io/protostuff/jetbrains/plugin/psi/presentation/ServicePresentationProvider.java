@@ -6,6 +6,8 @@ import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Service node presentation provider.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ServicePresentationProvider extends AbstractPresentationProvider<ServiceNode> {

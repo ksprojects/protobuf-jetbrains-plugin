@@ -3,6 +3,8 @@ package io.protostuff.jetbrains.plugin;
 import com.intellij.lang.Commenter;
 
 /**
+ * Commenter.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoCommenter implements Commenter {

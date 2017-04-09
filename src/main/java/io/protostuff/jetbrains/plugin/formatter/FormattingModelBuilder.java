@@ -30,10 +30,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Formatting model builder.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class FormattingModelBuilder implements com.intellij.formatting.FormattingModelBuilder {
 
+    /**
+     * Create spacing builder using given settings.
+     */
     public static SpacingBuilder createSpacingBuilder(CodeStyleSettings settings) {
         CommonCodeStyleSettings protoSettings = settings.getCommonSettings(ProtoLanguage.INSTANCE);
         SpacingBuilder builder = new SpacingBuilder(settings, ProtoLanguage.INSTANCE);

@@ -2,9 +2,10 @@ package io.protostuff.jetbrains.plugin.parsing;
 
 import com.intellij.testFramework.ParsingTestCase;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.junit.Test;
 
 /**
+ * Parser tests.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ParsingTest extends ParsingTestCase {

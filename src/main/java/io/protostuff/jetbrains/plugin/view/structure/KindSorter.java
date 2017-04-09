@@ -7,11 +7,12 @@ import org.jetbrains.annotations.NotNull;
 
 final class KindSorter implements Sorter {
 
-    static final Sorter INSTANCE = new KindSorter();
+    public static final Sorter INSTANCE = new KindSorter();
 
     private static final String ID = "KIND";
 
-    private final Comparator COMPARATOR = new Comparator() {
+    private static final Comparator COMPARATOR = new Comparator() {
+
         @Override
         public int compare(final Object o1, final Object o2) {
             return getWeight(o1) - getWeight(o2);

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.protostuff.jetbrains.plugin.reference.file;
 
 import com.intellij.openapi.module.Module;
@@ -44,8 +45,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Copied from IntelliJ IDEA source code.
+ *
  * @author cdr
  */
+@SuppressWarnings("checkstyle:JavadocMethod")
 public class FilePathReferenceProvider extends PsiReferenceProvider {
 
     private final boolean myEndingSlashNotAllowed;
@@ -164,19 +168,6 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
     }
 
     @Override
-    public boolean acceptsTarget(@NotNull PsiElement target) {
-        return target instanceof PsiFileSystemItem;
-    }
-
-    protected boolean isPsiElementAccepted(PsiElement element) {
-        return !(element instanceof PsiCompiledElement);
-    }
-
-    protected FileReference createFileReference(FileReferenceSet referenceSet, final TextRange range, final int index, final String text) {
-        return new FileReference(referenceSet, range, index, text);
-    }
-
-    @Override
     @NotNull
     public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull final ProcessingContext context) {
         String text = null;
@@ -193,5 +184,18 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
             return PsiReference.EMPTY_ARRAY;
         }
         return getReferencesByElement(element, text, 1, true);
+    }
+
+    @Override
+    public boolean acceptsTarget(@NotNull PsiElement target) {
+        return target instanceof PsiFileSystemItem;
+    }
+
+    protected boolean isPsiElementAccepted(PsiElement element) {
+        return !(element instanceof PsiCompiledElement);
+    }
+
+    protected FileReference createFileReference(FileReferenceSet referenceSet, final TextRange range, final int index, final String text) {
+        return new FileReference(referenceSet, range, index, text);
     }
 }

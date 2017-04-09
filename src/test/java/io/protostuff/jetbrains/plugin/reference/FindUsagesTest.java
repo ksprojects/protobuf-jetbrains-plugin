@@ -2,10 +2,11 @@ package io.protostuff.jetbrains.plugin.reference;
 
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import com.intellij.usageView.UsageInfo;
-
 import java.util.Collection;
 
 /**
+ * Tests for "find usages" feature.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 @SuppressWarnings("ConstantConditions")

@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Reference to a user type - message or enum.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class TypeReference extends PsiReferenceBase<PsiElement> {
@@ -23,7 +25,7 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
         key = element.getText();
     }
 
-    public static DataType resolveInScope(PsiElement scopeElement, TypeReference ref) {
+    private static DataType resolveInScope(PsiElement scopeElement, TypeReference ref) {
         PsiElement element = scopeElement;
         while (element != null && !(element instanceof DataTypeContainer)) {
             element = element.getParent();
@@ -41,10 +43,12 @@ public class TypeReference extends PsiReferenceBase<PsiElement> {
         return proto.resolve(ref.key, scopeLookupList);
     }
 
-    // Type name resolution in the protocol buffer language works like C++: first
-    // the innermost scope is searched, then the next-innermost, and so on, with
-    // each package considered to be "inner" to its parent package.
-    public static Deque<String> createScopeLookupList(DataTypeContainer container) {
+    /**
+     * Type name resolution in the protocol buffer language works like C++: first
+     * the innermost scope is searched, then the next-innermost, and so on, with
+     * each package considered to be "inner" to its parent package.
+     */
+    private static Deque<String> createScopeLookupList(DataTypeContainer container) {
         String namespace = container.getNamespace();
         Deque<String> scopeLookupList = new ArrayDeque<>();
         int end = 0;

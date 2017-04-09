@@ -12,20 +12,29 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * PSI utilities.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class Util {
 
     private Util() {
+        throw new IllegalAccessError("Utility class");
     }
 
 
+    /**
+     * Get all children nodes for given element.
+     */
     public static Collection<PsiElement> findChildren(ASTNode parent, IElementType elementType) {
         ASTNode message = parent.findChildByType(elementType);
         PsiElement psiElement = (PsiElement) message;
         return Collections.singleton(psiElement);
     }
 
+    /**
+     * Find all elements for given node that are keywords.
+     */
     public static Collection<PsiElement> findKeywords(ASTNode parent) {
         ASTNode[] keywords = parent.getChildren(ProtoParserDefinition.KEYWORDS);
         List<PsiElement> result = new ArrayList<>(keywords.length);
@@ -35,7 +44,9 @@ public class Util {
         return result;
     }
 
-    @SuppressWarnings("Guava")
+    /**
+     * Check given element recursively for syntax errors.
+     */
     public static boolean checkForSyntaxErrors(PsiElement element) {
         final boolean[] hasErrors = {false};
         PsiRecursiveElementVisitor visitor = new PsiRecursiveElementVisitor() {
@@ -48,6 +59,10 @@ public class Util {
         return hasErrors[0];
     }
 
+    /**
+     * Parse node text as integer number.
+     * Returns 0 if node text is not a number.
+     */
     public static int decodeIntegerFromText(ASTNode node) {
         try {
             if (node != null) {
@@ -60,6 +75,10 @@ public class Util {
         return 0;
     }
 
+    /**
+     * Parse node text as integer number.
+     * Returns 0 if node text is not a number.
+     */
     public static int decodeIntegerFromText(PsiElement node) {
         try {
             if (node != null) {

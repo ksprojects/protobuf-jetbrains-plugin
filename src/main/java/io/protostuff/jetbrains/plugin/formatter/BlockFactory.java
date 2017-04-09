@@ -65,16 +65,19 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Formatter's block factory.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 class BlockFactory {
 
-    static final Map<IElementType, Factory> registry = new HashMap<>();
+    static final Map<IElementType, Factory> REGISTRY = new HashMap<>();
+
+    private static final Factory FAIL_ROOT_NODE = (node, alignment, indent, settings) -> {
+        throw new IllegalStateException("Root node cannot be handled here");
+    };
 
     static {
-        Factory FAIL_ROOT_NODE = (node, alignment, indent, settings) -> {
-            throw new IllegalStateException("Root node cannot be handled here");
-        };
         register(rule(RULE_proto), FAIL_ROOT_NODE);
         register(rule(RULE_packageName), LeafBlock::new);
         register(rule(RULE_rpcType), LeafBlock::new);
@@ -131,14 +134,14 @@ class BlockFactory {
     }
 
     private static void register(IElementType elementType, Factory factory) {
-        if (registry.containsKey(elementType)) {
+        if (REGISTRY.containsKey(elementType)) {
             throw new IllegalStateException("Already registered: " + elementType);
         }
-        registry.put(elementType, factory);
+        REGISTRY.put(elementType, factory);
     }
 
     static Block createBlock(ASTNode node, Alignment alignment, Indent indent, CodeStyleSettings settings) {
-        Factory factory = registry.get(node.getElementType());
+        Factory factory = REGISTRY.get(node.getElementType());
         if (factory == null) {
             // If element type is unknown it is best to keep existing formatting
             return createLeaf(node, alignment, indent, settings);

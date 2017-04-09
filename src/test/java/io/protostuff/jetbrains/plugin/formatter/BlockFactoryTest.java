@@ -4,21 +4,22 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.intellij.psi.tree.IElementType;
 import io.protostuff.compiler.parser.ProtoParser;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
+ * {@link BlockFactory} tests.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class BlockFactoryTest {
 
     @Test
     public void allParserRulesAreRegistered() throws Exception {
-        Map<IElementType, BlockFactory.Factory> registry = BlockFactory.registry;
+        Map<IElementType, BlockFactory.Factory> registry = BlockFactory.REGISTRY;
 
         Set<String> allRules = ImmutableSet.copyOf(ProtoParser.ruleNames);
 

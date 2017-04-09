@@ -13,6 +13,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Range node for reserved field range node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class RangeNode extends AntlrPsiNode implements KeywordsContainer {
@@ -21,11 +23,17 @@ public class RangeNode extends AntlrPsiNode implements KeywordsContainer {
         super(node);
     }
 
+    /**
+     * Returns range start value.
+     */
     public int getFromValue() {
         PsiElement node = findChildByType(rule(RULE_rangeFrom));
         return Util.decodeIntegerFromText(node);
     }
 
+    /**
+     * Returns range end value.
+     */
     public int getToValue() {
         PsiElement to = findChildByType(rule(RULE_rangeTo));
         PsiElement max = findChildByType(token(ProtoLexer.MAX));
@@ -38,6 +46,9 @@ public class RangeNode extends AntlrPsiNode implements KeywordsContainer {
         return getFromValue();
     }
 
+    /**
+     * Check if given tag is in range of this range node.
+     */
     public boolean contains(int tag) {
         int fromValue = getFromValue();
         int toValue = getToValue();

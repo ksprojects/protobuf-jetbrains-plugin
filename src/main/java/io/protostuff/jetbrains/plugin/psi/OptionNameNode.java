@@ -8,6 +8,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Option name node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class OptionNameNode extends AntlrPsiNode implements KeywordsContainer {

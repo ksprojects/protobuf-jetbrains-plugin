@@ -9,6 +9,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Package statement node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class PackageStatement extends AntlrPsiNode implements KeywordsContainer {
@@ -17,6 +19,9 @@ public class PackageStatement extends AntlrPsiNode implements KeywordsContainer 
         super(node);
     }
 
+    /**
+     * Returns package name.
+     */
     public String getPackageName() {
         PsiElement element = findChildByType(rule(ProtoParser.RULE_packageName));
         if (element != null) {

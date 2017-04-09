@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * User-defined proto type: message, enum or service
+ * User-defined proto type: message, enum or service.
  *
  * @author Kostiantyn Shchepanovskyi
  */

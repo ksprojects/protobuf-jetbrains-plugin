@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Rpc method node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class RpcMethodNode extends IdentifierDefSubtree implements KeywordsContainer {
@@ -17,6 +19,9 @@ public class RpcMethodNode extends IdentifierDefSubtree implements KeywordsConta
         super(node, rule(RULE_rpcName));
     }
 
+    /**
+     * Returns method name.
+     */
     @NotNull
     public String getMethodName() {
         ASTNode nameNode = getMethodNameNode();

@@ -5,6 +5,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
+ * Basic icon tests.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class IconsTest {

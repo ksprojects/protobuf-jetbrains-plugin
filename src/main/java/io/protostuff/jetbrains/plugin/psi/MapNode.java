@@ -9,6 +9,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Map node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class MapNode extends AntlrPsiNode

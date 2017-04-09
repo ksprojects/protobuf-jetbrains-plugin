@@ -5,6 +5,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Extensions element node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ExtensionsNode extends AntlrPsiNode implements KeywordsContainer {

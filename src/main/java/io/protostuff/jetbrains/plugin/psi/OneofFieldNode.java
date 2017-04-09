@@ -16,6 +16,8 @@ import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * One-of field node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class OneofFieldNode extends IdentifierDefSubtree implements KeywordsContainer, MessageField {

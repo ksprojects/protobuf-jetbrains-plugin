@@ -29,14 +29,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Errors annotator.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoErrorsAnnotator implements Annotator {
 
-    private final int MIN_TAG = 1;
-    private final int MAX_TAG = Field.MAX_TAG_VALUE;
-    private final int SYS_RESERVED_START = 19000;
-    private final int SYS_RESERVED_END = 19999;
+    private static final int MIN_TAG = 1;
+    private static final int MAX_TAG = Field.MAX_TAG_VALUE;
+    private static final int SYS_RESERVED_START = 19000;
+    private static final int SYS_RESERVED_END = 19999;
 
     private AnnotationHolder holder;
 

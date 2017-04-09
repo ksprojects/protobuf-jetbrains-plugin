@@ -6,6 +6,8 @@ import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Message node presentation provider.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class MessagePresentationProvider extends AbstractPresentationProvider<MessageNode> {

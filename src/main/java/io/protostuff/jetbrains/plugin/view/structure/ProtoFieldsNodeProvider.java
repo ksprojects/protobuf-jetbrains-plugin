@@ -20,6 +20,8 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Field nodes provider for Structure View.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 final class ProtoFieldsNodeProvider implements FileStructureNodeProvider<TreeElement>, ActionShortcutProvider {

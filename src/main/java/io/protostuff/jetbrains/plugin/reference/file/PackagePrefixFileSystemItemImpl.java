@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.protostuff.jetbrains.plugin.reference.file;
 
 import com.intellij.lang.ASTNode;
@@ -42,6 +43,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Copied from IntelliJ IDEA source code.
+ *
  * @author Gregory.Shrago
  */
 class PackagePrefixFileSystemItemImpl extends PsiElementBase implements PsiFileSystemItem, PackagePrefixFileSystemItem {

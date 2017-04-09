@@ -1,6 +1,5 @@
 package io.protostuff.jetbrains.plugin.settings;
 
-
 import com.google.common.collect.Lists;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
@@ -15,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Plugin settings form.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 @SuppressWarnings("WeakerAccess")
@@ -29,6 +30,9 @@ public class SettingsForm {
     private JButton removeButton;
     private JLabel includePathsLabel;
 
+    /**
+     * Create new {@link SettingsForm} instance.
+     */
     @SuppressWarnings("unchecked")
     public SettingsForm(Project project, ProtobufSettings settings) {
         this.project = project;
@@ -56,6 +60,9 @@ public class SettingsForm {
         return panel;
     }
 
+    /**
+     * Returns a copy of settings contained in the form.
+     */
     public ProtobufSettings getSettings() {
         ProtobufSettings settings = new ProtobufSettings();
         settings.setIncludePaths(Lists.newArrayList(includePathListList));

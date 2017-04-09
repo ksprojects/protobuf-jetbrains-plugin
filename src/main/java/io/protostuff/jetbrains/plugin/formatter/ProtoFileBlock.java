@@ -24,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Proto file block for formatter.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 class ProtoFileBlock extends AbstractBlock {

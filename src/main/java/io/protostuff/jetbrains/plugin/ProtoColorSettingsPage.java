@@ -1,5 +1,6 @@
 package io.protostuff.jetbrains.plugin;
 
+import com.google.common.base.Joiner;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
@@ -11,6 +12,9 @@ import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Color settings page.
+ */
 public class ProtoColorSettingsPage implements ColorSettingsPage {
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Keyword", ProtoSyntaxHighlighter.KEYWORD),
@@ -24,10 +28,13 @@ public class ProtoColorSettingsPage implements ColorSettingsPage {
     private Map<String, TextAttributesKey> additionalTags;
 
     public ProtoColorSettingsPage() {
+        initAdditionalTags();
+    }
+
+    private void initAdditionalTags() {
         additionalTags = new HashMap<>();
         additionalTags.put("keyword", ProtoSyntaxHighlighter.KEYWORD);
         additionalTags.put("constant", ProtoSyntaxHighlighter.ENUM_CONSTANT);
-
     }
 
     @Nullable
@@ -51,15 +58,18 @@ public class ProtoColorSettingsPage implements ColorSettingsPage {
     @NotNull
     @Override
     public String getDemoText() {
-        return
-                "/* block comment */\n" +
-                        "<keyword>message</keyword> Foo {\n" +
-                        "   // line comment\n" +
-                        "   <keyword>optional</keyword> <keyword>int32</keyword> x = 1;\n\n" +
-                        "   <keyword>enum</keyword> Bar {\n" +
-                        "       <constant>CONSTANT</constant> = 0 [baz = \"daf\"];\n" +
-                        "   }\n" +
-                        "}\n";
+        return Joiner.on('\n').join(
+                "/* block comment */",
+                "<keyword>message</keyword> Foo {",
+                "   // line comment",
+                "   <keyword>optional</keyword> <keyword>int32</keyword> x = 1;",
+                "",
+                "   <keyword>enum</keyword> Bar {",
+                "       <constant>CONSTANT</constant> = 0 [baz = \"daf\"];",
+                "   }",
+                "}",
+                ""
+        );
     }
 
     @NotNull

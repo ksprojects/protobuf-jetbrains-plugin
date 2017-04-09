@@ -5,6 +5,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Option entry node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class OptionEntryNode extends AntlrPsiNode implements KeywordsContainer {
@@ -13,6 +15,9 @@ public class OptionEntryNode extends AntlrPsiNode implements KeywordsContainer {
         super(node);
     }
 
+    /**
+     * Returns option name text.
+     */
     @NotNull
     public String getOptionNameText() {
         OptionNode node = findChildByClass(OptionNode.class);
@@ -22,6 +27,9 @@ public class OptionEntryNode extends AntlrPsiNode implements KeywordsContainer {
         return "";
     }
 
+    /**
+     * Returns option value text.
+     */
     @NotNull
     public String getOptionValueText() {
         OptionNode node = findChildByClass(OptionNode.class);

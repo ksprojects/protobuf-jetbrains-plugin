@@ -15,10 +15,6 @@ import com.intellij.util.ThrowableRunnable;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.ProtoType;
 import io.protostuff.jetbrains.plugin.settings.ProtobufSettings;
-import org.jetbrains.annotations.NotNull;
-import org.junit.Assert;
-
-import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -28,6 +24,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import javax.swing.SwingUtilities;
+import org.jetbrains.annotations.NotNull;
+import org.junit.Assert;
 
 /**
  * "Go To Class" tests topic is not covered in plugin development documentation.

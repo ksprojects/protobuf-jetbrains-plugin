@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Proto root node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, DataTypeContainer {
@@ -32,10 +34,16 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
     }
 
 
+    /**
+     * Resolve data type using given scope lookup list.
+     */
     public DataType resolve(String typeName, Deque<String> scopeLookupList) {
         return resolve(typeName, scopeLookupList, true);
     }
 
+    /**
+     * Resolve data type using given scope lookup list.
+     */
     public DataType resolve(String typeName, Deque<String> scopeLookupList, boolean resolveInImports) {
         DataType result = null;
         // A leading '.' (for example, .foo.bar.Baz) means to start from the outermost scope
@@ -61,8 +69,8 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
         for (ImportNode importNode : importNodes) {
             ProtoRootNode targetProto = importNode.getTargetProto();
             if (targetProto != null) {
-                boolean aPublic = importNode.isPublic();
-                result = targetProto.resolve(typeName, scopeLookupList, aPublic);
+                boolean isPublic = importNode.isPublic();
+                result = targetProto.resolve(typeName, scopeLookupList, isPublic);
                 if (result != null) {
                     return result;
                 }
@@ -72,7 +80,7 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
         return null;
     }
 
-    public DataType resolveByQualifiedName(String qualifiedName) {
+    private DataType resolveByQualifiedName(String qualifiedName) {
         String prefix = getCurrentProtoPrefix();
         if (qualifiedName.startsWith(prefix)) {
             return resolveRecursive(this, qualifiedName);
@@ -89,7 +97,7 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
         return "." + getPackageName() + ".";
     }
 
-    public DataType resolveRecursive(DataTypeContainer container, String targetName) {
+    private DataType resolveRecursive(DataTypeContainer container, String targetName) {
         Collection<DataType> childrenTypes = container.getDeclaredDataTypes();
         for (DataType type : childrenTypes) {
             String qualifiedName = type.getQualifiedName();

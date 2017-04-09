@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Loader for files bundled together with plugin.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public interface BundledFileProvider {

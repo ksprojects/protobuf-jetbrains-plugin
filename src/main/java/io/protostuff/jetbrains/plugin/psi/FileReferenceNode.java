@@ -17,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * File reference node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class FileReferenceNode extends AntlrPsiNode {
@@ -47,6 +49,9 @@ public class FileReferenceNode extends AntlrPsiNode {
         return referenceProvider.getReferencesByElement(this, filename, 1, true, modules);
     }
 
+    /**
+     * Returns target proto PSI file root node.
+     */
     @Nullable
     public ProtoPsiFileRoot getTarget() {
         String filename = getFilename();
@@ -71,7 +76,7 @@ public class FileReferenceNode extends AntlrPsiNode {
         return null;
     }
 
-    public ProtoPsiFileRoot getTarget(@NotNull String filename, @NotNull Module module) {
+    private ProtoPsiFileRoot getTarget(@NotNull String filename, @NotNull Module module) {
         Collection<PsiFileSystemItem> roots = FilePathReferenceProvider.getRoots(module);
         for (PsiFileSystemItem root : roots) {
             VirtualFile file = root.getVirtualFile().findFileByRelativePath(getFilename());

@@ -1,17 +1,17 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.vfs.newvfs.impl.VfsRootAccess;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
-
 import java.util.function.Consumer;
 
 /**
+ * Formatter tests.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class FormatterTest extends LightCodeInsightFixtureTestCase {
@@ -22,7 +22,8 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
     }
 
     private void run(String test) {
-       run(test, commonCodeStyleSettings -> {});
+        run(test, commonCodeStyleSettings -> {
+        });
     }
 
     private void run(String test, Consumer<CommonCodeStyleSettings> settings) {
@@ -40,14 +41,14 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
     }
 
     public void testDefaultFormatter() {
-       run("default");
+        run("default");
     }
 
     public void testTab() {
-       run("use_tab", settings -> {
-           CommonCodeStyleSettings.IndentOptions indentOptions = settings.initIndentOptions();
-           indentOptions.USE_TAB_CHARACTER = true;
-       });
+        run("use_tab", settings -> {
+            CommonCodeStyleSettings.IndentOptions indentOptions = settings.initIndentOptions();
+            indentOptions.USE_TAB_CHARACTER = true;
+        });
     }
 
     public void testCustomIndent() {

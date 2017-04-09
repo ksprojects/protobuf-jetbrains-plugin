@@ -32,6 +32,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Option reference - referencing a field (or multiple fields) for
+ * complex custom options.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class OptionReference extends PsiReferenceBase<PsiElement> {

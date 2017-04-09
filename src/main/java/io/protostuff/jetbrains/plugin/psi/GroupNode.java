@@ -11,6 +11,8 @@ import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Group node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class GroupNode extends AntlrPsiNode implements KeywordsContainer {

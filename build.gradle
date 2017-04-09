@@ -5,7 +5,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'org.ksprojects:java-code-style:1.1'
+        classpath 'org.ksprojects:java-code-style:1.2'
     }
 }
 

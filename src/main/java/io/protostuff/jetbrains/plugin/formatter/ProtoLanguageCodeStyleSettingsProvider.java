@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Code style setting provider.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
@@ -28,18 +30,6 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
         switch (settingsType) {
-//            case SPACING_SETTINGS:
-//                consumer.showStandardOptions("SPACE_AROUND_ASSIGNMENT_OPERATORS");
-//                consumer.showStandardOptions("SPACE_SPACE_BEFORE_SEMICOLON");
-//                consumer.renameStandardOption("SPACE_AROUND_ASSIGNMENT_OPERATORS", "Space around assignment operator");
-//                break;
-//            case WRAPPING_AND_BRACES_SETTINGS:
-//                consumer.showStandardOptions("KEEP_LINE_BREAKS");
-//                consumer.showStandardOptions("BRACE_STYLE");
-//                break;
-//            case BLANK_LINES_SETTINGS:
-//                consumer.showStandardOptions("KEEP_BLANK_LINES_IN_CODE");
-//                break;
             default:
                 break;
         }

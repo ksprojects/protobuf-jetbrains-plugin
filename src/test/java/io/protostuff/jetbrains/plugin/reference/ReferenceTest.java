@@ -7,6 +7,8 @@ import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import org.junit.Assert;
 
 /**
+ * Tests for resolving type references.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 @SuppressWarnings("ConstantConditions")

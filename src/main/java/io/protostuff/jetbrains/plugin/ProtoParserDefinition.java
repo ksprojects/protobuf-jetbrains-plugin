@@ -62,6 +62,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Parser definition for Protobuf.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoParserDefinition implements ParserDefinition {
@@ -223,6 +225,9 @@ public class ProtoParserDefinition implements ParserDefinition {
     private static final TokenSet STRING = ELEMENT_FACTORY.createTokenSet(STRING_VALUE);
     private final Map<Integer, Function<ASTNode, AntlrPsiNode>> elementFactories = new HashMap<>();
 
+    /**
+     * Create new parser definition.
+     */
     public ProtoParserDefinition() {
         register(ProtoParser.RULE_syntax, SyntaxNode::new);
         register(ProtoParser.RULE_packageStatement, PackageStatement::new);
@@ -288,7 +293,7 @@ public class ProtoParserDefinition implements ParserDefinition {
                 }
                 // let's hope it's an ID as needed by "rename function"
                 throw new UnsupportedOperationException();
-//                return ((ProtoParser) parser).name();
+                // return ((ProtoParser) parser).name();
             }
         };
     }

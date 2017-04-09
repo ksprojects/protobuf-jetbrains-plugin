@@ -20,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Loader for files bundled together with plugin.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class BundledFileProviderImpl implements BundledFileProvider, ProjectComponent {
@@ -140,9 +142,9 @@ public class BundledFileProviderImpl implements BundledFileProvider, ProjectComp
                 return false;
             }
             ResourceId that = (ResourceId) o;
-            return Objects.equals(resource, that.resource) &&
-                    Objects.equals(language, that.language) &&
-                    Objects.equals(displayName, that.displayName);
+            return Objects.equals(resource, that.resource)
+                    && Objects.equals(language, that.language)
+                    && Objects.equals(displayName, that.displayName);
         }
 
         @Override

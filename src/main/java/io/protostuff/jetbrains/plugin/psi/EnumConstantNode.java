@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Enum constant node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class EnumConstantNode
@@ -31,6 +33,9 @@ public class EnumConstantNode
         return null;
     }
 
+    /**
+     * Get enum constant name.
+     */
     public String getConstantName() {
         ASTNode nameNode = getConstantNameNode();
         if (nameNode != null) {

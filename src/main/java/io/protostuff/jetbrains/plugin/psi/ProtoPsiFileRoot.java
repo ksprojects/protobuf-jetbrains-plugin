@@ -20,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Proto file PSI root node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoPsiFileRoot extends PsiFileBase implements ScopeNode {
@@ -85,6 +87,9 @@ public class ProtoPsiFileRoot extends PsiFileBase implements ScopeNode {
         }
     }
 
+    /**
+     * Returns package name for this proto file.
+     */
     @NotNull
     public String getPackageName() {
         ProtoRootNode root = findChildByClass(ProtoRootNode.class);
@@ -94,6 +99,9 @@ public class ProtoPsiFileRoot extends PsiFileBase implements ScopeNode {
         return "";
     }
 
+    /**
+     * Find type by it's name.
+     */
     @Nullable
     public ProtoType findType(String fullName) {
         Collection<ProtoType> all = getAllTypes();

@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Import node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ImportNode extends AntlrPsiNode implements KeywordsContainer {
@@ -16,6 +18,9 @@ public class ImportNode extends AntlrPsiNode implements KeywordsContainer {
         super(node);
     }
 
+    /**
+     * Returns imported proto PSI file root.
+     */
     @Nullable
     public ProtoPsiFileRoot getTarget() {
         FileReferenceNode fileReference = findChildByClass(FileReferenceNode.class);
@@ -25,6 +30,9 @@ public class ImportNode extends AntlrPsiNode implements KeywordsContainer {
         return null;
     }
 
+    /**
+     * Returns imported proto root node.
+     */
     @Nullable
     public ProtoRootNode getTargetProto() {
         ProtoPsiFileRoot fileRoot = getTarget();

@@ -4,6 +4,8 @@ import com.intellij.psi.PsiElement;
 import java.util.Collection;
 
 /**
+ * Node that can contain keywords.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public interface KeywordsContainer extends PsiElement {

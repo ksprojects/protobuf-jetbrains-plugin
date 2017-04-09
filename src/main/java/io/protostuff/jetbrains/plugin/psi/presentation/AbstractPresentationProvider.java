@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Base class for presentation providers.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public abstract class AbstractPresentationProvider<T extends PsiElement & NavigationItem>

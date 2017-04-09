@@ -31,6 +31,9 @@ public class ProtobufSettings implements PersistentStateComponent<ProtobufSettin
         this.includePaths = new ArrayList<>(includePaths);
     }
 
+    /**
+     * Get a list of {@link VirtualFile} for include paths.
+     */
     @NotNull
     public List<VirtualFile> getIncludePathsVf() {
         List<VirtualFile> result = new ArrayList<>();

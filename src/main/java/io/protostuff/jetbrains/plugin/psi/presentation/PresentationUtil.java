@@ -10,10 +10,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Utility functions for working with item presentation.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class PresentationUtil {
 
+    /**
+     * Returns presentation name for given element.
+     */
     @Nullable
     public static String getNameForElement(PsiElement element) {
         if (element instanceof PsiNamedElement) {

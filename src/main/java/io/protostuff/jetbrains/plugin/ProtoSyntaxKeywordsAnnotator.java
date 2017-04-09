@@ -13,6 +13,8 @@ import io.protostuff.jetbrains.plugin.psi.KeywordsContainer;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Keywords annotator.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoSyntaxKeywordsAnnotator implements Annotator {

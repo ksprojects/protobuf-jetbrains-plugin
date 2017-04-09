@@ -10,6 +10,8 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Enum node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class EnumNode
@@ -32,6 +34,9 @@ public class EnumNode
         return Arrays.asList(nodes);
     }
 
+    /**
+     * Check if this enum allows aliases (option "allow_alias" should be set).
+     */
     public boolean allowAlias() {
         OptionEntryNode[] options = findChildrenByClass(OptionEntryNode.class);
         for (OptionEntryNode optionEntry : options) {

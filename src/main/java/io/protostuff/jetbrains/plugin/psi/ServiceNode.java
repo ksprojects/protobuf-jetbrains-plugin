@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Service node.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class ServiceNode
