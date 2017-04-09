@@ -30,6 +30,6 @@ public class FieldReferenceNode extends AntlrPsiNode implements KeywordsContaine
     @Override
     public PsiReference[] getReferences() {
         FieldReferenceProvider referenceProvider = getProject().getComponent(FieldReferenceProvider.class);
-        return referenceProvider.getReferencesByElement(this, getText());
+        return referenceProvider.getReferencesByElement(this);
     }
 }

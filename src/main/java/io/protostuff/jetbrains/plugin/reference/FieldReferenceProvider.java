@@ -1,7 +1,8 @@
 package io.protostuff.jetbrains.plugin.reference;
 
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
+import io.protostuff.jetbrains.plugin.psi.FieldReferenceNode;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Field reference provider used for resolving option references.
@@ -13,5 +14,6 @@ public interface FieldReferenceProvider {
     /**
      * Returns an array of field references for given element and option text.
      */
-    PsiReference[] getReferencesByElement(PsiElement element, String text);
+    @NotNull
+    PsiReference[] getReferencesByElement(FieldReferenceNode fieldReferenceNode);
 }

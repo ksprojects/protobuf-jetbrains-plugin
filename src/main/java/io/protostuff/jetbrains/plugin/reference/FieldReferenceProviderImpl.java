@@ -8,6 +8,7 @@ import static io.protostuff.compiler.model.ProtobufConstants.MSG_MESSAGE_OPTIONS
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_METHOD_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_SERVICE_OPTIONS;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -16,22 +17,28 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
+import io.protostuff.jetbrains.plugin.psi.AbstractFieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.DataTypeContainer;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.ExtendNode;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
+import io.protostuff.jetbrains.plugin.psi.FieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
+import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
 import io.protostuff.jetbrains.plugin.resources.BundledFileProvider;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
@@ -62,12 +69,57 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         this.project = project;
     }
 
+    @NotNull
     @Override
-    public PsiReference[] getReferencesByElement(PsiElement element, String text) {
-        PsiElement target = resolve(element, text);
-        return new PsiReference[]{
-                new OptionReference(element, new TextRange(0, text.length()), target)
-        };
+    public PsiReference[] getReferencesByElement(FieldReferenceNode fieldReference) {
+        String text = fieldReference.getText();
+        if (Strings.isNullOrEmpty(text)) {
+            return new PsiReference[0];
+        }
+        String targetType = getTarget(fieldReference);
+        MessageNode message = resolveType(fieldReference, targetType);
+        if (message == null) {
+            LOGGER.error("Could not resolve " + targetType);
+            return new PsiReference[0];
+        }
+        List<AbstractFieldReferenceNode> components = new ArrayList<>();
+        for (PsiElement element : fieldReference.getChildren()) {
+            if (element instanceof AbstractFieldReferenceNode) {
+                components.add((AbstractFieldReferenceNode) element);
+            }
+        }
+        List<PsiReference> result = new ArrayList<>();
+        for (AbstractFieldReferenceNode fieldRef : components) {
+            String key = fieldRef.getText();
+            MessageField targetField = null;
+            if (message != null) {
+                if (fieldRef.isExtension()) {
+                    targetField = resolveCustomOptionReference(fieldReference, message, key);
+                } else {
+                    targetField = resolveStandardOptionReference(fieldReference, message, key);
+                }
+                message = null;
+                if (targetField != null) {
+                    TypeReferenceNode fieldTypeRef = targetField.getFieldType();
+                    PsiElement fieldType = fieldTypeRef.getReference().resolve();
+                    if (fieldType instanceof MessageNode) {
+                        message = (MessageNode) fieldType;
+                    }
+                }
+            }
+            TextRange textRange = getTextRange(fieldReference, fieldRef);
+            result.add(new OptionReference(fieldReference, textRange, targetField));
+        }
+        Collections.reverse(result);
+        return result.toArray(new PsiReference[0]);
+    }
+
+    @NotNull
+    private TextRange getTextRange(FieldReferenceNode sourceReference, AbstractFieldReferenceNode subReference) {
+        int baseOffset = sourceReference.getTextOffset();
+        int startOffset = subReference.getTextOffset();
+        int length = subReference.getTextLength();
+        return new TextRange(startOffset - baseOffset, startOffset - baseOffset + length);
     }
 
     private final Project project;
@@ -84,27 +136,6 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         return null;
     }
 
-    /**
-     * Resolve target PsiElement for given key.
-     */
-    @Nullable
-    public PsiElement resolve(PsiElement element, String key) {
-        if (key == null || key.isEmpty()) {
-            return null;
-        }
-        String targetType = getTarget(element);
-        MessageNode message = resolveType(element, targetType);
-        if (message == null) {
-            LOGGER.error("Could not resolve " + targetType);
-            return null;
-        }
-        if (key.startsWith("(")) {
-            return resolveCustomOptionReference(element, message, key);
-        } else {
-            return resolveStandardOptionReference(element, message, key);
-        }
-    }
-
     private ProtoPsiFileRoot getProtoRoot(PsiElement element) {
         PsiElement parent = element.getParent();
         while (!(parent instanceof ProtoPsiFileRoot)) {
@@ -113,7 +144,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         return (ProtoPsiFileRoot) parent;
     }
 
-    private PsiElement resolveStandardOptionReference(PsiElement sourceElement, MessageNode target, String key) {
+    private MessageField resolveStandardOptionReference(PsiElement sourceElement, MessageNode target, String key) {
         if (MSG_FIELD_OPTIONS.equals(target.getQualifiedName())
                 && DEFAULT.equals(key)) {
             return resolveDefaultOptionReference(sourceElement);
@@ -135,10 +166,10 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
      * In order to implement value validation, we have to return the
      * field where this option was applied.
      */
-    private PsiElement resolveDefaultOptionReference(PsiElement element) {
+    private MessageField resolveDefaultOptionReference(PsiElement element) {
         while (element != null) {
             if (element instanceof FieldNode) {
-                return element;
+                return (MessageField) element;
             }
             element = element.getParent();
         }
@@ -146,7 +177,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
     }
 
     @Nullable
-    private PsiElement resolveCustomOptionReference(PsiElement element, MessageNode target, String key) {
+    private FieldNode resolveCustomOptionReference(PsiElement element, MessageNode target, String key) {
         ProtoPsiFileRoot protoRoot = getProtoRoot(element);
         DataTypeContainer container = getContainer(element);
         Deque<String> scopeLookupList = TypeReference.createScopeLookupList(container);
@@ -160,12 +191,11 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
                 extensionFields.put(extension.getNamespace() + field.getFieldName(), field);
             }
         }
-        String ref = key.substring(1, key.length() - 1);
-        if (ref.startsWith(".")) {
-            return extensionFields.get(ref);
+        if (key.startsWith(".")) {
+            return extensionFields.get(key);
         } else {
             for (String scope : scopeLookupList) {
-                FieldNode field = extensionFields.get(scope + ref);
+                FieldNode field = extensionFields.get(scope + key);
                 if (field != null) {
                     return field;
                 }
@@ -185,10 +215,14 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
 
     private MessageNode resolveType(PsiElement element, String qualifiedName) {
         MessageNode message = resolveTypeFromCurrentFile(element, qualifiedName);
-//        if (message == null) {
-//            ProtoPsiFileRoot descriptorProto = (ProtoPsiFileRoot) getBundledDescriptorProto();
-//            return (MessageNode) descriptorProto.findType(qualifiedName.substring(1));
-//        }
+        // For standard options import is not required.
+        // This way they cannot be resolved in standard way, we have to check them
+        // separately using bundled descriptor.proto
+        // TODO: what if there is non-bundled descriptor.proto available in other location?
+        if (message == null) {
+            ProtoPsiFileRoot descriptorProto = (ProtoPsiFileRoot) getBundledDescriptorProto();
+            return (MessageNode) descriptorProto.findType(qualifiedName.substring(1));
+        }
         return message;
     }
 

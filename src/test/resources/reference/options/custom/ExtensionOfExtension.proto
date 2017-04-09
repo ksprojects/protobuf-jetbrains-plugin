@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package reference.options;
+
+import "google/protobuf/descriptor.proto";
+
+message Foo {
+
+}
+
+extend Foo {
+    optional int32 bar = 123;
+}
+
+extend google.protobuf.MessageOptions {
+    optional Foo foo = 126;
+}
+
+message A {
+    option (foo).(ba<caret>r) = 10;
+}

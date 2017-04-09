@@ -66,4 +66,9 @@ public class OneofFieldNode extends IdentifierDefSubtree implements KeywordsCont
         return node.findChildByType(R_TAG);
     }
 
+    @Override
+    public TypeReferenceNode getFieldType() {
+        return findChildByClass(TypeReferenceNode.class);
+    }
+
 }
