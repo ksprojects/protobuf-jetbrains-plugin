@@ -10,7 +10,9 @@ import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiReference;
 import io.protostuff.compiler.parser.Util;
+import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import io.protostuff.jetbrains.plugin.reference.file.FilePathReferenceProvider;
+import io.protostuff.jetbrains.plugin.resources.BundledFileProvider;
 import java.util.Collection;
 import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
@@ -87,6 +89,14 @@ public class FileReferenceNode extends AntlrPsiNode {
                     return (ProtoPsiFileRoot) psiFile;
                 }
             }
+        }
+        // Local lookup failed, check bundled resources
+        if (BundledFileProvider.DESCRIPTOR_PROTO_NAME.equals(filename)) {
+            BundledFileProvider bundledFileProvider = getProject().getComponent(BundledFileProvider.class);
+            PsiFile file = bundledFileProvider.getFile(BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE,
+                    ProtoLanguage.INSTANCE,
+                    BundledFileProvider.DESCRIPTOR_PROTO_NAME);
+            return (ProtoPsiFileRoot) file;
         }
         return null;
     }

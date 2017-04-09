@@ -51,6 +51,11 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
         return Arrays.asList(findChildrenByClass(DataType.class));
     }
 
+    @Override
+    public Collection<ExtendNode> getDeclaredExtensions() {
+        return Arrays.asList(findChildrenByClass(ExtendNode.class));
+    }
+
     /**
      * Returns all fields of this message.
      */

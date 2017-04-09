@@ -130,7 +130,13 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
         return Arrays.asList(findChildrenByClass(DataType.class));
     }
 
+    @Override
+    public Collection<ExtendNode> getDeclaredExtensions() {
+        return Arrays.asList(findChildrenByClass(ExtendNode.class));
+    }
+
     public Collection<ProtoType> getDeclaredTypes() {
         return Arrays.asList(findChildrenByClass(ProtoType.class));
     }
+
 }

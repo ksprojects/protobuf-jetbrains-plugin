@@ -67,6 +67,11 @@
             <implementation-class>io.protostuff.jetbrains.plugin.resources.BundledFileProviderImpl
             </implementation-class>
         </component>
+        <component>
+            <interface-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProvider</interface-class>
+            <implementation-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProviderImpl
+            </implementation-class>
+        </component>
     </project-components>
 
     <extensions defaultExtensionNs="com.intellij">
