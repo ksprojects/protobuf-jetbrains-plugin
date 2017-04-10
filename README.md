@@ -31,7 +31,4 @@ Requirements:
 
 ![image](https://github.com/protostuff/protostuff-jetbrains-plugin/wiki/sample-2016-04-11.png)
 
-### Links
-
-https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Links
 
