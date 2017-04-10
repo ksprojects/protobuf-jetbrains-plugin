@@ -28,7 +28,6 @@ import com.intellij.psi.PsiCompiledElement;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.PsiReferenceProvider;
@@ -171,15 +170,6 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
     @NotNull
     public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull final ProcessingContext context) {
         String text = null;
-        if (element instanceof PsiLiteralExpression) {
-            Object value = ((PsiLiteralExpression) element).getValue();
-            if (value instanceof String) {
-                text = (String) value;
-            }
-        }
-        //else if (element instanceof XmlAttributeValue) {
-        //  text = ((XmlAttributeValue)element).getValue();
-        //}
         if (text == null) {
             return PsiReference.EMPTY_ARRAY;
         }

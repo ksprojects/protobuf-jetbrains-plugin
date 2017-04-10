@@ -48,6 +48,9 @@ intellij {
     type = 'IC'
     updateSinceUntilBuild = false
     downloadSources = true
+    plugins = ['PsiViewer:3.28.93']
+//    localPath = '/home/kshchepanovskyi/.local/opt/WebStorm-171.3780.79/'
+//    instrumentCode = false
     publish {
         username = project.hasProperty('jetbrainsUser')    \
               ? project.property('jetbrainsUser')    \
