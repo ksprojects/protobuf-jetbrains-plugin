@@ -32,6 +32,35 @@ public class CustomOptionReferenceTest extends LightCodeInsightFixtureTestCase {
         Assert.assertTrue(field.getParent() instanceof ExtendEntryNode);
     }
 
+    public void testImportedCustomOptionReference() {
+        myFixture.configureByFile("reference/options/custom/SimpleExtensionField.proto");
+        PsiReference reference = myFixture.getReferenceAtCaretPositionWithAssertion(
+                "reference/options/custom/ImportedExtension.proto"
+        );
+        PsiElement target = reference.resolve();
+        Assert.assertNotNull(target);
+        Assert.assertTrue(target instanceof FieldNode);
+        FieldNode field = (FieldNode) target;
+        Assert.assertEquals("bar", field.getFieldName());
+        Assert.assertTrue(field.getParent() instanceof ExtendEntryNode);
+    }
+
+    public void testImportedImportedCustomOptionReference() {
+        myFixture.configureByFiles(
+                "reference/options/custom/SimpleExtensionField.proto",
+                "reference/options/custom/ImportedExtension.proto"
+        );
+        PsiReference reference = myFixture.getReferenceAtCaretPositionWithAssertion(
+                "reference/options/custom/ImportedImportedExtension.proto"
+        );
+        PsiElement target = reference.resolve();
+        Assert.assertNotNull(target);
+        Assert.assertTrue(target instanceof FieldNode);
+        FieldNode field = (FieldNode) target;
+        Assert.assertEquals("bar", field.getFieldName());
+        Assert.assertTrue(field.getParent() instanceof ExtendEntryNode);
+    }
+
     public void testExtensionIsMessage_PointToMessage() {
         PsiReference reference = myFixture.getReferenceAtCaretPositionWithAssertion(
                 "reference/options/custom/ExtensionIsMessage.proto"

@@ -136,12 +136,12 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         return null;
     }
 
-    private ProtoPsiFileRoot getProtoRoot(PsiElement element) {
+    private ProtoRootNode getProtoRoot(PsiElement element) {
         PsiElement parent = element.getParent();
-        while (!(parent instanceof ProtoPsiFileRoot)) {
+        while (!(parent instanceof ProtoRootNode)) {
             parent = parent.getParent();
         }
-        return (ProtoPsiFileRoot) parent;
+        return (ProtoRootNode) parent;
     }
 
     private MessageField resolveStandardOptionReference(PsiElement sourceElement, MessageNode target, String key) {
@@ -178,7 +178,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
 
     @Nullable
     private FieldNode resolveCustomOptionReference(PsiElement element, MessageNode target, String key) {
-        ProtoPsiFileRoot protoRoot = getProtoRoot(element);
+        ProtoRootNode protoRoot = getProtoRoot(element);
         DataTypeContainer container = getContainer(element);
         Deque<String> scopeLookupList = TypeReference.createScopeLookupList(container);
         // case 1: (.package.field)

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package reference.options.custom;
+
+import public "reference/options/custom/SimpleExtensionField.proto";
+
+message A {
+    option (ba<caret>r) = 10;
+}

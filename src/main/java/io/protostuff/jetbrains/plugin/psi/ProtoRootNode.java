@@ -1,10 +1,18 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiReference;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -65,7 +73,7 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
         if (!resolveInImports) {
             return null;
         }
-        ImportNode[] importNodes = findChildrenByClass(ImportNode.class);
+        List<ImportNode> importNodes = getImports();
         for (ImportNode importNode : importNodes) {
             ProtoRootNode targetProto = importNode.getTargetProto();
             if (targetProto != null) {
@@ -79,6 +87,25 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
         }
         return null;
     }
+
+    /**
+     * Get imports declared in this proto file.
+     */
+    @NotNull
+    public List<ImportNode> getImports() {
+        return Arrays.asList(findChildrenByClass(ImportNode.class));
+    }
+
+    /**
+     * Get public imports declared in this proto file.
+     */
+    @NotNull
+    public List<ImportNode> getPublicImports() {
+        return Arrays.stream(findChildrenByClass(ImportNode.class))
+                .filter(ImportNode::isPublic)
+                .collect(Collectors.toList());
+    }
+
 
     private DataType resolveByQualifiedName(String qualifiedName) {
         String prefix = getCurrentProtoPrefix();
@@ -139,4 +166,66 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
         return Arrays.asList(findChildrenByClass(ProtoType.class));
     }
 
+    /**
+     * Returns all extension for given target message.
+     */
+    public Collection<ExtendNode> getExtenstions(MessageNode target) {
+        return getExtensions().stream()
+                .filter(node -> {
+                    TypeReferenceNode extendTarget = node.getTarget();
+                    if (extendTarget == null) {
+                        return false;
+                    }
+                    PsiReference extendTargetReference = extendTarget.getReference();
+                    return extendTargetReference.isReferenceTo(target);
+                })
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns all extensions visible inside of this proto file.
+     */
+    public Collection<ExtendNode> getExtensions() {
+        List<ExtendNode> result = new ArrayList<>();
+        result.addAll(getLocalExtensions());
+        Queue<ImportNode> queue = new ArrayDeque<>();
+        queue.addAll(getImports());
+        Set<ProtoRootNode> processedProtos = new HashSet<>();
+        while (!queue.isEmpty()) {
+            ImportNode importNode = queue.poll();
+            ProtoRootNode targetProto = importNode.getTargetProto();
+            if (processedProtos.contains(targetProto)) {
+                // do not enter into endless loop
+                // if proto files refer to each other
+                continue;
+            }
+            processedProtos.add(targetProto);
+            if (targetProto != null) {
+                result.addAll(targetProto.getLocalExtensions());
+                queue.addAll(targetProto.getPublicImports());
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns local extensions declared in this proto file.
+     */
+    public Collection<ExtendNode> getLocalExtensions() {
+        List<ExtendNode> result = new ArrayList<>();
+        Deque<DataTypeContainer> queue = new ArrayDeque<>();
+        queue.push(this);
+        while (!queue.isEmpty()) {
+            DataTypeContainer container = queue.poll();
+            Collection<ExtendNode> extensions = container.getDeclaredExtensions();
+            result.addAll(extensions);
+            for (DataType dataType : container.getDeclaredDataTypes()) {
+                if (dataType instanceof DataTypeContainer) {
+                    DataTypeContainer childContainer = (DataTypeContainer) dataType;
+                    queue.push(childContainer);
+                }
+            }
+        }
+        return result;
+    }
 }
