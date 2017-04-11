@@ -112,4 +112,5 @@ public class FileReferenceNode extends AntlrPsiNode {
         }
         return Util.removeFirstAndLastChar(text);
     }
+
 }

@@ -139,6 +139,10 @@
         <gotoClassContributor
                 implementation="io.protostuff.jetbrains.plugin.GoToClassContributor"/>
 
+        <lang.elementManipulator
+            forClass="io.protostuff.jetbrains.plugin.psi.FileReferenceNode"
+            implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.FileReferenceNodeManipulator"/>
+
     </extensions>
 
     <actions>

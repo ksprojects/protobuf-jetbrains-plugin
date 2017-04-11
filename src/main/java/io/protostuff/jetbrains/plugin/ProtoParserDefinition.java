@@ -297,6 +297,12 @@ public class ProtoParserDefinition implements ParserDefinition {
                 if (root instanceof IFileElementType) {
                     return ((ProtoParser) parser).proto();
                 }
+                if (root instanceof RuleIElementType) {
+                    RuleIElementType type = (RuleIElementType) root;
+                    if (ProtoParserDefinition.rule(ProtoParser.RULE_fileReference).equals(type)) {
+                        return ((ProtoParser) parser).fileReference();
+                    }
+                }
                 // let's hope it's an ID as needed by "rename function"
                 throw new UnsupportedOperationException();
                 // return ((ProtoParser) parser).name();

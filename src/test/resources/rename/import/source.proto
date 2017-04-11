@@ -1,0 +1,5 @@
+syntax = "proto2";
+
+package rename.import;
+
+import "rename/import/impo<caret>rt.proto";

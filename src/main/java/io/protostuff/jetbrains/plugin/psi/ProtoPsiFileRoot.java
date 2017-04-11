@@ -1,5 +1,6 @@
 package io.protostuff.jetbrains.plugin.psi;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -76,7 +77,8 @@ public class ProtoPsiFileRoot extends PsiFileBase implements ScopeNode {
         return Collections.emptyList();
     }
 
-    private ProtoRootNode getProtoRoot() {
+    @VisibleForTesting
+    public ProtoRootNode getProtoRoot() {
         return findChildByClass(ProtoRootNode.class);
     }
 
