@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-import "ImportedTestData.proto";
+package reference;
+
+import "reference/ImportedTestData.proto";
 
 message TestMessage {
     Imported<caret>Message message = 1;

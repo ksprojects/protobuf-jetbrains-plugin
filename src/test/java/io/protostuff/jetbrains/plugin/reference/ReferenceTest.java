@@ -16,24 +16,24 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
 
     @Override
     protected String getTestDataPath() {
-        return "src/test/resources/reference";
+        return "src/test/resources";
     }
 
     public void testMessageReference() {
-        checkReferenceToDataType(".reference.MessageA", "MessageReferenceTestData.proto");
+        checkReferenceToDataType(".reference.MessageA", "reference/MessageReferenceTestData.proto");
     }
 
     public void testMessageReferenceWithoutPackage() {
-        checkReferenceToDataType(".MessageA", "MessageReferenceWithoutPackageTestData.proto");
+        checkReferenceToDataType(".MessageA", "reference/MessageReferenceWithoutPackageTestData.proto");
     }
 
     public void testEnumReference() {
-        checkReferenceToDataType(".reference.EnumA", "EnumReferenceTestData.proto");
+        checkReferenceToDataType(".reference.EnumA", "reference/EnumReferenceTestData.proto");
     }
 
     public void testImportedMessageReference() {
         // package is not set as files are copied to relative source root directly
-        checkReferenceToDataType(".ImportedMessage", "ImportedMessageReferenceTestData.proto", "ImportedTestData.proto");
+        checkReferenceToDataType(".reference.ImportedMessage", "reference/ImportedMessageReferenceTestData.proto", "reference/ImportedTestData.proto");
     }
 
     private void checkReferenceToDataType(String typeReference, String... file) {
