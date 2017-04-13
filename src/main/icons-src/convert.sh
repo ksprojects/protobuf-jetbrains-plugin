@@ -19,6 +19,7 @@ rm -rvf $dst
 mkdir $dst
 
 convertXcf 'proto'
+convertXcf 'proto_dark'
 convertXcf 'message'
 convertXcf 'enum'
 convertXcf 'service'
