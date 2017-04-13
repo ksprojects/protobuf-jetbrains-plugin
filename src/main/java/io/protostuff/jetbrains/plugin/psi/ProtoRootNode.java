@@ -1,17 +1,24 @@
 package io.protostuff.jetbrains.plugin.psi;
 
+import static io.protostuff.jetbrains.plugin.psi.ProtoRootNode.ResolveMode.RESOLVE_ALL;
+import static io.protostuff.jetbrains.plugin.psi.ProtoRootNode.ResolveMode.RESOLVE_FIRST;
+
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
@@ -46,13 +53,11 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
      * Resolve data type using given scope lookup list.
      */
     public DataType resolve(String typeName, Deque<String> scopeLookupList) {
-        return resolve(typeName, scopeLookupList, true);
+        Optional<DataType> result = resolveFirst(proto -> proto.resolveLocal(typeName, scopeLookupList));
+        return result.orElse(null);
     }
 
-    /**
-     * Resolve data type using given scope lookup list.
-     */
-    public DataType resolve(String typeName, Deque<String> scopeLookupList, boolean resolveInImports) {
+    private DataType resolveLocal(String typeName, Deque<String> scopeLookupList) {
         DataType result = null;
         // A leading '.' (for example, .foo.bar.Baz) means to start from the outermost scope
         if (typeName.startsWith(".")) {
@@ -67,25 +72,7 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
                 }
             }
         }
-        if (result != null) {
-            return result;
-        }
-        if (!resolveInImports) {
-            return null;
-        }
-        List<ImportNode> importNodes = getImports();
-        for (ImportNode importNode : importNodes) {
-            ProtoRootNode targetProto = importNode.getTargetProto();
-            if (targetProto != null) {
-                boolean isPublic = importNode.isPublic();
-                result = targetProto.resolve(typeName, scopeLookupList, isPublic);
-                if (result != null) {
-                    return result;
-                }
-
-            }
-        }
-        return null;
+        return result;
     }
 
     /**
@@ -186,8 +173,41 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
      * Returns all extensions visible inside of this proto file.
      */
     public Collection<ExtendNode> getExtensions() {
-        List<ExtendNode> result = new ArrayList<>();
-        result.addAll(getLocalExtensions());
+        return resolveAll(ProtoRootNode::getLocalExtensions);
+    }
+
+    enum ResolveMode {
+        RESOLVE_FIRST,
+        RESOLVE_ALL
+    }
+
+    @NotNull
+    private <T extends PsiElement> Optional<T> resolveFirst(Function<ProtoRootNode, T> extractor) {
+        Collection<T> elements = resolveElementsImpl(RESOLVE_FIRST, proto -> {
+            T result = extractor.apply(proto);
+            if (result == null) {
+                return Collections.emptyList();
+            }
+            return Collections.singletonList(result);
+        });
+        if (elements.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(elements.iterator().next());
+    }
+
+    @NotNull
+    private <T extends PsiElement> Collection<T> resolveAll(Function<ProtoRootNode, Collection<T>> extractor) {
+        return resolveElementsImpl(RESOLVE_ALL, extractor);
+    }
+
+    @NotNull
+    private <T extends PsiElement> Collection<T> resolveElementsImpl(ResolveMode mode, Function<ProtoRootNode, Collection<T>> extractor) {
+        List<T> result = new ArrayList<>();
+        result.addAll(extractor.apply(this));
+        if (stopLookup(mode, result)) {
+            return result;
+        }
         Queue<ImportNode> queue = new ArrayDeque<>();
         queue.addAll(getImports());
         Set<ProtoRootNode> processedProtos = new HashSet<>();
@@ -201,11 +221,18 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
             }
             processedProtos.add(targetProto);
             if (targetProto != null) {
-                result.addAll(targetProto.getLocalExtensions());
+                result.addAll(extractor.apply(targetProto));
                 queue.addAll(targetProto.getPublicImports());
+                if (stopLookup(mode, result)) {
+                    break;
+                }
             }
         }
         return result;
+    }
+
+    private <T extends PsiElement> boolean stopLookup(ResolveMode mode, List<T> result) {
+        return mode == ResolveMode.RESOLVE_FIRST && !result.isEmpty();
     }
 
     /**

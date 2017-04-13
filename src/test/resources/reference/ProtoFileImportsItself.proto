@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package reference;
+
+import "reference/ProtoFileImportsItself.proto";
+
+//message SourceMessage {
+//
+//}
+
+message TestMessage {
+    Source<caret>Message message = 1;
+}

@@ -4,7 +4,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import io.protostuff.jetbrains.plugin.psi.DataType;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
-import org.junit.Assert;
 
 /**
  * Tests for resolving type references.
@@ -32,8 +31,13 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
     }
 
     public void testImportedMessageReference() {
-        // package is not set as files are copied to relative source root directly
         checkReferenceToDataType(".reference.ImportedMessage", "reference/ImportedMessageReferenceTestData.proto", "reference/ImportedTestData.proto");
+    }
+
+    public void testProtoFileImportsItself() {
+        // referenced type does not exist, so we expect that it is not resolvable
+        // the only thing that we check here - is that we do not get StackOverflowError
+        checkReferenceToDataType(null, "reference/ProtoFileImportsItself.proto");
     }
 
     private void checkReferenceToDataType(String typeReference, String... file) {
@@ -46,8 +50,11 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
         }
         assertNotNull(elementAtCaret);
         PsiElement target = elementAtCaret.getReference().resolve();
-        Assert.assertTrue(target instanceof DataType);
-        DataType dataType = (DataType) target;
-        Assert.assertEquals(typeReference, dataType.getQualifiedName());
+        if (typeReference != null) {
+            assertNotNull(target);
+            assertTrue(target instanceof DataType);
+            DataType dataType = (DataType) target;
+            assertEquals(typeReference, dataType.getQualifiedName());
+        }
     }
 }
