@@ -1,5 +1,4 @@
-## Protobuf Support for JetBrains IDEs
-
+## ![Icon](https://github.com/protostuff/protobuf-jetbrains-plugin/raw/master/src/main/resources/io/protostuff/protobuf-jetbrains-plugin/icons/proto%402x.png) Protobuf Support for JetBrains IDEs
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6)
 
