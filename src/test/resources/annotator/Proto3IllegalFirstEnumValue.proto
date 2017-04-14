@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package annotator;
+
+enum TestEnum {
+    UNKNOWN = <error descr="First enum value must be zero in proto3">1</error>;
+}

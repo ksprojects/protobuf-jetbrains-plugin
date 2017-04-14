@@ -90,6 +90,10 @@ public class ProtoErrorsAnnotatorTest extends LightCodeInsightFixtureTestCase {
         check();
     }
 
+    public void testProto3IllegalFirstEnumValue() {
+        check();
+    }
+
     private void check() {
         String file = getTestName(false) + ".proto";
         myFixture.configureByFiles(file);

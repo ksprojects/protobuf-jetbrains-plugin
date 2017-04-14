@@ -80,6 +80,7 @@ public class ProtoErrorsAnnotator implements Annotator {
                     List<EnumConstantNode> constants = anEnum.getConstants();
                     checkDuplicateEnumConstantNames(constants);
                     checkDuplicateEnumConstantValues(anEnum, constants);
+                    checkFirstEnumConstantValueIsZero(anEnum, constants, syntax);
                 } else if (element instanceof ServiceNode) {
                     ServiceNode service = (ServiceNode) element;
                     List<RpcMethodNode> rpcMethods = service.getRpcMethods();
@@ -87,6 +88,20 @@ public class ProtoErrorsAnnotator implements Annotator {
                 }
             }
             this.holder = null;
+        }
+    }
+
+    private void checkFirstEnumConstantValueIsZero(EnumNode anEnum, List<EnumConstantNode> constants, Syntax syntax) {
+        if (syntax != Syntax.PROTO3) {
+            return;
+        }
+        if (constants.isEmpty()) {
+            return;
+        }
+        EnumConstantNode first = constants.get(0);
+        if (first.getConstantValue() != 0) {
+            String message = message("error.first.enum.value.should.be.zero");
+            markError(first.getConstantValueNode(), null, message);
         }
     }
 
