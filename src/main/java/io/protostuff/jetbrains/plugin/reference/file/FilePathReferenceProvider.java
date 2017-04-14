@@ -41,9 +41,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Copied from IntelliJ IDEA source code.
+ * File path references provider.
  *
- * @author cdr
+ * @author Kostiantyn Shchepanovskyi
  */
 @SuppressWarnings("checkstyle:JavadocMethod")
 public class FilePathReferenceProvider extends PsiReferenceProvider {
@@ -63,6 +63,7 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
     public FilePathReferenceProvider(boolean endingSlashNotAllowed) {
         myEndingSlashNotAllowed = endingSlashNotAllowed;
         sourceRootsProviders.add(new AllSourceRootsProvider());
+        sourceRootsProviders.add(new WebCoreResourcePathRootsProvider());
         sourceRootsProviders.add(new CustomIncludePathRootsProvider());
         sourceRootsProviders.add(new LibrariesAndSdkClassesRootsProvider());
     }
