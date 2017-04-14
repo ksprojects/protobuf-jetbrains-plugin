@@ -130,6 +130,23 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
         return findChildByClass(PackageStatement.class);
     }
 
+    @Nullable
+    public SyntaxStatement getSyntaxStatement() {
+        return findChildByClass(SyntaxStatement.class);
+    }
+
+    /**
+     * Returns syntax value for this file, or default to {@link Syntax#DEFAULT}.
+     */
+    public Syntax getSyntax() {
+        SyntaxStatement statement = getSyntaxStatement();
+        if (statement != null) {
+            String syntaxName = statement.getSyntaxName();
+            return Syntax.forName(syntaxName).orElse(Syntax.DEFAULT);
+        }
+        return Syntax.DEFAULT;
+    }
+
     @Override
     public String getNamespace() {
         String packageName = getPackageName();

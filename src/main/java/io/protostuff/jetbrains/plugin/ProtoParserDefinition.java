@@ -48,7 +48,7 @@ import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodTypeNode;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.StandardFieldReferenceNode;
-import io.protostuff.jetbrains.plugin.psi.SyntaxNode;
+import io.protostuff.jetbrains.plugin.psi.SyntaxStatement;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
 import java.util.HashMap;
 import java.util.List;
@@ -232,7 +232,7 @@ public class ProtoParserDefinition implements ParserDefinition {
      * Create new parser definition.
      */
     public ProtoParserDefinition() {
-        register(ProtoParser.RULE_syntax, SyntaxNode::new);
+        register(ProtoParser.RULE_syntaxStatement, SyntaxStatement::new);
         register(ProtoParser.RULE_packageStatement, PackageStatement::new);
         register(ProtoParser.RULE_importStatement, ImportNode::new);
         register(ProtoParser.RULE_fileReference, FileReferenceNode::new);

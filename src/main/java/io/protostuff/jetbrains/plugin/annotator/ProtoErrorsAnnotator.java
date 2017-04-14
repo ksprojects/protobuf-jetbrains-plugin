@@ -9,17 +9,17 @@ import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiErrorElement;
-import com.intellij.psi.PsiRecursiveElementVisitor;
 import io.protostuff.compiler.model.Field;
 import io.protostuff.jetbrains.plugin.psi.AntlrParserRuleNode;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RangeNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
+import io.protostuff.jetbrains.plugin.psi.Syntax;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -47,26 +47,38 @@ public class ProtoErrorsAnnotator implements Annotator {
         boolean check = hasErrors(element);
         if (!check) {
             this.holder = holder;
-            if (element instanceof MessageNode) {
-                MessageNode message = (MessageNode) element;
-                Collection<MessageField> fields = message.getFields();
-                checkInvalidFieldTags(fields);
-                checkDuplicateFieldTags(fields);
-                checkDuplicateFieldNames(fields);
-                checkReservedFieldTags(message, fields);
-                checkReservedFieldNames(message, fields);
-            } else if (element instanceof EnumNode) {
-                EnumNode anEnum = (EnumNode) element;
-                List<EnumConstantNode> constants = anEnum.getConstants();
-                checkDuplicateEnumConstantNames(constants);
-                checkDuplicateEnumConstantValues(anEnum, constants);
-            } else if (element instanceof ServiceNode) {
-                ServiceNode service = (ServiceNode) element;
-                List<RpcMethodNode> rpcMethods = service.getRpcMethods();
-                checkDuplicateServiceMethodNames(rpcMethods);
+            ProtoRootNode root = getProtoRoot(element);
+            if (root != null) {
+                Syntax syntax = root.getSyntax();
+                if (element instanceof MessageNode) {
+                    MessageNode message = (MessageNode) element;
+                    Collection<MessageField> fields = message.getFields();
+                    checkInvalidFieldTags(fields);
+                    checkDuplicateFieldTags(fields);
+                    checkDuplicateFieldNames(fields);
+                    checkReservedFieldTags(message, fields);
+                    checkReservedFieldNames(message, fields);
+                } else if (element instanceof EnumNode) {
+                    EnumNode anEnum = (EnumNode) element;
+                    List<EnumConstantNode> constants = anEnum.getConstants();
+                    checkDuplicateEnumConstantNames(constants);
+                    checkDuplicateEnumConstantValues(anEnum, constants);
+                } else if (element instanceof ServiceNode) {
+                    ServiceNode service = (ServiceNode) element;
+                    List<RpcMethodNode> rpcMethods = service.getRpcMethods();
+                    checkDuplicateServiceMethodNames(rpcMethods);
+                }
             }
             this.holder = null;
         }
+    }
+
+    private ProtoRootNode getProtoRoot(PsiElement element) {
+        PsiElement tmp = element;
+        while (tmp != null && !(tmp instanceof ProtoRootNode)) {
+            tmp = tmp.getParent();
+        }
+        return (ProtoRootNode) tmp;
     }
 
     private void checkDuplicateServiceMethodNames(List<RpcMethodNode> rpcMethods) {
@@ -116,14 +128,7 @@ public class ProtoErrorsAnnotator implements Annotator {
             AntlrParserRuleNode node = (AntlrParserRuleNode) element;
             return node.hasSyntaxErrors();
         } else {
-            final boolean[] hasErrors = {false};
-            new PsiRecursiveElementVisitor() {
-                @Override
-                public void visitErrorElement(PsiErrorElement element) {
-                    hasErrors[0] = true;
-                }
-            };
-            return hasErrors[0];
+            return false;
         }
     }
 

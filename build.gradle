@@ -2,6 +2,7 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+        mavenCentral()
         mavenLocal()
     }
     dependencies {
@@ -31,7 +32,7 @@ dependencies {
         exclude group: 'com.jetbrains'
     }
     compile 'com.google.guava:guava:21.0'
-    compile 'io.protostuff:protostuff-parser:2.0.0-alpha37'
+    compile 'io.protostuff:protostuff-parser:2.0.0-alpha38'
 }
 
 apply plugin: 'idea'
