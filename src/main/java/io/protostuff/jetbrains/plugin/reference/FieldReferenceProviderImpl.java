@@ -53,7 +53,8 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
 
     private static final Logger LOGGER = Logger.getInstance(FieldReferenceProviderImpl.class);
     // "default" field option (a special case)
-    private static final String DEFAULT = "default";
+    public static final String DEFAULT = "default";
+
     private static final Map<Class<? extends PsiElement>, String> TARGET_MAPPING
             = ImmutableMap.<Class<? extends PsiElement>, String>builder()
             .put(FieldNode.class, MSG_FIELD_OPTIONS)

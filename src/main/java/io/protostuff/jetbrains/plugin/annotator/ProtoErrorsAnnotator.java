@@ -17,15 +17,18 @@ import io.protostuff.jetbrains.plugin.psi.FieldLabel;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.OptionNode;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RangeNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.Syntax;
+import io.protostuff.jetbrains.plugin.reference.FieldReferenceProviderImpl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
@@ -62,7 +65,10 @@ public class ProtoErrorsAnnotator implements Annotator {
                     checkReservedFieldTags(message, fields);
                     checkReservedFieldNames(message, fields);
                 } else if (element instanceof FieldNode) {
-                    checkFieldLabel((FieldNode) element, syntax);
+                    FieldNode field = (FieldNode) element;
+                    checkFieldLabel(field, syntax);
+                } else if (element instanceof OptionNode) {
+                    checkDefaultValue((OptionNode)element, syntax);
                 } else if (element instanceof EnumNode) {
                     EnumNode anEnum = (EnumNode) element;
                     List<EnumConstantNode> constants = anEnum.getConstants();
@@ -77,6 +83,24 @@ public class ProtoErrorsAnnotator implements Annotator {
             this.holder = null;
         }
     }
+
+    private void checkDefaultValue(@NotNull OptionNode option, Syntax syntax) {
+        if (syntax != Syntax.PROTO3) {
+            return;
+        }
+        PsiElement optionEntry = option.getParent();
+        if (optionEntry != null) {
+            PsiElement field = optionEntry.getParent();
+            if (field instanceof MessageField) {
+                String optionName = option.getOptionNameText();
+                if (Objects.equals(optionName, FieldReferenceProviderImpl.DEFAULT)) {
+                    String message = message("error.default.value.not.supported");
+                    markError(option.getNode(), null, message);
+                }
+            }
+        }
+    }
+
 
     private void checkFieldLabel(FieldNode field, Syntax syntax) {
         switch (syntax) {

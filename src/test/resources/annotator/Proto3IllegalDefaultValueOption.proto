@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    int32 field = 1 [<error descr="Default values are not supported in proto3">default = 5</error>];
+}
