@@ -13,6 +13,7 @@ import io.protostuff.compiler.model.Field;
 import io.protostuff.jetbrains.plugin.psi.AntlrParserRuleNode;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
+import io.protostuff.jetbrains.plugin.psi.ExtendNode;
 import io.protostuff.jetbrains.plugin.psi.FieldLabel;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.GroupNode;
@@ -66,7 +67,9 @@ public class ProtoErrorsAnnotator implements Annotator {
                     checkReservedFieldTags(message, fields);
                     checkReservedFieldNames(message, fields);
                 } else if (element instanceof GroupNode) {
-                    checkGroupNodeDeprecated((GroupNode)element, syntax);
+                    checkGroupNodeDeprecated((GroupNode) element, syntax);
+                } else if (element instanceof ExtendNode) {
+                    checkExtendNodeDeprecated((ExtendNode) element, syntax);
                 } else if (element instanceof FieldNode) {
                     FieldNode field = (FieldNode) element;
                     checkFieldLabel(field, syntax);
@@ -85,6 +88,14 @@ public class ProtoErrorsAnnotator implements Annotator {
             }
             this.holder = null;
         }
+    }
+
+    private void checkExtendNodeDeprecated(ExtendNode element, Syntax syntax) {
+        if (syntax != Syntax.PROTO3) {
+            return;
+        }
+        String message = message("error.extensions.not.supported");
+        markError(element.getNode(), null, message);
     }
 
     private void checkGroupNodeDeprecated(GroupNode element, Syntax syntax) {
