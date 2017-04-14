@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package annotator;
+
+message TestMessage {
+    <error descr="Missing field label">int32 field = 1;</error>
+}

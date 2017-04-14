@@ -5,6 +5,7 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_TAG;
 import static io.protostuff.jetbrains.plugin.psi.Util.decodeIntegerFromText;
 
 import com.intellij.lang.ASTNode;
+import java.util.Optional;
 import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,6 +52,16 @@ public class MapNode extends AntlrPsiNode
     @Override
     public TypeReferenceNode getFieldType() {
         // TODO
+        return null;
+    }
+
+    @Override
+    public Optional<FieldLabel> getFieldLabel() {
+        return Optional.empty();
+    }
+
+    @Override
+    public ASTNode getFieldLabelNode() {
         return null;
     }
 

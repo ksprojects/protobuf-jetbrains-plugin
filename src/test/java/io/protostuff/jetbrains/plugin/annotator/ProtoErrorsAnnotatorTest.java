@@ -66,6 +66,18 @@ public class ProtoErrorsAnnotatorTest extends LightCodeInsightFixtureTestCase {
         check();
     }
 
+    public void testProto2MissingFieldLabel() {
+        check();
+    }
+
+    public void testProto3IllegalOptionalFieldLabel() {
+        check();
+    }
+
+    public void testProto3IllegalRequiredFieldLabel() {
+        check();
+    }
+
     private void check() {
         String file = getTestName(false) + ".proto";
         myFixture.configureByFiles(file);

@@ -13,6 +13,8 @@ import io.protostuff.compiler.model.Field;
 import io.protostuff.jetbrains.plugin.psi.AntlrParserRuleNode;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
+import io.protostuff.jetbrains.plugin.psi.FieldLabel;
+import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
@@ -24,6 +26,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,6 +61,8 @@ public class ProtoErrorsAnnotator implements Annotator {
                     checkDuplicateFieldNames(fields);
                     checkReservedFieldTags(message, fields);
                     checkReservedFieldNames(message, fields);
+                } else if (element instanceof FieldNode) {
+                    checkFieldLabel((FieldNode) element, syntax);
                 } else if (element instanceof EnumNode) {
                     EnumNode anEnum = (EnumNode) element;
                     List<EnumConstantNode> constants = anEnum.getConstants();
@@ -71,6 +76,38 @@ public class ProtoErrorsAnnotator implements Annotator {
             }
             this.holder = null;
         }
+    }
+
+    private void checkFieldLabel(FieldNode field, Syntax syntax) {
+        switch (syntax) {
+            case PROTO2:
+                checkFieldLabelProto2(field);
+                break;
+            case PROTO3:
+                checkFieldLabelProto3(field);
+                break;
+            default:
+                throw new IllegalStateException(String.valueOf(syntax));
+        }
+    }
+
+    private void checkFieldLabelProto2(FieldNode field) {
+        ASTNode fieldLabelNode = field.getFieldLabelNode();
+        if (fieldLabelNode == null) {
+            String message = message("error.missing.field.label");
+            markError(field.getNode(), null, message);
+        }
+    }
+
+    private void checkFieldLabelProto3(FieldNode field) {
+        Optional<FieldLabel> fieldLabel = field.getFieldLabel();
+        fieldLabel.ifPresent(label -> {
+            if (label == FieldLabel.OPTIONAL
+                    || label == FieldLabel.REQUIRED) {
+                String message = message("error.illegal.field.label", label.getName());
+                markError(field.getFieldLabelNode(), null, message);
+            }
+        });
     }
 
     private ProtoRootNode getProtoRoot(PsiElement element) {

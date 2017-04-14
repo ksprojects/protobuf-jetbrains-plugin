@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    <error descr="Field label \"optional\" is not allowed in proto3">optional</error> int32 field = 1;
+}

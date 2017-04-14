@@ -12,6 +12,7 @@ import io.protostuff.compiler.parser.ProtoParser;
 import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,6 +65,16 @@ public class OneofFieldNode extends IdentifierDefSubtree implements KeywordsCont
     public ASTNode getTagNode() {
         ASTNode node = getNode();
         return node.findChildByType(R_TAG);
+    }
+
+    @Override
+    public Optional<FieldLabel> getFieldLabel() {
+        return Optional.empty();
+    }
+
+    @Override
+    public ASTNode getFieldLabelNode() {
+        return null;
     }
 
     @Override

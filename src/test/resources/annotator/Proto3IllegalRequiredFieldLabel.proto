@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    <error descr="Field label \"required\" is not allowed in proto3">required</error> int32 field = 1;
+}

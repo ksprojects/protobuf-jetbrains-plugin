@@ -2,6 +2,7 @@ package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import java.util.Optional;
 
 /**
  * Message field node.
@@ -17,6 +18,10 @@ public interface MessageField extends PsiElement {
     int getTag();
 
     ASTNode getTagNode();
+
+    Optional<FieldLabel> getFieldLabel();
+
+    ASTNode getFieldLabelNode();
 
     TypeReferenceNode getFieldType();
 }
