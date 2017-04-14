@@ -79,14 +79,14 @@ public class BundledFileProviderImpl implements BundledFileProvider, ProjectComp
     private String readClasspathResource(String name) {
         try {
             String classpath = System.getProperty("java.class.path");
-            LOGGER.info("Reading " + name + " from classpath=" + classpath);
+            LOGGER.debug("Reading " + name + " from classpath=" + classpath);
             ClassLoader classLoader = OptionReference.class.getClassLoader();
             if (classLoader == null) {
                 throw new IllegalStateException("Can not obtain classloader instance");
             }
             InputStream resource = classLoader.getResourceAsStream(name);
             if (resource == null) {
-                LOGGER.info("Could not find " + name);
+                LOGGER.debug("Could not find " + name);
                 return null;
             }
             return StreamUtil.readText(resource, StandardCharsets.UTF_8);
