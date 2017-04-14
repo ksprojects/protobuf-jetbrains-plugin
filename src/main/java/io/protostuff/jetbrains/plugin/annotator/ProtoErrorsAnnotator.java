@@ -15,6 +15,7 @@ import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.FieldLabel;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
+import io.protostuff.jetbrains.plugin.psi.GroupNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import io.protostuff.jetbrains.plugin.psi.OptionNode;
@@ -64,6 +65,8 @@ public class ProtoErrorsAnnotator implements Annotator {
                     checkDuplicateFieldNames(fields);
                     checkReservedFieldTags(message, fields);
                     checkReservedFieldNames(message, fields);
+                } else if (element instanceof GroupNode) {
+                    checkGroupNodeDeprecated((GroupNode)element, syntax);
                 } else if (element instanceof FieldNode) {
                     FieldNode field = (FieldNode) element;
                     checkFieldLabel(field, syntax);
@@ -82,6 +85,14 @@ public class ProtoErrorsAnnotator implements Annotator {
             }
             this.holder = null;
         }
+    }
+
+    private void checkGroupNodeDeprecated(GroupNode element, Syntax syntax) {
+        if (syntax != Syntax.PROTO3) {
+            return;
+        }
+        String message = message("error.groups.not.supported");
+        markError(element.getNode(), null, message);
     }
 
     private void checkDefaultValue(@NotNull OptionNode option, Syntax syntax) {

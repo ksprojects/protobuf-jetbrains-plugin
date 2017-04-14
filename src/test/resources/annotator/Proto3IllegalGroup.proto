@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    <error descr="Groups are not supported in proto3">optional group group = 1 {
+
+    }</error>
+}
