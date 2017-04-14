@@ -1,6 +1,6 @@
 ## Protobuf Support for JetBrains IDEs
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6) [![Donate](https://img.shields.io/badge/Donate-BitCoin-blue.svg)](bitcoin:33CYERQDdS9wPENEiopcQE8YbmMSKqdUau?amount=0.5&label=Protobuf%20Support%20for%20JetBrains%IDEs)
 
 [Protobuf Support Plugin](https://plugins.jetbrains.com/plugin/8277) for IntelliJ IDEA & other JetBrains products.
 
