@@ -18,11 +18,8 @@ package io.protostuff.jetbrains.plugin.reference.file;
 
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiCompiledElement;
 import com.intellij.psi.PsiDirectory;
@@ -35,7 +32,7 @@ import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferen
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.containers.ContainerUtil;
-import io.protostuff.jetbrains.plugin.settings.ProtobufSettings;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -53,48 +50,39 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
 
     private final boolean myEndingSlashNotAllowed;
 
+    interface SourceRootsProvider {
+        VirtualFile[] getSourceRoots(Module module);
+    }
+
+    private List<SourceRootsProvider> sourceRootsProviders = new ArrayList<>();
+
     public FilePathReferenceProvider() {
         this(true);
     }
 
     public FilePathReferenceProvider(boolean endingSlashNotAllowed) {
         myEndingSlashNotAllowed = endingSlashNotAllowed;
+        sourceRootsProviders.add(new AllSourceRootsProvider());
+        sourceRootsProviders.add(new CustomIncludePathRootsProvider());
+        sourceRootsProviders.add(new LibrariesAndSdkClassesRootsProvider());
     }
 
     @NotNull
-    public static Collection<PsiFileSystemItem> getRoots(@Nullable final Module thisModule) {
-        if (thisModule == null) {
+    public Collection<PsiFileSystemItem> getRoots(@Nullable final Module module) {
+        if (module == null) {
             return Collections.emptyList();
         }
 
-        ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(thisModule);
         Set<PsiFileSystemItem> result = ContainerUtil.newLinkedHashSet();
-        final PsiManager psiManager = PsiManager.getInstance(thisModule.getProject());
+        PsiManager psiManager = PsiManager.getInstance(module.getProject());
 
-        VirtualFile[] libraryUrls = moduleRootManager.orderEntries().getAllLibrariesAndSdkClassesRoots();
-        for (VirtualFile file : libraryUrls) {
-            PsiDirectory directory = psiManager.findDirectory(file);
-            if (directory != null) {
-                result.add(directory);
-            }
-        }
-
-        VirtualFile[] sourceRoots = moduleRootManager.orderEntries().getAllSourceRoots();
-        for (VirtualFile root : sourceRoots) {
-            final PsiDirectory directory = psiManager.findDirectory(root);
-            if (directory != null) {
-                result.add(directory);
-            }
-        }
-
-        Project project = thisModule.getProject();
-        ProtobufSettings settings = project.getComponent(ProtobufSettings.class);
-        List<String> includePaths = settings.getIncludePaths();
-        for (String includePath : includePaths) {
-            VirtualFile path = LocalFileSystem.getInstance().findFileByPath(includePath);
-            if (path != null && path.isDirectory()) {
-                PsiDirectory psiDirectory = psiManager.findDirectory(path);
-                result.add(psiDirectory);
+        for (SourceRootsProvider sourceRootsProvider : sourceRootsProviders) {
+            VirtualFile[] sourceRoots = sourceRootsProvider.getSourceRoots(module);
+            for (VirtualFile root : sourceRoots) {
+                final PsiDirectory directory = psiManager.findDirectory(root);
+                if (directory != null) {
+                    result.add(directory);
+                }
             }
         }
         return result;
@@ -188,4 +176,5 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
     protected FileReference createFileReference(FileReferenceSet referenceSet, final TextRange range, final int index, final String text) {
         return new FileReference(referenceSet, range, index, text);
     }
+
 }
