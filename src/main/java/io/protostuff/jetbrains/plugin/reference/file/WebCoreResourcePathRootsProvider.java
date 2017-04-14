@@ -50,24 +50,26 @@ class WebCoreResourcePathRootsProvider implements FilePathReferenceProvider.Sour
     public VirtualFile[] getSourceRoots(Module module) {
         try {
             if (GET_INSTANCE != null && GET_RESOURCE_ROOTS != null) {
-                List<VirtualFile> result = new ArrayList<>();
                 Object configurationInstance = GET_INSTANCE.invoke(null, module.getProject());
-                MultiMap<String, String> resourceRoots = (MultiMap<String, String>) GET_RESOURCE_ROOTS.invoke(configurationInstance);
-                for (Map.Entry<String, Collection<String>> entry : resourceRoots.entrySet()) {
-                    for (String uri : entry.getValue()) {
-                        if (!Strings.isNullOrEmpty(uri) && uri.startsWith("file://")) {
-                            String path = uri.substring(7);
-                            VirtualFile file = LocalFileSystem.getInstance().findFileByPath(path);
-                            if (file != null && file.isDirectory()) {
-                                result.add(file);
+                if (configurationInstance != null) {
+                    List<VirtualFile> result = new ArrayList<>();
+                    MultiMap<String, String> resourceRoots = (MultiMap<String, String>) GET_RESOURCE_ROOTS.invoke(configurationInstance);
+                    for (Map.Entry<String, Collection<String>> entry : resourceRoots.entrySet()) {
+                        for (String uri : entry.getValue()) {
+                            if (!Strings.isNullOrEmpty(uri) && uri.startsWith("file://")) {
+                                String path = uri.substring(7);
+                                VirtualFile file = LocalFileSystem.getInstance().findFileByPath(path);
+                                if (file != null && file.isDirectory()) {
+                                    result.add(file);
+                                }
                             }
                         }
                     }
+                    return result.toArray(new VirtualFile[0]);
                 }
-                return result.toArray(new VirtualFile[0]);
             }
         } catch (Exception e) {
-            LOGGER.error("Could not get source roots for WebCore IDE", e);
+            LOGGER.warn("Could not get source roots for WebCore IDE", e);
         }
         return new VirtualFile[0];
     }
