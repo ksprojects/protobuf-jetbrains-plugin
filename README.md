@@ -4,7 +4,18 @@
 
 [Protobuf Support Plugin](https://plugins.jetbrains.com/plugin/8277) for IntelliJ IDEA & other JetBrains products.
 
-Plugin is compatible with IntelliJ IDEA 2016.1. Other JetBrains IDEs of the same or higher version should be supported as well. 
+Latest plugin release is compatible with IntelliJ IDEA 2017.1 (older releases are compatible with IDEA 13+). 
+Other JetBrains IDEs of the same or higher version should be supported as well. 
+
+### Installation
+
+IntelliJ IDEA should suggest you to install plugin automatically 
+when you open `.proto` file.
+You can install plugin manually by opening "Plugins" settings, 
+"Browse repositories..." - search for "Protobuf Support".
+
+Plugin page: https://plugins.jetbrains.com/plugin/8277-protobuf-support
+
 
 ### Roadmap
 
@@ -12,13 +23,16 @@ https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap
 
 ### Build
 
+Run following command in the shell:
+
 ```
 ./gradlew build
 ```
 
-Requirements:
+It should be possible to run build on any platform (Linux, Windows, MacOS) where
+[Gradle](https://gradle.org/) is supported.
 
-1. JDK 8
+JDK 8 must be installed and available on PATH in order to run build.
 
 ### Run IntelliJ IDEA with enabled plugin (for development)
 
