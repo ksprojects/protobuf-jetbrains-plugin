@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package rename.type;
+
+enum Source<caret>Enum {
+
+}
+
+message TestMessage {
+
+    SourceEnum enum = 1;
+}

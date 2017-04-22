@@ -10,8 +10,6 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import io.protostuff.compiler.parser.ProtoParser;
-import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,11 +20,11 @@ import org.jetbrains.annotations.Nullable;
  * @author Kostiantyn Shchepanovskyi
  */
 public class EnumConstantNode
-        extends IdentifierDefSubtree
+        extends AbstractNamedNode
         implements ScopeNode {
 
     public EnumConstantNode(@NotNull ASTNode node) {
-        super(node, rule(ProtoParser.RULE_enumFieldName));
+        super(node);
     }
 
     @Nullable

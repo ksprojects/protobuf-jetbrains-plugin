@@ -3,8 +3,9 @@ package io.protostuff.jetbrains.plugin.psi;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
+import com.intellij.psi.PsiElement;
+import com.intellij.util.IncorrectOperationException;
 import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,7 +30,7 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
     private Boolean syntaxErrors;
 
     public MessageNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.rule(ProtoParser.RULE_messageName));
+        super(node);
     }
 
     /**
@@ -40,6 +41,10 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
         return super.getName();
     }
 
+    @Override
+    public PsiElement setName(@NotNull String name) throws IncorrectOperationException {
+        return GenericNameNode.setName(this, name);
+    }
 
     @Override
     public String getNamespace() {
@@ -109,4 +114,5 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
         }
         return syntaxErrors;
     }
+
 }

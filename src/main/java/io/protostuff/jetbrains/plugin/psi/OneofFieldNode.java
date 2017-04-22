@@ -10,12 +10,9 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
-import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
-import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -23,12 +20,12 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class OneofFieldNode extends IdentifierDefSubtree implements KeywordsContainer, MessageField {
+public class OneofFieldNode extends AbstractNamedNode implements KeywordsContainer, MessageField {
 
     private static final Logger LOGGER = Logger.getInstance(OneofFieldNode.class);
 
     public OneofFieldNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.rule(ProtoParser.RULE_fieldName));
+        super(node);
     }
 
     @Override

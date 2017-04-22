@@ -171,6 +171,9 @@
         <lang.elementManipulator
             forClass="io.protostuff.jetbrains.plugin.psi.FileReferenceNode"
             implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.FileReferenceNodeManipulator"/>
+        <lang.elementManipulator
+                forClass="io.protostuff.jetbrains.plugin.psi.TypeReferenceNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.TypeReferenceNodeManipulator"/>
 
     </extensions>
 
