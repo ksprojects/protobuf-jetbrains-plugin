@@ -1,12 +1,13 @@
 package io.protostuff.jetbrains.plugin.psi.presentation;
 
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import io.protostuff.jetbrains.plugin.ProtostuffBundle;
-import io.protostuff.jetbrains.plugin.psi.MessageNode;
-import org.jetbrains.annotations.NotNull;
+import io.protostuff.jetbrains.plugin.psi.DataType;
+import io.protostuff.jetbrains.plugin.psi.DataTypeContainer;
+import io.protostuff.jetbrains.plugin.psi.MessageField;
+import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -21,36 +22,34 @@ public class PresentationUtil {
      */
     @Nullable
     public static String getNameForElement(PsiElement element) {
-        if (element instanceof PsiNamedElement) {
-            PsiNamedElement message = (PsiNamedElement) element;
-            String name = message.getName();
-            String context = getContextName(message);
-            if (context != null) {
-                return ProtostuffBundle.message("element.context.display", name, context);
-            } else {
-                return name;
+        if (element instanceof DataType) {
+            DataType type = (DataType) element;
+            return type.getFullName();
+        }
+        if (element instanceof ProtoRootNode) {
+            ProtoRootNode rootNode = (ProtoRootNode) element;
+            String packageName = rootNode.getPackageName();
+            if (packageName.isEmpty()) {
+                return null;
             }
+            return packageName;
+        }
+        if (element instanceof MessageField) {
+            MessageField field = (MessageField) element;
+            String fieldName = field.getFieldName();
+            DataTypeContainer container = PsiTreeUtil.getParentOfType(element, DataTypeContainer.class);
+            String conteinerName = getNameForElement(container);
+            if (conteinerName != null) {
+                return ProtostuffBundle.message("element.context.display", fieldName, conteinerName);
+            } else {
+                return fieldName;
+            }
+        }
+        if (element instanceof PsiNamedElement) {
+            PsiNamedElement namedElement = (PsiNamedElement) element;
+            return namedElement.getName();
         }
         return null;
     }
 
-    private static String getContextName(@NotNull PsiElement element) {
-        PsiElement parent = PsiTreeUtil.getParentOfType(element, MessageNode.class);
-        if (parent == null) {
-            parent = element.getContainingFile();
-        }
-        while (true) {
-            if (parent == null) {
-                return null;
-            }
-            if (parent instanceof PsiFile) {
-                return null;
-            }
-            String name = getNameForElement(parent);
-            if (name != null) {
-                return name;
-            }
-            parent = parent.getParent();
-        }
-    }
 }

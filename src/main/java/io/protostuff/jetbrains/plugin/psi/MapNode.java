@@ -5,6 +5,8 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_TAG;
 import static io.protostuff.jetbrains.plugin.psi.Util.decodeIntegerFromText;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.navigation.ItemPresentation;
+import com.intellij.navigation.ItemPresentationProviders;
 import java.util.Optional;
 import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
@@ -63,6 +65,11 @@ public class MapNode extends AntlrPsiNode
     @Override
     public ASTNode getFieldLabelNode() {
         return null;
+    }
+
+    @Override
+    public ItemPresentation getPresentation() {
+        return ItemPresentationProviders.getItemPresentation(this);
     }
 
 }

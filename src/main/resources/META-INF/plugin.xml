@@ -66,7 +66,7 @@
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
          for description -->
-    <idea-version since-build="145"/>
+    <idea-version since-build="171"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -146,6 +146,18 @@
         <itemPresentationProvider
                 forClass="io.protostuff.jetbrains.plugin.psi.MessageNode"
                 implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.MessagePresentationProvider"/>
+        <itemPresentationProvider
+                forClass="io.protostuff.jetbrains.plugin.psi.FieldNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.FieldPresentationProvider"/>
+        <itemPresentationProvider
+                forClass="io.protostuff.jetbrains.plugin.psi.OneofFieldNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.FieldPresentationProvider"/>
+        <itemPresentationProvider
+                forClass="io.protostuff.jetbrains.plugin.psi.MapNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.FieldPresentationProvider"/>
+        <itemPresentationProvider
+                forClass="io.protostuff.jetbrains.plugin.psi.EnumConstantNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.EnumValuePresentationProvider"/>
         <itemPresentationProvider
                 forClass="io.protostuff.jetbrains.plugin.psi.EnumNode"
                 implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.EnumPresentationProvider"/>

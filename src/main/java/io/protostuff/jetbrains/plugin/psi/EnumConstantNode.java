@@ -6,6 +6,8 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
 import static io.protostuff.jetbrains.plugin.psi.Util.decodeIntegerFromText;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.navigation.ItemPresentation;
+import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import io.protostuff.compiler.parser.ProtoParser;
@@ -57,6 +59,11 @@ public class EnumConstantNode
     public ASTNode getConstantValueNode() {
         ASTNode node = getNode();
         return node.findChildByType(rule(RULE_enumFieldValue));
+    }
+
+    @Override
+    public ItemPresentation getPresentation() {
+        return ItemPresentationProviders.getItemPresentation(this);
     }
 
 }

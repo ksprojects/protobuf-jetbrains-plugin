@@ -1,7 +1,7 @@
 package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
+import com.intellij.psi.NavigatablePsiElement;
 import java.util.Optional;
 
 /**
@@ -9,7 +9,7 @@ import java.util.Optional;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public interface MessageField extends PsiElement {
+public interface MessageField extends NavigatablePsiElement {
 
     String getFieldName();
 
