@@ -1,5 +1,6 @@
 package io.protostuff.jetbrains.plugin.psi;
 
+import com.intellij.psi.PsiElement;
 import java.util.Collection;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Collection;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public interface DataTypeContainer {
+public interface DataTypeContainer extends PsiElement {
 
     /**
      * Returns string prefix that is common for all children full names.

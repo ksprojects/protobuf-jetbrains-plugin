@@ -5,7 +5,9 @@ import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
 import io.protostuff.jetbrains.plugin.psi.DataType;
+import io.protostuff.jetbrains.plugin.psi.DataTypeContainer;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
+import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +31,8 @@ public class ProtoFindUsagesProvider implements FindUsagesProvider {
 
     @Override
     public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
-        return psiElement instanceof DataType;
+        return psiElement instanceof DataType
+                || psiElement instanceof MessageField;
     }
 
     @Nullable
@@ -47,6 +50,9 @@ public class ProtoFindUsagesProvider implements FindUsagesProvider {
         if (element instanceof EnumNode) {
             return "enum";
         }
+        if (element instanceof MessageField) {
+            return "field";
+        }
         return "";
     }
 
@@ -56,6 +62,10 @@ public class ProtoFindUsagesProvider implements FindUsagesProvider {
         if (element instanceof DataType) {
             DataType type = (DataType) element;
             return type.getFullName();
+        }
+        if (element instanceof MessageField) {
+            MessageField field = (MessageField) element;
+            return field.getFieldName();
         }
         return "";
     }
@@ -71,6 +81,28 @@ public class ProtoFindUsagesProvider implements FindUsagesProvider {
             //noinspection ConstantConditions
             return type.getName();
         }
+        if (element instanceof MessageField) {
+            MessageField field = (MessageField) element;
+            if (useFullName) {
+                String namespace = getNamespace(field);
+                return namespace + field.getFieldName();
+            }
+            return field.getFieldName();
+        }
         return "";
     }
+
+    private String getNamespace(MessageField field) {
+        PsiElement tmp = field;
+        while (tmp != null) {
+            tmp = tmp.getParent();
+            if (tmp instanceof DataTypeContainer) {
+                DataTypeContainer container = (DataTypeContainer) tmp;
+                return container.getNamespace();
+            }
+        }
+        return "";
+    }
+
+
 }

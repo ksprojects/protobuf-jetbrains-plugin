@@ -6,6 +6,8 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.R_TAG;
 import static io.protostuff.jetbrains.plugin.psi.Util.decodeIntegerFromText;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.navigation.ItemPresentation;
+import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
 import io.protostuff.compiler.parser.ProtoParser;
@@ -80,6 +82,11 @@ public class OneofFieldNode extends IdentifierDefSubtree implements KeywordsCont
     @Override
     public TypeReferenceNode getFieldType() {
         return findChildByClass(TypeReferenceNode.class);
+    }
+
+    @Override
+    public ItemPresentation getPresentation() {
+        return ItemPresentationProviders.getItemPresentation(this);
     }
 
 }
