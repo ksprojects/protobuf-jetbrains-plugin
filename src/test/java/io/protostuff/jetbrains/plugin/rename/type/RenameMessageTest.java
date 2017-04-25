@@ -8,6 +8,8 @@ import java.util.Collection;
 import org.junit.Assert;
 
 /**
+ * Tests for rename message refactoring.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class RenameMessageTest extends LightCodeInsightFixtureTestCase {

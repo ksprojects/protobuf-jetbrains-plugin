@@ -102,9 +102,12 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
                 message = null;
                 if (targetField != null) {
                     TypeReferenceNode fieldTypeRef = targetField.getFieldType();
-                    PsiElement fieldType = fieldTypeRef.getReference().resolve();
-                    if (fieldType instanceof MessageNode) {
-                        message = (MessageNode) fieldType;
+                    PsiReference reference = fieldTypeRef.getReference();
+                    if (reference != null) {
+                        PsiElement fieldType = reference.resolve();
+                        if (fieldType instanceof MessageNode) {
+                            message = (MessageNode) fieldType;
+                        }
                     }
                 }
             }
@@ -181,7 +184,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
     private FieldNode resolveCustomOptionReference(PsiElement element, MessageNode target, String key) {
         ProtoRootNode protoRoot = getProtoRoot(element);
         DataTypeContainer container = getContainer(element);
-        Deque<String> scopeLookupList = TypeReference.createScopeLookupList(container);
+        Deque<String> scopeLookupList = TypeReferenceProviderImpl.createScopeLookupList(container);
         // case 1: (.package.field)
         // case 2: (.package.field).field
         // case 3: (.package.field).(.package.field)

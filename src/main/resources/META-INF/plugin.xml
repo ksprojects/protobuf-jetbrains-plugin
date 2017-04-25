@@ -89,6 +89,12 @@
             <implementation-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProviderImpl
             </implementation-class>
         </component>
+        <component>
+            <interface-class>io.protostuff.jetbrains.plugin.reference.TypeReferenceProvider</interface-class>
+            <implementation-class>
+                io.protostuff.jetbrains.plugin.reference.TypeReferenceProviderImpl
+            </implementation-class>
+        </component>
     </project-components>
 
     <extensions defaultExtensionNs="com.intellij">

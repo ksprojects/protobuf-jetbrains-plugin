@@ -5,6 +5,8 @@ import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import org.junit.Assert;
 
 /**
+ * Tests for rename enum refactoring.
+ *
  * @author Kostiantyn Shchepanovskyi
  */
 public class RenameEnumTest extends LightCodeInsightFixtureTestCase {
