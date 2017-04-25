@@ -10,7 +10,9 @@ import io.protostuff.jetbrains.plugin.psi.DataTypeContainer;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,9 +35,43 @@ public class TypeReferenceProviderImpl implements TypeReferenceProvider {
     @Override
     public PsiReference[] getReferencesByElement(TypeReferenceNode typeReferenceNode) {
         DataType target = resolveInScope(typeReferenceNode);
-        return new PsiReference[]{
-                new TypeReference(typeReferenceNode, TextRange.create(0, typeReferenceNode.getTextLength()), target)
-        };
+        if (target == null) {
+            return new PsiReference[]{
+                    new TypeReference(typeReferenceNode, TextRange.create(0, typeReferenceNode.getTextLength()), null)
+            };
+        }
+        String text = typeReferenceNode.getText();
+        PsiElement element = target;
+        List<PsiReference> refs = new ArrayList<>();
+        while (element != null && text.length() > 0) {
+            if (element instanceof DataType) {
+                DataType type = (DataType) element;
+                String name = type.getName();
+                if (name != null && text.endsWith(name)) {
+                    // a.b.c | c
+                    TextRange textRange = TextRange.create(text.length() - name.length(), text.length());
+                    TypeReference ref = new TypeReference(typeReferenceNode, textRange, type);
+                    refs.add(ref);
+                    if (name.length() < text.length()) {
+                        text = text.substring(0, text.length() - name.length() - 1);
+                    } else {
+                        text = "";
+                    }
+                }
+            }
+            if (element instanceof ProtoRootNode) {
+                ProtoRootNode root = (ProtoRootNode) element;
+                String pkg = root.getPackageName();
+                if (pkg.endsWith(text)) {
+                    TextRange textRange = TextRange.create(0, text.length());
+                    TypeReference ref = new TypeReference(typeReferenceNode, textRange, root.getPackageStatement());
+                    refs.add(ref);
+                    text = "";
+                }
+            }
+            element = element.getParent();
+        }
+        return refs.toArray(new PsiReference[refs.size()]);
     }
 
     @Nullable
