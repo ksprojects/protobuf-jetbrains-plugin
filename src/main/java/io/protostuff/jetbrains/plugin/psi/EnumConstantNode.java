@@ -10,6 +10,7 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
+import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Kostiantyn Shchepanovskyi
  */
 public class EnumConstantNode
-        extends AbstractNamedNode
+        extends AntlrPsiNode
         implements ScopeNode {
 
     public EnumConstantNode(@NotNull ASTNode node) {
