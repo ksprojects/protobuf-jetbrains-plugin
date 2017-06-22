@@ -18,7 +18,7 @@ public class OneOfNode extends AntlrPsiNode implements KeywordsContainer {
     }
 
     public Collection<MessageField> getFields() {
-        MessageField[] fields = findChildrenByClass(OneofFieldNode.class);
+        MessageField[] fields = findChildrenByClass(FieldNode.class);
         return Arrays.asList(fields);
     }
 }

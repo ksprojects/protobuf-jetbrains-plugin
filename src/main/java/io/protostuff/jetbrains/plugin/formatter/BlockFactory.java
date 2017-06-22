@@ -26,8 +26,6 @@ import static io.protostuff.compiler.parser.ProtoParser.RULE_mapValue;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_messageBlock;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_messageName;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_oneof;
-import static io.protostuff.compiler.parser.ProtoParser.RULE_oneofField;
-import static io.protostuff.compiler.parser.ProtoParser.RULE_oneofGroup;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_oneofName;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_option;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_optionEntry;
@@ -119,8 +117,6 @@ class BlockFactory {
         register(rule(RULE_extendBlock), ParentBlock::new);
         register(rule(RULE_extendBlockEntry), StatementBlock::new);
         register(rule(RULE_oneof), ParentBlock::new);
-        register(rule(RULE_oneofField), StatementBlock::new);
-        register(rule(RULE_oneofGroup), ParentBlock::new);
         register(rule(RULE_groupBlock), ParentBlock::new);
         register(rule(RULE_extensions), StatementBlock::new);
 
