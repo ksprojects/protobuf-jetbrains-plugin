@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package annotator;
+
+message TestMessage {
+
+    oneof action {
+        int32 field1 = 1;
+        int32 field2 = 2;
+    }
+}
