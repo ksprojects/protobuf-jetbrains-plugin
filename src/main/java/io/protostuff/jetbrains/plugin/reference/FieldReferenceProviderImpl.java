@@ -24,6 +24,7 @@ import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.ExtendNode;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.FieldReferenceNode;
+import io.protostuff.jetbrains.plugin.psi.MapNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
@@ -58,6 +59,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
     private static final Map<Class<? extends PsiElement>, String> TARGET_MAPPING
             = ImmutableMap.<Class<? extends PsiElement>, String>builder()
             .put(FieldNode.class, MSG_FIELD_OPTIONS)
+            .put(MapNode.class, MSG_FIELD_OPTIONS)
             .put(MessageNode.class, MSG_MESSAGE_OPTIONS)
             .put(EnumConstantNode.class, MSG_ENUM_VALUE_OPTIONS)
             .put(EnumNode.class, MSG_ENUM_OPTIONS)
@@ -102,11 +104,13 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
                 message = null;
                 if (targetField != null) {
                     TypeReferenceNode fieldTypeRef = targetField.getFieldType();
-                    PsiReference reference = fieldTypeRef.getReference();
-                    if (reference != null) {
-                        PsiElement fieldType = reference.resolve();
-                        if (fieldType instanceof MessageNode) {
-                            message = (MessageNode) fieldType;
+                    if (fieldTypeRef != null) {
+                        PsiReference reference = fieldTypeRef.getReference();
+                        if (reference != null) {
+                            PsiElement fieldType = reference.resolve();
+                            if (fieldType instanceof MessageNode) {
+                                message = (MessageNode) fieldType;
+                            }
                         }
                     }
                 }

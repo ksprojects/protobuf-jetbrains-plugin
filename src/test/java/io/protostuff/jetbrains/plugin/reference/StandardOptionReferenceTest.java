@@ -29,6 +29,11 @@ public class StandardOptionReferenceTest extends LightCodeInsightFixtureTestCase
                 "StandardFieldOptionReferenceTestData.proto");
     }
 
+    public void testStandardMapFieldOptionReference() {
+        checkReferenceToField(".google.protobuf.FieldOptions", "deprecated",
+                "StandardMapFieldOptionReferenceTestData.proto");
+    }
+
     public void testStandardEnumOptionReference() {
         checkReferenceToField(".google.protobuf.EnumOptions", "deprecated",
                 "StandardEnumOptionReferenceTestData.proto");

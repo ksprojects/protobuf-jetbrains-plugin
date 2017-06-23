@@ -10,9 +10,12 @@ extend google.protobuf.FieldOptions {
 }
 
 message Foo {
-    optional int32 name = 1;
+    map<int32, int32> name = 1;
 }
 
 message Bar {
-    optional string field = 1 [(foo).name<caret> = 1];
+    optional string field = 1 [(foo).name<caret> = {
+        key: 1
+        value: 1
+    }];
 }

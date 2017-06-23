@@ -10,7 +10,9 @@ extend google.protobuf.FieldOptions {
 }
 
 message Foo {
-    optional int32 name = 1;
+    oneof oneof {
+        int32 name = 1;
+    }
 }
 
 message Bar {
