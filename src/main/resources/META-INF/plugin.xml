@@ -173,6 +173,9 @@
         <lang.elementManipulator
                 forClass="io.protostuff.jetbrains.plugin.psi.TypeReferenceNode"
                 implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.TypeReferenceNodeManipulator"/>
+        <lang.elementManipulator
+                forClass="io.protostuff.jetbrains.plugin.psi.FieldReferenceNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.FieldReferenceNodeManipulator"/>
 
     </extensions>
 
