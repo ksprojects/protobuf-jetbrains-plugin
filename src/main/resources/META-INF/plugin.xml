@@ -12,19 +12,13 @@
         <ul>
             <li>Full Proto3 support.</li>
             <li>Custom include path for proto files.</li>
-            <li>Reference support.</li>
-            <li>Usage search for messages/enums/options.</li>
-            <li>Syntax highlighting.</li>
-            <li>Syntax validation for proto2/proto3.</li>
-            <li>Error checks for reserved/duplicated field tags and names.</li>
+            <li>Usage search for messages, enums and fields (for standard and custom options).</li>
+            <li>Syntax validation for proto2/proto3. Error checks for reserved/duplicated field tags and names.</li>
             <li>Fonts & Colors configuration.</li>
             <li>Structure View.</li>
-            <li>Brace matching.</li>
-            <li>Line and block commenting.</li>
             <li>Code formatting.</li>
             <li>Navigation to message, enum or service by name (Ctrl+N)</li>
-            <li>File rename refactoring (imports are update automatically).</li>
-            <li>Message/enum rename refactoring.</li>
+            <li>Rename refactoring (files, messages, enums, fields).</li>
         </ul>
         <br>
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap">Roadmap</a> |
@@ -40,8 +34,11 @@
             <b>v0.9.0</b>
         </a> (2017-05-05)
         <ul>
-            <li>Add support for message/enum/option rename refactoring.</li>
-            <li>Add support for usage search for options.</li>
+            <li>Add support for rename refactoring (files, messages, enums, fields).</li>
+            <li>Add support for usage search for standard and custom options.</li>
+            <li>Add support for oneof options (latest release of Protocol Buffers (3.3)
+                does not provide standard options, however custom options can be used there).</li>
+            <li>Improve error message for field label inside of oneof block.</li>
         </ul>
 
         <br>
@@ -147,9 +144,6 @@
                 implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.MessagePresentationProvider"/>
         <itemPresentationProvider
                 forClass="io.protostuff.jetbrains.plugin.psi.FieldNode"
-                implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.FieldPresentationProvider"/>
-        <itemPresentationProvider
-                forClass="io.protostuff.jetbrains.plugin.psi.OneofFieldNode"
                 implementationClass="io.protostuff.jetbrains.plugin.psi.presentation.FieldPresentationProvider"/>
         <itemPresentationProvider
                 forClass="io.protostuff.jetbrains.plugin.psi.MapNode"
