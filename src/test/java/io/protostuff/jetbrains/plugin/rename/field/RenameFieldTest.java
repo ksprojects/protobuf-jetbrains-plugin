@@ -67,4 +67,11 @@ public class RenameFieldTest extends LightCodeInsightFixtureTestCase {
         Assert.assertNotNull(option);
     }
 
+    public void testRenameExtension_caretAtFieldName() {
+        myFixture.configureByFiles("rename/field/RenameExtension_CaretAtField.proto");
+        myFixture.renameElementAtCaret("NewName");
+        FieldNode option = myFixture.findElementByText("NewName", FieldNode.class);
+        Assert.assertNotNull(option);
+    }
+
 }

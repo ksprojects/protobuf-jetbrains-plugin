@@ -25,6 +25,7 @@ import static io.protostuff.compiler.parser.ProtoParser.RULE_mapKey;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_messageBlock;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_messageName;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_oneof;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_oneofName;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_option;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_optionEntry;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_optionValue;
@@ -294,6 +295,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         register(RULE_messageBlock, MessageNode::new);
         register(RULE_messageName, GenericNameNode::new);
         register(RULE_oneof, OneOfNode::new);
+        register(RULE_oneofName, GenericNameNode::new);
         register(RULE_option, OptionNode::new);
         register(RULE_optionEntry, OptionEntryNode::new);
         register(RULE_optionValue, OptionValueNode::new);

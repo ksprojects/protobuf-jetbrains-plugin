@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package rename.service;
+
+service TheService {
+    rpc foo<caret> (Message) returns (Message);
+}
+
+message Message {
+
+}
