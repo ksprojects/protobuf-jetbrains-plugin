@@ -47,6 +47,8 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("PROTO_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
     static final TextAttributesKey ENUM_CONSTANT =
             createTextAttributesKey("PROTO_ENUM_CONSTANT", DefaultLanguageHighlighterColors.CONSTANT);
+    static final TextAttributesKey METADATA =
+            createTextAttributesKey("PROTO_METADATA", DefaultLanguageHighlighterColors.METADATA);
 
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
@@ -79,6 +81,9 @@ public class ProtoSyntaxHighlighter extends SyntaxHighlighterBase {
                 break;
             case ProtoLexer.LINE_COMMENT:
                 attrKey = LINE_COMMENT;
+                break;
+            case ProtoLexer.PLUGIN_DEV_MARKER:
+                attrKey = METADATA;
                 break;
             default:
                 return EMPTY_KEYS;

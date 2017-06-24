@@ -3,6 +3,7 @@ package io.protostuff.jetbrains.plugin;
 import static io.protostuff.compiler.parser.ProtoLexer.COMMENT;
 import static io.protostuff.compiler.parser.ProtoLexer.LINE_COMMENT;
 import static io.protostuff.compiler.parser.ProtoLexer.NL;
+import static io.protostuff.compiler.parser.ProtoLexer.PLUGIN_DEV_MARKER;
 import static io.protostuff.compiler.parser.ProtoLexer.STRING_VALUE;
 import static io.protostuff.compiler.parser.ProtoLexer.WS;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_customFieldReference;
@@ -199,7 +200,8 @@ public class ProtoParserDefinition implements ParserDefinition {
     );
     public static final TokenSet COMMENT_TOKEN_SET = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.COMMENT,
-            ProtoLexer.LINE_COMMENT
+            ProtoLexer.LINE_COMMENT,
+            ProtoLexer.PLUGIN_DEV_MARKER
     );
     public static final TokenSet LITERAL_TOKEN_SET = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.STRING_VALUE,
@@ -267,7 +269,7 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final IElementType R_FIELD_NAME = RULE_TYPES.get(RULE_fieldName);
     public static final IElementType R_TAG = RULE_TYPES.get(RULE_tag);
     private static final IFileElementType FILE = new IFileElementType(ProtoLanguage.INSTANCE);
-    private static final TokenSet COMMENTS = ELEMENT_FACTORY.createTokenSet(COMMENT, LINE_COMMENT);
+    private static final TokenSet COMMENTS = ELEMENT_FACTORY.createTokenSet(COMMENT, LINE_COMMENT, PLUGIN_DEV_MARKER);
     private static final TokenSet STRING = ELEMENT_FACTORY.createTokenSet(STRING_VALUE);
     private final Map<Integer, Function<ASTNode, AntlrPsiNode>> elementFactories = new HashMap<>();
 
