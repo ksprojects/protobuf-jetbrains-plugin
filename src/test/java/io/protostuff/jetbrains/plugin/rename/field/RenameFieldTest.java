@@ -25,6 +25,13 @@ public class RenameFieldTest extends LightCodeInsightFixtureTestCase {
         Assert.assertNotNull(option);
     }
 
+    public void testRenameField_caretAtFieldName_OneofOption() {
+        myFixture.configureByFiles("rename/field/RenameField_CaretAtField_OneofOption.proto");
+        myFixture.renameElementAtCaret("NewName");
+        OptionNode option = myFixture.findElementByText("(foo).NewName", OptionNode.class);
+        Assert.assertNotNull(option);
+    }
+
     public void testRenameField_caretAtOption() {
         myFixture.configureByFiles("rename/field/RenameField_CaretAtOption.proto");
         myFixture.renameElementAtCaret("NewName");

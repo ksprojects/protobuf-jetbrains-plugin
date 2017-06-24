@@ -6,6 +6,7 @@ import static io.protostuff.compiler.model.ProtobufConstants.MSG_FIELD_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_FILE_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_MESSAGE_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_METHOD_OPTIONS;
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_ONEOF_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_SERVICE_OPTIONS;
 
 import com.google.common.base.Strings;
@@ -27,6 +28,7 @@ import io.protostuff.jetbrains.plugin.psi.FieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.MapNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.OneOfNode;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
@@ -66,6 +68,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
             .put(RpcMethodNode.class, MSG_METHOD_OPTIONS)
             .put(ServiceNode.class, MSG_SERVICE_OPTIONS)
             .put(ProtoRootNode.class, MSG_FILE_OPTIONS)
+            .put(OneOfNode.class, MSG_ONEOF_OPTIONS)
             .build();
 
     public FieldReferenceProviderImpl(Project project) {
