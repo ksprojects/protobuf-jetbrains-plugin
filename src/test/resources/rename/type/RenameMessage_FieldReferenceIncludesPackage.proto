@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package rename.type;
+
+message Source<caret>Message {
+
+}
+
+message TestMessage {
+
+    rename.type.SourceMessage msg = 1;
+}

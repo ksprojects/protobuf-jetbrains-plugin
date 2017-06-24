@@ -6,11 +6,8 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
 import java.util.Arrays;
 import java.util.List;
-import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,11 +18,11 @@ import org.jetbrains.annotations.Nullable;
  * @author Kostiantyn Shchepanovskyi
  */
 public class ServiceNode
-        extends IdentifierDefSubtree
+        extends AbstractNamedNode
         implements ScopeNode, KeywordsContainer, ProtoType {
 
     public ServiceNode(@NotNull ASTNode node) {
-        super(node, ProtoParserDefinition.rule(ProtoParser.RULE_serviceName));
+        super(node);
     }
 
     @Nullable

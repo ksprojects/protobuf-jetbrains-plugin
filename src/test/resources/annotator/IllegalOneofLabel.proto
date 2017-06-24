@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+package annotator;
+
+message TestMessage {
+
+    oneof action {
+        <error descr="Oneof field cannot have label">optional</error> int32 field1 = 1;
+        <error descr="Oneof field cannot have label">required</error> int32 field2 = 2;
+        <error descr="Oneof field cannot have label">repeated</error> int32 field3 = 3;
+    }
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package rename.type;
+
+message SourceMessage {
+
+}
+
+message TestMessage {
+
+    Source<caret>Message msg = 1;
+}

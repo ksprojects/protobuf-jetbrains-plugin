@@ -14,6 +14,14 @@ public class ProtoErrorsAnnotatorTest extends LightCodeInsightFixtureTestCase {
         return "src/test/resources/annotator";
     }
 
+    public void testNormalOneof() {
+        check();
+    }
+
+    public void testIllegalOneofLabel() {
+        check();
+    }
+
     public void testInvalidTagValue() {
         check();
     }

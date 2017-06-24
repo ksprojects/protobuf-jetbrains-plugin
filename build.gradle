@@ -32,7 +32,7 @@ dependencies {
         exclude group: 'com.jetbrains'
     }
     compile 'com.google.guava:guava:21.0'
-    compile 'io.protostuff:protostuff-parser:2.0.0-alpha38'
+    compile 'io.protostuff:protostuff-parser:2.1.11'
 }
 
 apply plugin: 'idea'

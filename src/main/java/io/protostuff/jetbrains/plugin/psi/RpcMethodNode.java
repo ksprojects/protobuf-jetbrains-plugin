@@ -4,7 +4,6 @@ import static io.protostuff.compiler.parser.ProtoParser.RULE_rpcName;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
 
 import com.intellij.lang.ASTNode;
-import org.antlr.jetbrains.adapter.psi.IdentifierDefSubtree;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,10 +12,10 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class RpcMethodNode extends IdentifierDefSubtree implements KeywordsContainer {
+public class RpcMethodNode extends AbstractNamedNode implements KeywordsContainer {
 
     public RpcMethodNode(@NotNull ASTNode node) {
-        super(node, rule(RULE_rpcName));
+        super(node);
     }
 
     /**

@@ -5,11 +5,51 @@ import static io.protostuff.compiler.parser.ProtoLexer.LINE_COMMENT;
 import static io.protostuff.compiler.parser.ProtoLexer.NL;
 import static io.protostuff.compiler.parser.ProtoLexer.STRING_VALUE;
 import static io.protostuff.compiler.parser.ProtoLexer.WS;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_customFieldReference;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumField;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_extendBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_extendBlockEntry;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_extensions;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_field;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fieldModifier;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fieldName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fieldRerefence;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_fileReference;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_groupBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_ident;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_importStatement;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_map;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_mapKey;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_messageBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_messageName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_oneof;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_oneofName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_option;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_optionEntry;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_optionValue;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_packageStatement;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_proto;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_range;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_reservedFieldNames;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_reservedFieldRanges;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_rpcMethod;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_rpcName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_rpcType;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_serviceBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_serviceName;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_standardFieldRerefence;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_syntaxStatement;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_tag;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_typeReference;
+import static io.protostuff.compiler.parser.ProtoParser.ruleNames;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiFile;
@@ -27,14 +67,13 @@ import io.protostuff.jetbrains.plugin.psi.ExtensionsNode;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.FieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.FileReferenceNode;
+import io.protostuff.jetbrains.plugin.psi.GenericNameNode;
 import io.protostuff.jetbrains.plugin.psi.GroupNode;
 import io.protostuff.jetbrains.plugin.psi.ImportNode;
 import io.protostuff.jetbrains.plugin.psi.MapKeyNode;
 import io.protostuff.jetbrains.plugin.psi.MapNode;
-import io.protostuff.jetbrains.plugin.psi.MessageNameNode;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import io.protostuff.jetbrains.plugin.psi.OneOfNode;
-import io.protostuff.jetbrains.plugin.psi.OneofFieldNode;
 import io.protostuff.jetbrains.plugin.psi.OptionEntryNode;
 import io.protostuff.jetbrains.plugin.psi.OptionNode;
 import io.protostuff.jetbrains.plugin.psi.OptionValueNode;
@@ -50,6 +89,8 @@ import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.StandardFieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.SyntaxStatement;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
+import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +111,8 @@ import org.jetbrains.annotations.NotNull;
  * @author Kostiantyn Shchepanovskyi
  */
 public class ProtoParserDefinition implements ParserDefinition {
+
+    private static final Logger LOGGER = Logger.getInstance(ProtoParserDefinition.class);
 
     public static final PsiElementTypeFactory ELEMENT_FACTORY = PsiElementTypeFactory.create(ProtoLanguage.INSTANCE, new ProtoParser(null));
     public static final TokenSet KEYWORDS = ELEMENT_FACTORY.createTokenSet(
@@ -218,51 +261,70 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final TokenIElementType ASSIGN = TOKEN_TYPES.get(ProtoLexer.ASSIGN);
     private static final List<RuleIElementType> RULE_TYPES = ELEMENT_FACTORY.getRuleIElementTypes();
     // Rules
-    public static final IElementType R_TYPE_REFERENCE = RULE_TYPES.get(ProtoParser.RULE_typeReference);
-    public static final IElementType R_NAME = RULE_TYPES.get(ProtoParser.RULE_ident);
-    public static final IElementType R_FIELD_MODIFIER = RULE_TYPES.get(ProtoParser.RULE_fieldModifier);
-    public static final IElementType R_FIELD_NAME = RULE_TYPES.get(ProtoParser.RULE_fieldName);
-    public static final IElementType R_TAG = RULE_TYPES.get(ProtoParser.RULE_tag);
+    public static final IElementType R_TYPE_REFERENCE = RULE_TYPES.get(RULE_typeReference);
+    public static final IElementType R_NAME = RULE_TYPES.get(RULE_ident);
+    public static final IElementType R_FIELD_MODIFIER = RULE_TYPES.get(RULE_fieldModifier);
+    public static final IElementType R_FIELD_NAME = RULE_TYPES.get(RULE_fieldName);
+    public static final IElementType R_TAG = RULE_TYPES.get(RULE_tag);
     private static final IFileElementType FILE = new IFileElementType(ProtoLanguage.INSTANCE);
     private static final TokenSet COMMENTS = ELEMENT_FACTORY.createTokenSet(COMMENT, LINE_COMMENT);
     private static final TokenSet STRING = ELEMENT_FACTORY.createTokenSet(STRING_VALUE);
     private final Map<Integer, Function<ASTNode, AntlrPsiNode>> elementFactories = new HashMap<>();
 
+    private final Map<String, Method> parserRuleMethods = createParserRuleMethods();
+
     /**
      * Create new parser definition.
      */
     public ProtoParserDefinition() {
-        register(ProtoParser.RULE_syntaxStatement, SyntaxStatement::new);
-        register(ProtoParser.RULE_packageStatement, PackageStatement::new);
-        register(ProtoParser.RULE_importStatement, ImportNode::new);
-        register(ProtoParser.RULE_fileReference, FileReferenceNode::new);
-        register(ProtoParser.RULE_messageBlock, MessageNode::new);
-        register(ProtoParser.RULE_messageName, MessageNameNode::new);
-        register(ProtoParser.RULE_field, FieldNode::new);
-        register(ProtoParser.RULE_typeReference, TypeReferenceNode::new);
-        register(ProtoParser.RULE_groupBlock, GroupNode::new);
-        register(ProtoParser.RULE_enumBlock, EnumNode::new);
-        register(ProtoParser.RULE_enumField, EnumConstantNode::new);
-        register(ProtoParser.RULE_serviceBlock, ServiceNode::new);
-        register(ProtoParser.RULE_rpcMethod, RpcMethodNode::new);
-        register(ProtoParser.RULE_optionEntry, OptionEntryNode::new);
-        register(ProtoParser.RULE_option, OptionNode::new);
-        register(ProtoParser.RULE_fieldRerefence, FieldReferenceNode::new);
-        register(ProtoParser.RULE_standardFieldRerefence, StandardFieldReferenceNode::new);
-        register(ProtoParser.RULE_customFieldReference, CustomFieldReferenceNode::new);
-        register(ProtoParser.RULE_optionValue, OptionValueNode::new);
-        register(ProtoParser.RULE_oneof, OneOfNode::new);
-        register(ProtoParser.RULE_oneofField, OneofFieldNode::new);
-        register(ProtoParser.RULE_extendBlock, ExtendNode::new);
-        register(ProtoParser.RULE_extendBlockEntry, ExtendEntryNode::new);
-        register(ProtoParser.RULE_extensions, ExtensionsNode::new);
-        register(ProtoParser.RULE_map, MapNode::new);
-        register(ProtoParser.RULE_mapKey, MapKeyNode::new);
-        register(ProtoParser.RULE_range, RangeNode::new);
-        register(ProtoParser.RULE_reservedFieldRanges, ReservedFieldRangesNode::new);
-        register(ProtoParser.RULE_reservedFieldNames, ReservedFieldNamesNode::new);
-        register(ProtoParser.RULE_rpcType, RpcMethodTypeNode::new);
-        register(ProtoParser.RULE_proto, ProtoRootNode::new);
+        register(RULE_customFieldReference, CustomFieldReferenceNode::new);
+        register(RULE_enumBlock, EnumNode::new);
+        register(RULE_enumField, EnumConstantNode::new);
+        register(RULE_enumName, GenericNameNode::new);
+        register(RULE_extendBlock, ExtendNode::new);
+        register(RULE_extendBlockEntry, ExtendEntryNode::new);
+        register(RULE_extensions, ExtensionsNode::new);
+        register(RULE_field, FieldNode::new);
+        register(RULE_fieldName, GenericNameNode::new);
+        register(RULE_fieldRerefence, FieldReferenceNode::new);
+        register(RULE_fileReference, FileReferenceNode::new);
+        register(RULE_groupBlock, GroupNode::new);
+        register(RULE_importStatement, ImportNode::new);
+        register(RULE_map, MapNode::new);
+        register(RULE_mapKey, MapKeyNode::new);
+        register(RULE_messageBlock, MessageNode::new);
+        register(RULE_messageName, GenericNameNode::new);
+        register(RULE_oneof, OneOfNode::new);
+        register(RULE_oneofName, GenericNameNode::new);
+        register(RULE_option, OptionNode::new);
+        register(RULE_optionEntry, OptionEntryNode::new);
+        register(RULE_optionValue, OptionValueNode::new);
+        register(RULE_packageStatement, PackageStatement::new);
+        register(RULE_proto, ProtoRootNode::new);
+        register(RULE_range, RangeNode::new);
+        register(RULE_reservedFieldNames, ReservedFieldNamesNode::new);
+        register(RULE_reservedFieldRanges, ReservedFieldRangesNode::new);
+        register(RULE_rpcMethod, RpcMethodNode::new);
+        register(RULE_rpcType, RpcMethodTypeNode::new);
+        register(RULE_rpcName, GenericNameNode::new);
+        register(RULE_serviceBlock, ServiceNode::new);
+        register(RULE_serviceName, GenericNameNode::new);
+        register(RULE_standardFieldRerefence, StandardFieldReferenceNode::new);
+        register(RULE_typeReference, TypeReferenceNode::new);
+        register(RULE_syntaxStatement, SyntaxStatement::new);
+    }
+
+    private Map<String, Method> createParserRuleMethods() {
+        Map<String, Method> result = new HashMap<>();
+        for (String ruleName : ruleNames) {
+            try {
+                Method method = ProtoParser.class.getMethod(ruleName);
+                result.put(ruleName, method);
+            } catch (NoSuchMethodException e) {
+                LOGGER.error("Could not get parser method for rule " + ruleName);
+            }
+        }
+        return Collections.unmodifiableMap(result);
     }
 
     public static TokenIElementType token(int token) {
@@ -294,20 +356,31 @@ public class ProtoParserDefinition implements ParserDefinition {
             @Override
             protected ParseTree parse(Parser parser, IElementType root) {
                 // start rule depends on root passed in; sometimes we want to create an ID node etc...
+                ProtoParser protoParser = (ProtoParser) parser;
                 if (root instanceof IFileElementType) {
-                    return ((ProtoParser) parser).proto();
+                    return protoParser.proto();
                 }
                 if (root instanceof RuleIElementType) {
                     RuleIElementType type = (RuleIElementType) root;
-                    if (ProtoParserDefinition.rule(ProtoParser.RULE_fileReference).equals(type)) {
-                        return ((ProtoParser) parser).fileReference();
-                    }
+                    String ruleName = ruleNames[type.getRuleIndex()];
+                    return parserRule(protoParser, ruleName);
                 }
-                // let's hope it's an ID as needed by "rename function"
-                throw new UnsupportedOperationException();
-                // return ((ProtoParser) parser).name();
+                throw new UnsupportedOperationException(String.valueOf(root.getIndex()));
             }
         };
+    }
+
+    @NotNull
+    private ParseTree parserRule(ProtoParser protoParser, String ruleName) {
+        try {
+            Method method = parserRuleMethods.get(ruleName);
+            if (method == null) {
+                throw new IllegalStateException("Not a parser rule: " + ruleName);
+            }
+            return (ParseTree) method.invoke(protoParser);
+        } catch (Exception e) {
+            throw new IllegalStateException("Exception in parser rule: " + ruleName, e);
+        }
     }
 
     @Override

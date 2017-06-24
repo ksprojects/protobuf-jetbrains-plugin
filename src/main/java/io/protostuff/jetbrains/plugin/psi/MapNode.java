@@ -8,7 +8,6 @@ import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import java.util.Optional;
-import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,13 +15,12 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class MapNode extends AntlrPsiNode
+public class MapNode extends AbstractNamedNode
         implements MessageField, KeywordsContainer {
 
     public MapNode(@NotNull ASTNode node) {
         super(node);
     }
-
 
     @Override
     public String getFieldName() {

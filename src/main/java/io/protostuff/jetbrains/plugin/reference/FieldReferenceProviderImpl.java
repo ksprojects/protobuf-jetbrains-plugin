@@ -6,6 +6,7 @@ import static io.protostuff.compiler.model.ProtobufConstants.MSG_FIELD_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_FILE_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_MESSAGE_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_METHOD_OPTIONS;
+import static io.protostuff.compiler.model.ProtobufConstants.MSG_ONEOF_OPTIONS;
 import static io.protostuff.compiler.model.ProtobufConstants.MSG_SERVICE_OPTIONS;
 
 import com.google.common.base.Strings;
@@ -24,8 +25,10 @@ import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.ExtendNode;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.FieldReferenceNode;
+import io.protostuff.jetbrains.plugin.psi.MapNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.OneOfNode;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
@@ -58,12 +61,14 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
     private static final Map<Class<? extends PsiElement>, String> TARGET_MAPPING
             = ImmutableMap.<Class<? extends PsiElement>, String>builder()
             .put(FieldNode.class, MSG_FIELD_OPTIONS)
+            .put(MapNode.class, MSG_FIELD_OPTIONS)
             .put(MessageNode.class, MSG_MESSAGE_OPTIONS)
             .put(EnumConstantNode.class, MSG_ENUM_VALUE_OPTIONS)
             .put(EnumNode.class, MSG_ENUM_OPTIONS)
             .put(RpcMethodNode.class, MSG_METHOD_OPTIONS)
             .put(ServiceNode.class, MSG_SERVICE_OPTIONS)
             .put(ProtoRootNode.class, MSG_FILE_OPTIONS)
+            .put(OneOfNode.class, MSG_ONEOF_OPTIONS)
             .build();
 
     public FieldReferenceProviderImpl(Project project) {
@@ -102,9 +107,14 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
                 message = null;
                 if (targetField != null) {
                     TypeReferenceNode fieldTypeRef = targetField.getFieldType();
-                    PsiElement fieldType = fieldTypeRef.getReference().resolve();
-                    if (fieldType instanceof MessageNode) {
-                        message = (MessageNode) fieldType;
+                    if (fieldTypeRef != null) {
+                        PsiReference reference = fieldTypeRef.getReference();
+                        if (reference != null) {
+                            PsiElement fieldType = reference.resolve();
+                            if (fieldType instanceof MessageNode) {
+                                message = (MessageNode) fieldType;
+                            }
+                        }
                     }
                 }
             }
@@ -181,7 +191,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
     private FieldNode resolveCustomOptionReference(PsiElement element, MessageNode target, String key) {
         ProtoRootNode protoRoot = getProtoRoot(element);
         DataTypeContainer container = getContainer(element);
-        Deque<String> scopeLookupList = TypeReference.createScopeLookupList(container);
+        Deque<String> scopeLookupList = TypeReferenceProviderImpl.createScopeLookupList(container);
         // case 1: (.package.field)
         // case 2: (.package.field).field
         // case 3: (.package.field).(.package.field)

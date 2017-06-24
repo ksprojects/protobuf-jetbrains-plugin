@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package rename.field;
+
+import "google/protobuf/descriptor.proto";
+
+
+extend google.protobuf.OneofOptions {
+    optional Foo foo = 52003;
+}
+
+message Foo {
+    optional int32 name<caret> = 1;
+}
+
+message Bar {
+    oneof oneof {
+        option (foo).name = 1;
+        optional string field = 1;
+    }
+}

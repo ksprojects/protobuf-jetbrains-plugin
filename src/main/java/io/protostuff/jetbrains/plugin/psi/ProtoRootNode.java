@@ -126,7 +126,7 @@ public class ProtoRootNode extends AntlrPsiNode implements KeywordsContainer, Da
     }
 
     @Nullable
-    private PackageStatement getPackageStatement() {
+    public PackageStatement getPackageStatement() {
         return findChildByClass(PackageStatement.class);
     }
 

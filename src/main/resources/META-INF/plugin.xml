@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.8.0</version>
+    <version>0.9.0</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -13,7 +13,7 @@
             <li>Full Proto3 support.</li>
             <li>Custom include path for proto files.</li>
             <li>Reference support.</li>
-            <li>Usage search for messages/enums.</li>
+            <li>Usage search for messages/enums/options.</li>
             <li>Syntax highlighting.</li>
             <li>Syntax validation for proto2/proto3.</li>
             <li>Error checks for reserved/duplicated field tags and names.</li>
@@ -23,7 +23,8 @@
             <li>Line and block commenting.</li>
             <li>Code formatting.</li>
             <li>Navigation to message, enum or service by name (Ctrl+N)</li>
-            <li>Proto file rename refactoring (imports are update automatically).</li>
+            <li>File rename refactoring (imports are update automatically).</li>
+            <li>Message/enum rename refactoring.</li>
         </ul>
         <br>
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap">Roadmap</a> |
@@ -35,20 +36,12 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.8.0">
-            <b>v0.8.0</b>
-        </a> (2017-04-14)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.9.0">
+            <b>v0.9.0</b>
+        </a> (2017-05-05)
         <ul>
-            <li>Support for proto file renames - import statements are automatically updated when
-                imported file is renamed.</li>
-            <li>Add proto2/proto3 syntax validation - check field labels (in proto2 labels are
-                mandatory; in proto3 optional and required labels are forbidden), enum values
-                (first value must be zero), check for elements removed in proto3 - extensions and groups.</li>
-            <li>Resolve option references - navigate to message field which corresponds to an option key.</li>
-            <li>Improved icon for proto files.</li>
-            <li>Fix imports resolving in WebStorm 2017.1, when source directory is marked as "Resource Root".</li>
-            <li>Fix error that is reported by IDE when proto files are importing each other in a loop (or when
-                proto file imports itself).</li>
+            <li>Add support for message/enum/option rename refactoring.</li>
+            <li>Add support for usage search for options.</li>
         </ul>
 
         <br>
@@ -87,6 +80,12 @@
         <component>
             <interface-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProvider</interface-class>
             <implementation-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProviderImpl
+            </implementation-class>
+        </component>
+        <component>
+            <interface-class>io.protostuff.jetbrains.plugin.reference.TypeReferenceProvider</interface-class>
+            <implementation-class>
+                io.protostuff.jetbrains.plugin.reference.TypeReferenceProviderImpl
             </implementation-class>
         </component>
     </project-components>
@@ -171,6 +170,12 @@
         <lang.elementManipulator
             forClass="io.protostuff.jetbrains.plugin.psi.FileReferenceNode"
             implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.FileReferenceNodeManipulator"/>
+        <lang.elementManipulator
+                forClass="io.protostuff.jetbrains.plugin.psi.TypeReferenceNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.TypeReferenceNodeManipulator"/>
+        <lang.elementManipulator
+                forClass="io.protostuff.jetbrains.plugin.psi.FieldReferenceNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.FieldReferenceNodeManipulator"/>
 
     </extensions>
 

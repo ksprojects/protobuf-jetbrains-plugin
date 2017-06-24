@@ -19,6 +19,7 @@ import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.GroupNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
+import io.protostuff.jetbrains.plugin.psi.OneOfNode;
 import io.protostuff.jetbrains.plugin.psi.OptionNode;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RangeNode;
@@ -140,15 +141,27 @@ public class ProtoErrorsAnnotator implements Annotator {
 
 
     private void checkFieldLabel(FieldNode field, Syntax syntax) {
-        switch (syntax) {
-            case PROTO2:
-                checkFieldLabelProto2(field);
-                break;
-            case PROTO3:
-                checkFieldLabelProto3(field);
-                break;
-            default:
-                throw new IllegalStateException(String.valueOf(syntax));
+        if (field.getParent() instanceof OneOfNode) {
+            checkOneofFieldLabel(field);
+        } else {
+            switch (syntax) {
+                case PROTO2:
+                    checkFieldLabelProto2(field);
+                    break;
+                case PROTO3:
+                    checkFieldLabelProto3(field);
+                    break;
+                default:
+                    throw new IllegalStateException(String.valueOf(syntax));
+            }
+        }
+    }
+
+    private void checkOneofFieldLabel(FieldNode field) {
+        ASTNode fieldLabelNode = field.getFieldLabelNode();
+        if (fieldLabelNode != null) {
+            String message = message("error.illegal.oneof.field.label");
+            markError(field.getFieldLabelNode(), null, message);
         }
     }
 
