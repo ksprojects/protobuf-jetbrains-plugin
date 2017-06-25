@@ -18,7 +18,7 @@
             <li>Structure View.</li>
             <li>Code formatting.</li>
             <li>Navigation to message, enum or service by name (Ctrl+N)</li>
-            <li>Rename refactoring (files, messages, enums, fields).</li>
+            <li>Rename refactoring (files, messages, enums and fields).</li>
         </ul>
         <br>
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap">Roadmap</a> |
@@ -32,7 +32,7 @@
 
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.9.0">
             <b>v0.9.0</b>
-        </a> (2017-05-05)
+        </a> (2017-06-25)
         <ul>
             <li>Add support for rename refactoring (files, messages, enums, fields).</li>
             <li>Add support for usage search for standard and custom options.</li>
