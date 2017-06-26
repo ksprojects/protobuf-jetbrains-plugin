@@ -130,6 +130,10 @@
                 language="PROTO"
                 implementationClass="io.protostuff.jetbrains.plugin.ProtoFindUsagesProvider"/>
 
+        <lang.foldingBuilder
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.ProtoFoldingBuilder"/>
+
         <projectConfigurable instance="io.protostuff.jetbrains.plugin.settings.ProtobufSettingsConfigurable"/>
 
         <annotator

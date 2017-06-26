@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package folding;
+
+<fold text='message B {...}'>message B {
+    optional int32 x = 1;
+}</fold>
+
+<fold text='extend B {...}'>extend B {
+    optional int32 y = 2;
+}</fold>

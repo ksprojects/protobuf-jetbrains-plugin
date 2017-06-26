@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package folding;
+
+<fold text='//...'>// line 1
+// line 2</fold>
+
+<fold text='/*...*/'>/*
+  line 1
+  line 2
+*/</fold>
+
+// nofold
+
+/* nofold */

@@ -1,0 +1,4 @@
+<fold text='//...' expand='false'>// header 1
+// header 2</fold>
+
+syntax = "proto3";

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package folding;
+
+<fold text='service A {...}'>service A {
+    rpc call(Foo) returns (Foo);
+}</fold>
+
+<fold text='message Foo {...}'>message Foo {
+    int32 x = 1;
+}</fold>

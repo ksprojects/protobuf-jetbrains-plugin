@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package folding;
+
+<fold text='enum A {...}'>enum A {
+    FOO = 0;
+}</fold>
