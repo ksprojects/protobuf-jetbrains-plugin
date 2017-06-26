@@ -7,6 +7,15 @@
 Latest plugin release is compatible with IntelliJ IDEA 2017.1 (older releases are compatible with IDEA 13+). 
 Other JetBrains IDEs of the same or higher version should be supported as well. 
 
+Compatibility Matrix:
+
+| Plugin Version  | IDE Version Range  |
+|-----------------|--------------------|
+| 0.9.0           | IDEA 2017.1+       |
+| 0.8.0           | IDEA 2016.1+       |
+| 0.6.0           | IDEA 13 - IDEA 15  |
+
+
 ### Installation
 
 IntelliJ IDEA should suggest you to install plugin automatically 
@@ -32,7 +41,7 @@ Run following command in the shell:
 It should be possible to run build on any platform (Linux, Windows, MacOS) where
 [Gradle](https://gradle.org/) is supported.
 
-JDK 8 must be installed and available on PATH in order to run build.
+JDK 8 must be installed and available on PATH in order to build plugin.
 
 ### Run IntelliJ IDEA with enabled plugin (for development)
 
