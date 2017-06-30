@@ -7,7 +7,6 @@ import com.intellij.psi.PsiElement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class GroupNode extends AntlrPsiNode implements KeywordsContainer {
+public class GroupNode extends AbstractNamedNode implements KeywordsContainer {
 
     public GroupNode(@NotNull ASTNode node) {
         super(node);

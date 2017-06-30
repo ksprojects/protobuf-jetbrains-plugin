@@ -19,6 +19,7 @@ import static io.protostuff.compiler.parser.ProtoParser.RULE_fieldName;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_fieldRerefence;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_fileReference;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_groupBlock;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_groupName;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_ident;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_importStatement;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_map;
@@ -291,6 +292,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         register(RULE_fieldRerefence, FieldReferenceNode::new);
         register(RULE_fileReference, FileReferenceNode::new);
         register(RULE_groupBlock, GroupNode::new);
+        register(RULE_groupName, GenericNameNode::new);
         register(RULE_importStatement, ImportNode::new);
         register(RULE_map, MapNode::new);
         register(RULE_mapKey, MapKeyNode::new);

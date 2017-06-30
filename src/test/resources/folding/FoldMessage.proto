@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package folding;
+
+<fold text='message A {...}'>message A {
+    <fold text='message B {...}'>message B {
+        int32 x = 1;
+    }</fold>
+}</fold>
