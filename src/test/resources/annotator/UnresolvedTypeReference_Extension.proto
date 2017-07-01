@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package annotator;
+
+extend <error descr="Unresolved reference">Unresolved</error> {
+
+}

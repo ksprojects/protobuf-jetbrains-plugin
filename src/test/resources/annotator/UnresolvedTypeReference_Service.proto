@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package annotator;
+
+service Service {
+    rpc call (<error descr="Unresolved reference">Unresolved1</error>) returns (<error descr="Unresolved reference">Unresolved2</error>);
+}
