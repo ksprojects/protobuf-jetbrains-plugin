@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    // no error
+    string field = 1;
+}

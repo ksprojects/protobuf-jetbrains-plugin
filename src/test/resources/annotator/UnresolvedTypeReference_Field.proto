@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    <error descr="Unresolved reference">unresolved</error> field = 1;
+}

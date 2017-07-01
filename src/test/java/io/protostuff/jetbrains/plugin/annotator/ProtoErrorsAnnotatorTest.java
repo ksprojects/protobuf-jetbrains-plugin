@@ -102,6 +102,38 @@ public class ProtoErrorsAnnotatorTest extends LightCodeInsightFixtureTestCase {
         check();
     }
 
+    public void testUnresolvedTypeReference_Field() {
+        check();
+    }
+
+    public void testUnresolvedTypeReference_MapField() {
+        check();
+    }
+
+    public void testUnresolvedTypeReference_ScalarType() {
+        check();
+    }
+
+    public void testUnresolvedTypeReference_Extension() {
+        check();
+    }
+
+    public void testUnresolvedTypeReference_Service() {
+        check();
+    }
+
+    public void testUnresolvedOptionReference_StandardOption() {
+        check();
+    }
+
+    public void testUnresolvedOptionReference_CustomOption() {
+        check();
+    }
+
+    public void testUnresolvedFileReference() {
+        check();
+    }
+
     private void check() {
         String file = getTestName(false) + ".proto";
         myFixture.configureByFiles(file);

@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package annotator;
+
+import <error descr="File not found">"unresolved/file"</error>;

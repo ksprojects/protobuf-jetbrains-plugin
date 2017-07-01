@@ -9,6 +9,7 @@ import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
 import io.protostuff.compiler.model.Field;
 import io.protostuff.jetbrains.plugin.psi.AntlrParserRuleNode;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
@@ -16,16 +17,20 @@ import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.ExtendNode;
 import io.protostuff.jetbrains.plugin.psi.FieldLabel;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
+import io.protostuff.jetbrains.plugin.psi.FieldReferenceNode;
+import io.protostuff.jetbrains.plugin.psi.FileReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.GroupNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import io.protostuff.jetbrains.plugin.psi.OneOfNode;
 import io.protostuff.jetbrains.plugin.psi.OptionNode;
+import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RangeNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.Syntax;
+import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
 import io.protostuff.jetbrains.plugin.reference.FieldReferenceProviderImpl;
 import java.util.Collection;
 import java.util.HashMap;
@@ -75,7 +80,7 @@ public class ProtoErrorsAnnotator implements Annotator {
                     FieldNode field = (FieldNode) element;
                     checkFieldLabel(field, syntax);
                 } else if (element instanceof OptionNode) {
-                    checkDefaultValue((OptionNode)element, syntax);
+                    checkDefaultValue((OptionNode) element, syntax);
                 } else if (element instanceof EnumNode) {
                     EnumNode anEnum = (EnumNode) element;
                     List<EnumConstantNode> constants = anEnum.getConstants();
@@ -86,9 +91,34 @@ public class ProtoErrorsAnnotator implements Annotator {
                     ServiceNode service = (ServiceNode) element;
                     List<RpcMethodNode> rpcMethods = service.getRpcMethods();
                     checkDuplicateServiceMethodNames(rpcMethods);
+                } else if (element instanceof TypeReferenceNode
+                        || element instanceof FieldReferenceNode) {
+                    checkReference(element);
+                } else if (element instanceof FileReferenceNode) {
+                    FileReferenceNode fileReferenceNode = (FileReferenceNode) element;
+                    checkFileReference(fileReferenceNode);
                 }
             }
             this.holder = null;
+        }
+    }
+
+    private void checkFileReference(FileReferenceNode element) {
+        ProtoPsiFileRoot file = element.getTarget();
+        if (file == null) {
+            String message = message("error.file.not.found");
+            markError(element.getNode(), null, message);
+        }
+    }
+
+    private void checkReference(PsiElement element) {
+        PsiReference ref = element.getReference();
+        if (ref == null || ref.isSoft()) {
+            return;
+        }
+        if (ref.resolve() == null) {
+            String message = message("error.unresolved.reference");
+            markError(element.getNode(), null, message);
         }
     }
 

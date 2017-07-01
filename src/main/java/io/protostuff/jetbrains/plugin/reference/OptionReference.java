@@ -17,7 +17,7 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
     private final PsiElement target;
 
     public OptionReference(PsiElement element, TextRange textRange, PsiElement target) {
-        super(element, textRange, true);
+        super(element, textRange, false);
         this.target = target;
     }
 
