@@ -175,10 +175,18 @@
                 forClass="io.protostuff.jetbrains.plugin.psi.FieldReferenceNode"
                 implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.FieldReferenceNodeManipulator"/>
 
+        <errorHandler
+                implementation="io.protostuff.jetbrains.plugin.errorreporting.SentryBugReporter"/>
+
     </extensions>
 
     <actions>
-
+        <action id="ProtoErrorReporter.TriggerException"
+                class="io.protostuff.jetbrains.plugin.errorreporting.TriggerExceptionAction"
+                text="Trigger Exception"
+                description="Triggers an exception">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
         <!-- Add your actions here -->
     </actions>
 
