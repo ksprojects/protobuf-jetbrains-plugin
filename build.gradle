@@ -30,9 +30,15 @@ dependencies {
     compile 'org.antlr:antlr4-runtime:4.7'
     compile ('org.antlr:antlr4-jetbrains-adapter:2.0.0') {
         exclude group: 'com.jetbrains'
+        exclude group: 'org.slf4j'
     }
     compile 'com.google.guava:guava:21.0'
-    compile 'io.protostuff:protostuff-parser:2.1.12'
+    compile ('io.protostuff:protostuff-parser:2.1.12') {
+        exclude group: 'org.slf4j'
+    }
+    compile ('io.sentry:sentry:1.2.2') {
+        exclude group: 'org.slf4j'
+    }
 }
 
 apply plugin: 'idea'
@@ -61,6 +67,14 @@ intellij {
               : System.getenv('JETBRAINS_PASSWORD')
         pluginId = '8277'
     }
+}
+
+test {
+    systemProperty 'test_mode', true
+}
+
+runIde {
+    systemProperty 'trigger_exception_action.visible', true
 }
 
 apply plugin: 'java'

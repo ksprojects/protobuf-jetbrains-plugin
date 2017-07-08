@@ -36,8 +36,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class ProtostuffPluginController implements ProjectComponent {
 
+    public static final String PLUGIN_ID = "io.protostuff.protostuff-jetbrains-plugin";
+
     private static final String PLUGIN_NAME = "Protobuf Support";
-    private static final String PLUGIN_ID = "io.protostuff.protostuff-jetbrains-plugin";
     private static final Logger LOGGER = Logger.getInstance(ProtostuffPluginController.class);
     private final Project project;
 
