@@ -1,5 +1,7 @@
 ## Protobuf Support for JetBrains IDEs
 
+[![Join the chat at https://gitter.im/protostuff/protobuf-jetbrains-plugin](https://badges.gitter.im/protostuff/protobuf-jetbrains-plugin.svg)](https://gitter.im/protostuff/protobuf-jetbrains-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Donate PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6) [![Donate BTC](https://img.shields.io/badge/Donate-BitCoin-blue.svg)](https://ksprojects.org/protobuf-support-for-jetbrains-ide/btc/)
 
 [Protobuf Support Plugin](https://plugins.jetbrains.com/plugin/8277) for IntelliJ IDEA & other JetBrains products.
