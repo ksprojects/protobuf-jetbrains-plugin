@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.9.0</version>
+    <version>0.10.0</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -13,7 +13,10 @@
             <li>Full Proto3 support.</li>
             <li>Custom include path for proto files.</li>
             <li>Usage search for messages, enums and fields (for standard and custom options).</li>
-            <li>Syntax validation for proto2/proto3. Error checks for reserved/duplicated field tags and names.</li>
+            <li>Syntax validation for proto2/proto3.
+                Checks for reserved/duplicated field tags and names.
+                Highlight unresolved reference errors.
+            </li>
             <li>Fonts & Colors configuration.</li>
             <li>Structure View.</li>
             <li>Code formatting.</li>
@@ -21,45 +24,32 @@
             <li>Rename refactoring (files, messages, enums and fields).</li>
         </ul>
         <br>
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap">Roadmap</a> |
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/issues">Issue tracker</a> |
-        Donate (<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6">PayPal</a>,
-        <a href="https://ksprojects.org/protobuf-support-for-jetbrains-ide/btc/">BitCoin</a>)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap">Roadmap</a>
+        | <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/issues">Issue tracker</a>
+        | <a href="https://gitter.im/protostuff/protobuf-jetbrains-plugin">Chat</a>
         <br>
     ]]></description>
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.9.0">
-            <b>v0.9.0</b>
-        </a> (2017-06-25)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.10.0">
+            <b>v0.10.0</b>
+        </a> (2017-07-11)
         <ul>
-            <li>Add support for rename refactoring (files, messages, enums, fields).</li>
-            <li>Add support for usage search for standard and custom options.</li>
-            <li>Add support for oneof options (latest release of Protocol Buffers (3.3)
-                does not provide standard options, however custom options can be used there).</li>
-            <li>Improve error message for field label inside of oneof block.</li>
+            <li>Highlight unresolved reference errors.</li>
+            <li>Make messages/enums and other blocks collapsible.</li>
+            <li>Improve error reporting (simplify sending bug reports).</li>
         </ul>
 
         <br>
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases">
             <b>Full Changelog</b>
         </a>
-
-        <br>
-        <br>
-        <i>Donations (<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5UPXLBR8UAHG6">PayPal</a>,
-        <a href="https://ksprojects.org/protobuf-support-for-jetbrains-ide/btc/">BitCoin</a>) are welcome.
-        With your little help we can make this plugin better.</i>
     ]]>
     </change-notes>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
-         for description -->
     <idea-version since-build="171"/>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
     <depends>com.intellij.modules.lang</depends>
 
     <project-components>
@@ -187,7 +177,6 @@
                 description="Triggers an exception">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
-        <!-- Add your actions here -->
     </actions>
 
 </idea-plugin>
