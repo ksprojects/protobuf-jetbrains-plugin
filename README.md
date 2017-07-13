@@ -25,6 +25,20 @@ You can install plugin manually by opening "Plugins" settings,
 
 Plugin page: https://plugins.jetbrains.com/plugin/8277-protobuf-support
 
+### Configuration
+
+The plugin does not require any further configuration.
+Imports for your own proto files do not work immediatly, you will see a 'File not found' notification.
+Each proto file which is supposed to be used in an import must be located in a source directory.
+
+For gradle you can do it like this:
+```gradle
+idea {
+    module {
+        sourceDirs += file("${projectDir}/src/main/proto")
+    }
+}
+```
 
 ### Roadmap
 
