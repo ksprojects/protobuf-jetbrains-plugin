@@ -54,7 +54,7 @@ There are a couple ways of doing that:
 
 3. You can go to plugin settings, and add source roots there (this is also useful for external imports):
 
-![image](https://user-images.githubusercontent.com/4040120/28202438-0fbe29ca-687e-11e7-964a-bb1f10dfcd4f.png)
+   ![image](https://user-images.githubusercontent.com/4040120/28202438-0fbe29ca-687e-11e7-964a-bb1f10dfcd4f.png)
 
 ### Roadmap
 
