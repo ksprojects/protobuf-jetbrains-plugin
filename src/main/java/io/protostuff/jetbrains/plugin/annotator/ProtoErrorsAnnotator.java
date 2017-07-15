@@ -72,29 +72,37 @@ public class ProtoErrorsAnnotator implements Annotator {
                     checkDuplicateFieldNames(fields);
                     checkReservedFieldTags(message, fields);
                     checkReservedFieldNames(message, fields);
-                } else if (element instanceof GroupNode) {
+                }
+                if (element instanceof GroupNode) {
                     checkGroupNodeDeprecated((GroupNode) element, syntax);
-                } else if (element instanceof ExtendNode) {
+                }
+                if (element instanceof ExtendNode) {
                     checkExtendNodeDeprecated((ExtendNode) element, syntax);
-                } else if (element instanceof FieldNode) {
+                }
+                if (element instanceof FieldNode) {
                     FieldNode field = (FieldNode) element;
                     checkFieldLabel(field, syntax);
-                } else if (element instanceof OptionNode) {
+                }
+                if (element instanceof OptionNode) {
                     checkDefaultValue((OptionNode) element, syntax);
-                } else if (element instanceof EnumNode) {
+                }
+                if (element instanceof EnumNode) {
                     EnumNode anEnum = (EnumNode) element;
                     List<EnumConstantNode> constants = anEnum.getConstants();
                     checkDuplicateEnumConstantNames(constants);
                     checkDuplicateEnumConstantValues(anEnum, constants);
                     checkFirstEnumConstantValueIsZero(anEnum, constants, syntax);
-                } else if (element instanceof ServiceNode) {
+                }
+                if (element instanceof ServiceNode) {
                     ServiceNode service = (ServiceNode) element;
                     List<RpcMethodNode> rpcMethods = service.getRpcMethods();
                     checkDuplicateServiceMethodNames(rpcMethods);
-                } else if (element instanceof TypeReferenceNode
+                }
+                if (element instanceof TypeReferenceNode
                         || element instanceof FieldReferenceNode) {
                     checkReference(element);
-                } else if (element instanceof FileReferenceNode) {
+                }
+                if (element instanceof FileReferenceNode) {
                     FileReferenceNode fileReferenceNode = (FileReferenceNode) element;
                     checkFileReference(fileReferenceNode);
                 }

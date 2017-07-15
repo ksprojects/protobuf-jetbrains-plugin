@@ -5,5 +5,5 @@ message MessageA {
 }
 
 message TestMessage {
-    Message<caret>A messageA = 1;
+    <caret>MessageA messageA = 1;
 }

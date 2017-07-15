@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class GroupNode extends AbstractNamedNode implements KeywordsContainer {
+public class GroupNode extends MessageNode implements KeywordsContainer {
 
     public GroupNode(@NotNull ASTNode node) {
         super(node);

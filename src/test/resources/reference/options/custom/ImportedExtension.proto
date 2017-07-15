@@ -1,9 +1,9 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package reference.options.custom;
 
 import public "reference/options/custom/SimpleExtensionField.proto";
 
 message A {
-    option (ba<caret>r) = 10;
+    option (<caret>bar) = 10;
 }

@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package reference;
+
+message Message {
+
+    optional group Group = 2 {
+
+        optional <caret>NestedMessage n = 3;
+
+        message NestedMessage {
+            repeated string s = 1;
+        }
+    }
+
+}

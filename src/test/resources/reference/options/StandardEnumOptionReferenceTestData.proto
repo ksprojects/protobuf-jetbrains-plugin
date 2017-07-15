@@ -1,9 +1,9 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package reference.options;
 
 enum A {
-    option depre<caret>cated = true;
+    option <caret>deprecated = true;
 
     X = 0;
 }

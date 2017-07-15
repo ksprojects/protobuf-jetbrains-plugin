@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package reference.options.custom;
 
@@ -9,5 +9,5 @@ extend google.protobuf.MessageOptions {
 }
 
 message A {
-    option (ba<caret>r) = 10;
+    option (<caret>bar) = 10;
 }

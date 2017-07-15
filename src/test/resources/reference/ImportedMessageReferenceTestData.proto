@@ -5,5 +5,5 @@ package reference;
 import "reference/ImportedTestData.proto";
 
 message TestMessage {
-    Imported<caret>Message message = 1;
+    <caret>ImportedMessage message = 1;
 }

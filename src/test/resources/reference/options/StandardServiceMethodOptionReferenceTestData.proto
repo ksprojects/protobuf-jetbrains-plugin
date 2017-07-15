@@ -4,7 +4,7 @@ package reference.options;
 
 service S {
     rpc call(A) returns(A) {
-        option depre<caret>cated = true;
+        option <caret>deprecated = true;
     };
 }
 

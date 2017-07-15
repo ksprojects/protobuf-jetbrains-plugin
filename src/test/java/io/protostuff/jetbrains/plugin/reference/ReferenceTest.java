@@ -1,9 +1,9 @@
 package io.protostuff.jetbrains.plugin.reference;
 
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import io.protostuff.jetbrains.plugin.psi.DataType;
-import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 
 /**
  * Tests for resolving type references.
@@ -34,6 +34,15 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
         checkReferenceToDataType(".reference.ImportedMessage", "reference/ImportedMessageReferenceTestData.proto", "reference/ImportedTestData.proto");
     }
 
+    /**
+     * Check that type references work correctly inside of group block.
+     *
+     * https://github.com/protostuff/protobuf-jetbrains-plugin/issues/62
+     */
+    public void testReferenceInsideOfGroup() {
+        checkReferenceToDataType(".reference.Message.Group.NestedMessage", "reference/GroupReference.proto");
+    }
+
     public void testProtoFileImportsItself() {
         // referenced type does not exist, so we expect that it is not resolvable
         // the only thing that we check here - is that we do not get StackOverflowError
@@ -42,14 +51,8 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
 
     private void checkReferenceToDataType(String typeReference, String... file) {
         myFixture.configureByFiles(file);
-        ProtoPsiFileRoot proto = (ProtoPsiFileRoot) myFixture.getFile();
-        PsiElement elementAtCaret = proto
-                .findElementAt(myFixture.getCaretOffset());
-        while (elementAtCaret != null && elementAtCaret.getReference() == null) {
-            elementAtCaret = elementAtCaret.getParent();
-        }
-        assertNotNull(elementAtCaret);
-        PsiElement target = elementAtCaret.getReference().resolve();
+        PsiReference referenceAtCaretPosition = myFixture.getReferenceAtCaretPositionWithAssertion(file);
+        PsiElement target = referenceAtCaretPosition.resolve();
         if (typeReference != null) {
             assertNotNull(target);
             assertTrue(target instanceof DataType);

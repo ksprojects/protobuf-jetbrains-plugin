@@ -3,5 +3,5 @@ syntax = "proto3";
 package reference.options;
 
 message A {
-    map<int32,int32> x = 1[depre<caret>cated = true];
+    map<int32,int32> x = 1[<caret>deprecated = true];
 }

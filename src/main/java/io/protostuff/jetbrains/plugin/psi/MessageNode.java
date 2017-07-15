@@ -24,8 +24,6 @@ import org.jetbrains.annotations.Nullable;
 public class MessageNode extends DataType implements AntlrParserRuleNode, DataTypeContainer {
 
 
-    public static final int RULE_INDEX = ProtoParser.RULE_messageBlock;
-
     @Nullable
     private Boolean syntaxErrors;
 
@@ -100,11 +98,6 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
         return Stream.of(findChildrenByClass(ReservedFieldNamesNode.class))
                 .flatMap(namesNode -> namesNode.getNames().stream())
                 .collect(Collectors.toSet());
-    }
-
-    @Override
-    public int getRuleIndex() {
-        return RULE_INDEX;
     }
 
     @Override

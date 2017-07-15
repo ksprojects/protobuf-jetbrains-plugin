@@ -20,16 +20,10 @@ import org.jetbrains.annotations.NotNull;
 public class ReservedFieldNamesNode extends AntlrPsiNode
         implements AntlrParserRuleNode, KeywordsContainer {
 
-    public static final int RULE_INDEX = ProtoParser.RULE_reservedFieldNames;
     private Boolean syntaxErrors;
 
     public ReservedFieldNamesNode(@NotNull ASTNode node) {
         super(node);
-    }
-
-    @Override
-    public int getRuleIndex() {
-        return RULE_INDEX;
     }
 
     @Override

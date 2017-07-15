@@ -3,7 +3,7 @@ syntax = "proto3";
 package reference.options;
 
 service S {
-    option depre<caret>cated = true;
+    option <caret>deprecated = true;
 
     rpc call(A) returns(A);
 }

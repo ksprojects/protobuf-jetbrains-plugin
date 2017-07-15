@@ -7,5 +7,5 @@ message EnumA {
 }
 
 message TestMessage {
-    Enum<caret>A enumA = 1;
+    <caret>EnumA enumA = 1;
 }

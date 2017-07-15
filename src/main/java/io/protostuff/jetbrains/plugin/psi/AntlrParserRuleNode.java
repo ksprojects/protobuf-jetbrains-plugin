@@ -7,7 +7,5 @@ package io.protostuff.jetbrains.plugin.psi;
  */
 public interface AntlrParserRuleNode {
 
-    int getRuleIndex();
-
     boolean hasSyntaxErrors();
 }
