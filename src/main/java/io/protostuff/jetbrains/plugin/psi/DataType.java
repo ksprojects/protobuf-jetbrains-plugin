@@ -2,6 +2,7 @@ package io.protostuff.jetbrains.plugin.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.util.IncorrectOperationException;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
@@ -16,6 +17,8 @@ import org.jetbrains.annotations.Nullable;
 public class DataType
         extends AbstractNamedNode
         implements ScopeNode, KeywordsContainer, ProtoType {
+
+    private static final String ERROR_ELEMENT = ".__ERROR_ELEMENT";
 
     public DataType(@NotNull ASTNode node) {
         super(node);
@@ -39,6 +42,9 @@ public class DataType
             MessageNode parentMessage = (MessageNode) parent;
             String parentMessageQualifiedName = parentMessage.getQualifiedName();
             return parentMessageQualifiedName + "." + getName();
+        }
+        if (parent instanceof PsiErrorElement) {
+            return ERROR_ELEMENT;
         }
         throw new IncorrectOperationException("Could not detect qualified name in given context: "
                 + parent.getClass().getName());

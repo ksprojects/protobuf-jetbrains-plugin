@@ -102,8 +102,15 @@ import org.antlr.jetbrains.adapter.lexer.PsiElementTypeFactory;
 import org.antlr.jetbrains.adapter.lexer.RuleIElementType;
 import org.antlr.jetbrains.adapter.lexer.TokenIElementType;
 import org.antlr.jetbrains.adapter.parser.AntlrParserAdapter;
+import org.antlr.jetbrains.adapter.parser.DefaultSyntaxErrorFormatter;
+import org.antlr.jetbrains.adapter.parser.SyntaxError;
+import org.antlr.jetbrains.adapter.parser.SyntaxErrorFormatter;
 import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
+import org.antlr.v4.runtime.InputMismatchException;
 import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
@@ -117,6 +124,26 @@ public class ProtoParserDefinition implements ParserDefinition {
     private static final Logger LOGGER = Logger.getInstance(ProtoParserDefinition.class);
 
     public static final PsiElementTypeFactory ELEMENT_FACTORY = PsiElementTypeFactory.create(ProtoLanguage.INSTANCE, new ProtoParser(null));
+
+    private static final SyntaxErrorFormatter ERROR_FORMATTER = new DefaultSyntaxErrorFormatter() {
+        @Override
+        public String formatMessage(SyntaxError error) {
+            RecognitionException exception = error.getException();
+            if (exception instanceof InputMismatchException) {
+                InputMismatchException mismatchException = (InputMismatchException) exception;
+                RuleContext ctx = mismatchException.getCtx();
+                int ruleIndex = ctx.getRuleIndex();
+                switch (ruleIndex) {
+                    case ProtoParser.RULE_ident:
+                        return ProtostuffBundle.message("error.expected.identifier");
+                    default:
+                        break;
+                }
+            }
+            return super.formatMessage(error);
+        }
+    };
+
     public static final TokenSet KEYWORDS = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.PACKAGE,
             ProtoLexer.SYNTAX,
@@ -356,7 +383,7 @@ public class ProtoParserDefinition implements ParserDefinition {
     @Override
     public PsiParser createParser(Project project) {
         final ProtoParser parser = new ProtoParser(null);
-        return new AntlrParserAdapter(ProtoLanguage.INSTANCE, parser, ELEMENT_FACTORY) {
+        return new AntlrParserAdapter(ProtoLanguage.INSTANCE, parser, ELEMENT_FACTORY, ERROR_FORMATTER) {
             @Override
             protected ParseTree parse(Parser parser, IElementType root) {
                 // start rule depends on root passed in; sometimes we want to create an ID node etc...

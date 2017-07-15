@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+package errors;
+
+message Parent {
+        message Child {
+            optional <error descr="Unresolved reference">Ref</error> parent = 1;
+        }
+        message
+<error descr="Identifier expected">}</error>
