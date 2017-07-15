@@ -11,7 +11,7 @@ Compatibility Matrix:
 
 | Plugin Version  | IDE Version Range  |
 |-----------------|--------------------|
-| 0.9.0           | IDEA 2017.1+       |
+| 0.9.0+          | IDEA 2017.1+       |
 | 0.8.0           | IDEA 2016.1+       |
 | 0.6.0           | IDEA 13 - IDEA 15  |
 
@@ -27,18 +27,34 @@ Plugin page: https://plugins.jetbrains.com/plugin/8277-protobuf-support
 
 ### Configuration
 
-The plugin does not require any further configuration.
-Imports for your own proto files do not work immediatly, you will see a 'File not found' notification.
-Each proto file which is supposed to be used in an import must be located in a source directory.
+The plugin does not require configuration by default, for majority of projects it should work out of the box.
 
-For gradle you can do it like this:
-```gradle
-idea {
-    module {
-        sourceDirs += file("${projectDir}/src/main/proto")
-    }
-}
-```
+#### Imports
+
+If you see 'File not found' error mark for the import statement, it means plugin cannot resolve target file within current set of source (or resource) roots.
+
+In order to fix it, you should tell to plugin where is the "sources root" for your proto files.
+
+There are a couple ways of doing that:
+
+1. Mark directory as a source/resources root (right click on folder in project structure, "Mark forlder as...."):
+
+![image](https://user-images.githubusercontent.com/4040120/28202383-c96d6f08-687d-11e7-905d-53dfcf6e0799.png)
+
+2. Configure directory as source/resources folder in `maven`/`gradle` or other build system (if IDEA has support for that build system). 
+
+   For gradle you can do it like this:
+   ```gradle
+   idea {
+       module {
+           sourceDirs += file("${projectDir}/src/main/proto")
+       }
+   }
+   ```
+
+3. You can go to plugin settings, and add source roots there (this is also useful for external imports):
+
+![image](https://user-images.githubusercontent.com/4040120/28202438-0fbe29ca-687e-11e7-964a-bb1f10dfcd4f.png)
 
 ### Roadmap
 
