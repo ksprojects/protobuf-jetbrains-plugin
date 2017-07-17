@@ -32,6 +32,7 @@ import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferen
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.containers.ContainerUtil;
+import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -51,7 +52,7 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
     private final boolean myEndingSlashNotAllowed;
 
     interface SourceRootsProvider {
-        VirtualFile[] getSourceRoots(Module module);
+        VirtualFile[] getSourceRoots(Module module, ProtoPsiFileRoot psiFileRoot);
     }
 
     private List<SourceRootsProvider> sourceRootsProviders = new ArrayList<>();
@@ -66,10 +67,11 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
         sourceRootsProviders.add(new WebCoreResourcePathRootsProvider());
         sourceRootsProviders.add(new CustomIncludePathRootsProvider());
         sourceRootsProviders.add(new LibrariesAndSdkClassesRootsProvider());
+        sourceRootsProviders.add(new ProtoFileRelativePathRootsProvider());
     }
 
     @NotNull
-    public Collection<PsiFileSystemItem> getRoots(@Nullable final Module module) {
+    public Collection<PsiFileSystemItem> getRoots(@Nullable final Module module, ProtoPsiFileRoot psiFileRoot) {
         if (module == null) {
             return Collections.emptyList();
         }
@@ -78,7 +80,7 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
         PsiManager psiManager = PsiManager.getInstance(module.getProject());
 
         for (SourceRootsProvider sourceRootsProvider : sourceRootsProviders) {
-            VirtualFile[] sourceRoots = sourceRootsProvider.getSourceRoots(module);
+            VirtualFile[] sourceRoots = sourceRootsProvider.getSourceRoots(module, psiFileRoot);
             for (VirtualFile root : sourceRoots) {
                 final PsiDirectory directory = psiManager.findDirectory(root);
                 if (directory != null) {
@@ -130,12 +132,12 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
                 if (forModules.length > 0) {
                     Set<PsiFileSystemItem> rootsForModules = ContainerUtil.newLinkedHashSet();
                     for (Module forModule : forModules) {
-                        rootsForModules.addAll(getRoots(forModule));
+                        rootsForModules.addAll(getRoots(forModule, null));
                     }
                     return rootsForModules;
                 }
 
-                return getRoots(ModuleUtilCore.findModuleForPsiElement(getElement()));
+                return getRoots(ModuleUtilCore.findModuleForPsiElement(getElement()), null);
             }
 
             @Override

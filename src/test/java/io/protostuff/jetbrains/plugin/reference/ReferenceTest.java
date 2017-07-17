@@ -31,7 +31,27 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
     }
 
     public void testImportedMessageReference() {
-        checkReferenceToDataType(".reference.ImportedMessage", "reference/ImportedMessageReferenceTestData.proto", "reference/ImportedTestData.proto");
+        checkReferenceToDataType(".reference.ImportedMessage",
+                "reference/ImportedMessageReferenceTestData.proto",
+                "reference/ImportedTestData.proto");
+    }
+
+    public void testImportedRelativelyMessageReference() {
+        checkReferenceToDataType(".import.ImportedMessage1",
+                "reference/relative/import/ImportedRelativelyMessageReferenceTestData.proto",
+                "reference/relative/import/ImportedRelativelyTestData.proto");
+    }
+
+    public void testImportedRelativelyNoPackageMessageReference() {
+        checkReferenceToDataType(".import.ImportedMessage1",
+                "reference/relative/import/ImportedRelativelyNoPackageMessageReferenceTestData.proto",
+                "reference/relative/import/ImportedRelativelyTestData.proto");
+    }
+
+    public void testImportedRelativelyTwoLevelsMessageReference() {
+        checkReferenceToDataType(".import.ImportedMessage1",
+                "reference/relative/import/ImportedRelativelyTwoLevelsMessageReferenceTestData.proto",
+                "reference/relative/import/ImportedRelativelyTestData.proto");
     }
 
     /**

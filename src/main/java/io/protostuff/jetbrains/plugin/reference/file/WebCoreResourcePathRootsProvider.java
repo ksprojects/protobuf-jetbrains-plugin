@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.MultiMap;
+import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +48,7 @@ class WebCoreResourcePathRootsProvider implements FilePathReferenceProvider.Sour
 
     @SuppressWarnings("unchecked")
     @Override
-    public VirtualFile[] getSourceRoots(Module module) {
+    public VirtualFile[] getSourceRoots(Module module, ProtoPsiFileRoot psiFileRoot) {
         try {
             if (GET_INSTANCE != null && GET_RESOURCE_ROOTS != null) {
                 Object configurationInstance = GET_INSTANCE.invoke(null, module.getProject());

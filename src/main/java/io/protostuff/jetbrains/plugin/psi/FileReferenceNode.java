@@ -5,6 +5,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.psi.PsiManager;
@@ -79,7 +80,7 @@ public class FileReferenceNode extends AntlrPsiNode {
     }
 
     private ProtoPsiFileRoot getTarget(@NotNull String filename, @NotNull Module module) {
-        Collection<PsiFileSystemItem> roots = new FilePathReferenceProvider().getRoots(module);
+        Collection<PsiFileSystemItem> roots = new FilePathReferenceProvider().getRoots(module, getRoot());
         for (PsiFileSystemItem root : roots) {
             VirtualFile file = root.getVirtualFile().findFileByRelativePath(getFilename());
             if (file != null) {
@@ -99,6 +100,15 @@ public class FileReferenceNode extends AntlrPsiNode {
             return (ProtoPsiFileRoot) file;
         }
         return null;
+    }
+
+    @Nullable
+    private ProtoPsiFileRoot getRoot() {
+        PsiElement node = this;
+        while (!(node instanceof ProtoPsiFileRoot || node == null)) {
+            node = node.getParent();
+        }
+        return (ProtoPsiFileRoot) node;
     }
 
     @Nullable
