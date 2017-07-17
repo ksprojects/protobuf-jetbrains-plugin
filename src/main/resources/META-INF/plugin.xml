@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.10.0</version>
+    <version>0.10.1</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -32,13 +32,27 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.10.0">
-            <b>v0.10.0</b>
-        </a> (2017-07-11)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.10.1">
+            <b>v0.10.1</b>
+        </a> (2017-07-18)
+        <br>
+        <br>
+        This release contains multiple important fixes:
         <ul>
-            <li>Highlight unresolved reference errors.</li>
-            <li>Make messages/enums and other blocks collapsible.</li>
-            <li>Improve error reporting (simplify sending bug reports).</li>
+            <li>
+              Improved imports resolving strategy: in addition to resolving imports using source roots,
+              plugin also tries to resolve import relatively to proto file's location.
+            </li>
+            <li>
+              Fix plugin error when message has syntax errors
+              (IncorrectOperationException: Could not detect qualified name in given context:
+              com.intellij.psi.impl.source.tree.PsiErrorElementImpl).
+            </li>
+            <li>
+              Fix plugin error when message is defined inside of group block
+              (IncorrectOperationException: Could not detect qualified name in given context:
+              io.protostuff.jetbrains.plugin.psi.GroupNode).
+            </li>
         </ul>
 
         <br>
