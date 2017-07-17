@@ -102,6 +102,11 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
                                                  int offset,
                                                  final boolean soft,
                                                  @NotNull final Module... forModules) {
+        PsiElement tmp = element;
+        while (!(tmp instanceof ProtoPsiFileRoot || tmp == null)) {
+            tmp = tmp.getParent();
+        }
+        ProtoPsiFileRoot root = (ProtoPsiFileRoot) tmp;
         return new FileReferenceSet(text, element, offset, this, true, myEndingSlashNotAllowed) {
 
 
@@ -132,12 +137,12 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
                 if (forModules.length > 0) {
                     Set<PsiFileSystemItem> rootsForModules = ContainerUtil.newLinkedHashSet();
                     for (Module forModule : forModules) {
-                        rootsForModules.addAll(getRoots(forModule, null));
+                        rootsForModules.addAll(getRoots(forModule, root));
                     }
                     return rootsForModules;
                 }
 
-                return getRoots(ModuleUtilCore.findModuleForPsiElement(getElement()), null);
+                return getRoots(ModuleUtilCore.findModuleForPsiElement(getElement()), root);
             }
 
             @Override

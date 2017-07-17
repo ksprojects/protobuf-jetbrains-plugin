@@ -4,6 +4,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import io.protostuff.jetbrains.plugin.psi.DataType;
+import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 
 /**
  * Tests for resolving type references.
@@ -52,6 +53,18 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
         checkReferenceToDataType(".import.ImportedMessage1",
                 "reference/relative/import/ImportedRelativelyTwoLevelsMessageReferenceTestData.proto",
                 "reference/relative/import/ImportedRelativelyTestData.proto");
+    }
+
+    public void testImportedRelativelyFileReference() {
+        String[] file = new String[]{"reference/relative/import/ImportedRelativelyFileReferenceTestData.proto",
+                "reference/relative/import/ImportedRelativelyTestData.proto"};
+        myFixture.configureByFiles(file);
+        PsiReference referenceAtCaretPosition = myFixture.getReferenceAtCaretPositionWithAssertion(file);
+        PsiElement target = referenceAtCaretPosition.resolve();
+        assertNotNull(target);
+        assertTrue(target instanceof ProtoPsiFileRoot);
+        ProtoPsiFileRoot protoPsiFileRoot = (ProtoPsiFileRoot) target;
+        assertEquals("ImportedRelativelyTestData.proto", protoPsiFileRoot.getName());
     }
 
     /**
