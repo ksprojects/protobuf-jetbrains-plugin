@@ -6,12 +6,14 @@ import com.intellij.openapi.project.Project;
 import java.util.Objects;
 import javax.swing.JComponent;
 import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.Nullable;
 
 public class ProtobufSettingsConfigurable implements Configurable {
 
     private final ProtobufSettings settings;
     private final Project project;
 
+    @Nullable
     private SettingsForm settingsForm;
 
 
@@ -39,17 +41,22 @@ public class ProtobufSettingsConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        return !Objects.equals(settings, settingsForm.getSettings());
+        return settingsForm != null
+                && !Objects.equals(settings, settingsForm.getSettings());
     }
 
     @Override
     public void apply() throws ConfigurationException {
-        settings.copyFrom(settingsForm.getSettings());
+        if (settingsForm != null) {
+            settings.copyFrom(settingsForm.getSettings());
+        }
     }
 
     @Override
     public void reset() {
-        settingsForm.reset(settings);
+        if (settingsForm != null) {
+            settingsForm.reset(settings);
+        }
     }
 
     @Override
