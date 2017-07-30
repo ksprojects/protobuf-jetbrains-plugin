@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.10.1</version>
+    <version>0.10.2</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -32,26 +32,24 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.10.1">
-            <b>v0.10.1</b>
-        </a> (2017-07-18)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.10.2">
+            <b>v0.10.2</b>
+        </a> (2017-07-30)
         <br>
         <br>
-        This release contains multiple important fixes:
+        This release contains multiple fixes:
         <ul>
             <li>
-              Improved imports resolving strategy: in addition to resolving imports using source roots,
-              plugin also tries to resolve import relatively to proto file's location.
+              Fix NullPointerException on opening plugin settings without open project.
             </li>
             <li>
-              Fix plugin error when message has syntax errors
-              (IncorrectOperationException: Could not detect qualified name in given context:
-              com.intellij.psi.impl.source.tree.PsiErrorElementImpl).
+              Do not highlight extend block for custom options in proto3 as error.
             </li>
             <li>
-              Fix plugin error when message is defined inside of group block
-              (IncorrectOperationException: Could not detect qualified name in given context:
-              io.protostuff.jetbrains.plugin.psi.GroupNode).
+              Fix rare ClassCastException when running "go to class action".
+            </li>
+            <li>
+              Fix resolving references to types defined inside of oneof + group blocks.
             </li>
         </ul>
 
