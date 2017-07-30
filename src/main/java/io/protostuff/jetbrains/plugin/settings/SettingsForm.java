@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Plugin settings form.
@@ -32,12 +33,16 @@ public class SettingsForm {
 
     /**
      * Create new {@link SettingsForm} instance.
+     *
+     * @param settings is null if settings dialog runs without a project.
      */
     @SuppressWarnings("unchecked")
-    public SettingsForm(Project project, ProtobufSettings settings) {
+    public SettingsForm(Project project, @Nullable ProtobufSettings settings) {
         this.project = project;
         List<String> internalIncludePathList = new ArrayList<>();
-        internalIncludePathList.addAll(settings.getIncludePaths());
+        if (settings != null) {
+            internalIncludePathList.addAll(settings.getIncludePaths());
+        }
         includePathListList = Collections.unmodifiableList(internalIncludePathList);
         includePathModel = new CollectionListModel<>(internalIncludePathList, true);
         includePathList.setModel(includePathModel);
@@ -54,6 +59,10 @@ public class SettingsForm {
                 includePathModel.removeRow(selectedIndex);
             }
         });
+        if (settings == null) {
+            addButton.setEnabled(false);
+            removeButton.setEnabled(false);
+        }
     }
 
     public JPanel getPanel() {
