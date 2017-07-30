@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package annotator;
+
+enum RegularEnum {
+
+}
+
+extend <error descr="Cannot extend given type">RegularEnum</error> {
+
+}

@@ -3,6 +3,7 @@ package io.protostuff.jetbrains.plugin.annotator;
 import static io.protostuff.jetbrains.plugin.ProtostuffBundle.message;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableSet;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.annotation.Annotation;
@@ -11,6 +12,7 @@ import com.intellij.lang.annotation.Annotator;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import io.protostuff.compiler.model.Field;
+import io.protostuff.compiler.model.ProtobufConstants;
 import io.protostuff.jetbrains.plugin.psi.AntlrParserRuleNode;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
@@ -54,6 +56,16 @@ public class ProtoErrorsAnnotator implements Annotator {
     private static final int SYS_RESERVED_START = 19000;
     private static final int SYS_RESERVED_END = 19999;
 
+    private static final Set<String> VALID_PROTO3_EXTENDEES = ImmutableSet.of(
+            ProtobufConstants.MSG_ENUM_OPTIONS,
+            ProtobufConstants.MSG_ENUM_VALUE_OPTIONS,
+            ProtobufConstants.MSG_FIELD_OPTIONS,
+            ProtobufConstants.MSG_FILE_OPTIONS,
+            ProtobufConstants.MSG_MESSAGE_OPTIONS,
+            ProtobufConstants.MSG_METHOD_OPTIONS,
+            ProtobufConstants.MSG_ONEOF_OPTIONS,
+            ProtobufConstants.MSG_SERVICE_OPTIONS
+    );
     private AnnotationHolder holder;
 
     @Override
@@ -145,11 +157,27 @@ public class ProtoErrorsAnnotator implements Annotator {
     }
 
     private void checkExtendNodeDeprecated(ExtendNode element, Syntax syntax) {
-        if (syntax != Syntax.PROTO3) {
+        PsiElement extendee = null;
+        TypeReferenceNode target = element.getTarget();
+        if (target != null) {
+            PsiReference reference = target.getReference();
+            if (reference != null) {
+                extendee = reference.resolve();
+            }
+        }
+        if (!(extendee instanceof MessageNode)) {
+            String message = message("error.extensions.not.supported");
+            markError(element.getNode(), element.getTargetNode(), message);
             return;
         }
-        String message = message("error.extensions.not.supported");
-        markError(element.getNode(), null, message);
+        if (syntax == Syntax.PROTO3) {
+            MessageNode message = (MessageNode) extendee;
+            String qualifiedName = message.getQualifiedName();
+            if (!VALID_PROTO3_EXTENDEES.contains(qualifiedName)) {
+                String text = message("error.extensions.not.supported");
+                markError(element.getNode(), element.getTargetNode(), text);
+            }
+        }
     }
 
     private void checkGroupNodeDeprecated(GroupNode element, Syntax syntax) {

@@ -94,6 +94,14 @@ public class ProtoErrorsAnnotatorTest extends LightCodeInsightFixtureTestCase {
         check();
     }
 
+    public void testProto3ValidExtend() {
+        check();
+    }
+
+    public void testProto2IllegalExtend() {
+        check();
+    }
+
     public void testProto3IllegalExtend() {
         check();
     }

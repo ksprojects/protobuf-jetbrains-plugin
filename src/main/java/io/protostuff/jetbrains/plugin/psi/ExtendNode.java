@@ -23,6 +23,17 @@ public class ExtendNode extends AntlrPsiNode implements KeywordsContainer {
     }
 
     /**
+     * Returns extendee name node, if it exists.
+     */
+    public ASTNode getTargetNode() {
+        TypeReferenceNode target = getTarget();
+        if (target != null) {
+            return target.getNode();
+        }
+        return null;
+    }
+
+    /**
      * Returns namespace for fields of this extension.
      */
     public String getNamespace() {
