@@ -20,4 +20,9 @@ public class OneOfNode extends AbstractNamedNode implements KeywordsContainer {
         MessageField[] fields = findChildrenByClass(FieldNode.class);
         return Arrays.asList(fields);
     }
+
+    @NotNull
+    public DataType[] getDeclaredDataTypes() {
+        return findChildrenByClass(DataType.class);
+    }
 }

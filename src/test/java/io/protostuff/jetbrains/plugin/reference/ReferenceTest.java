@@ -76,6 +76,15 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
         checkReferenceToDataType(".reference.Message.Group.NestedMessage", "reference/GroupReference.proto");
     }
 
+    /**
+     * Check that type references work correctly inside of oneof+group block.
+     *
+     * https://github.com/protostuff/protobuf-jetbrains-plugin/issues/72
+     */
+    public void testReferenceInsideOfOneof() {
+        checkReferenceToDataType(".reference.Message.Group2.NestedMessage", "reference/OneofReference.proto");
+    }
+
     public void testProtoFileImportsItself() {
         // referenced type does not exist, so we expect that it is not resolvable
         // the only thing that we check here - is that we do not get StackOverflowError

@@ -5,10 +5,10 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
-import io.protostuff.compiler.parser.ProtoParser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,7 +51,14 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
 
     @Override
     public Collection<DataType> getDeclaredDataTypes() {
-        return Arrays.asList(findChildrenByClass(DataType.class));
+        List<DataType> types = new ArrayList<>();
+        DataType[] direct = findChildrenByClass(DataType.class);
+        Collections.addAll(types, direct);
+        OneOfNode[] oneOfNodes = findChildrenByClass(OneOfNode.class);
+        for (OneOfNode oneOfNode : oneOfNodes) {
+            Collections.addAll(types, oneOfNode.getDeclaredDataTypes());
+        }
+        return types;
     }
 
     @Override

@@ -38,6 +38,12 @@ public class DataType
             }
             return "." + packageName + "." + getName();
         }
+        if (parent instanceof OneOfNode) {
+            OneOfNode oneOfNode = (OneOfNode) parent;
+            MessageNode parentMessage = (MessageNode) oneOfNode.getParent();
+            String parentMessageQualifiedName = parentMessage.getQualifiedName();
+            return parentMessageQualifiedName + "." + getName();
+        }
         if (parent instanceof MessageNode) {
             MessageNode parentMessage = (MessageNode) parent;
             String parentMessageQualifiedName = parentMessage.getQualifiedName();

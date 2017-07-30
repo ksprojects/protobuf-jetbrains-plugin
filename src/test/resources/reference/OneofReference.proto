@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package reference;
+
+message Message {
+
+
+    oneof OneOf {
+
+        group Group1 = 1 {
+            message NestedMessage {
+                optional Group2.<caret>NestedMessage n = 1;
+            }
+        }
+
+        group Group2 = 2 {
+            message NestedMessage {
+                optional Group1.NestedMessage n = 1;
+            }
+        }
+    }
+
+}
