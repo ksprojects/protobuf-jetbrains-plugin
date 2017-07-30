@@ -90,9 +90,10 @@ public class GoToClassContributor implements GotoClassContributor {
             addDescriptorProto(project, files);
         }
         for (VirtualFile virtualFile : files) {
-            ProtoPsiFileRoot file = (ProtoPsiFileRoot) PsiManager.getInstance(project).findFile(virtualFile);
-            if (file != null) {
-                Collection<ProtoType> types = file.getAllTypes();
+            PsiFile file = PsiManager.getInstance(project).findFile(virtualFile);
+            if (file instanceof ProtoPsiFileRoot) {
+                ProtoPsiFileRoot protoFile = (ProtoPsiFileRoot) file;
+                Collection<ProtoType> types = protoFile.getAllTypes();
                 for (ProtoType type : types) {
                     if (filter.test(type)) {
                         result.add(type);

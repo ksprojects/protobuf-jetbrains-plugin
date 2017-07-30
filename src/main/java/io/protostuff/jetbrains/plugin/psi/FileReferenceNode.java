@@ -82,7 +82,7 @@ public class FileReferenceNode extends AntlrPsiNode {
     private ProtoPsiFileRoot getTarget(@NotNull String filename, @NotNull Module module) {
         Collection<PsiFileSystemItem> roots = new FilePathReferenceProvider().getRoots(module, getRoot());
         for (PsiFileSystemItem root : roots) {
-            VirtualFile file = root.getVirtualFile().findFileByRelativePath(getFilename());
+            VirtualFile file = root.getVirtualFile().findFileByRelativePath(filename);
             if (file != null) {
                 PsiManager psiManager = PsiManager.getInstance(getProject());
                 PsiFile psiFile = psiManager.findFile(file);
