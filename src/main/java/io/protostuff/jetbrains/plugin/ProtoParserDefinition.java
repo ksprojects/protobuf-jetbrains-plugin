@@ -9,6 +9,7 @@ import static io.protostuff.compiler.parser.ProtoLexer.WS;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_customFieldReference;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_enumBlock;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_enumField;
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumFieldName;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_enumName;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_extendBlock;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_extendBlockEntry;
@@ -310,6 +311,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         register(RULE_customFieldReference, CustomFieldReferenceNode::new);
         register(RULE_enumBlock, EnumNode::new);
         register(RULE_enumField, EnumConstantNode::new);
+        register(RULE_enumFieldName, GenericNameNode::new);
         register(RULE_enumName, GenericNameNode::new);
         register(RULE_extendBlock, ExtendNode::new);
         register(RULE_extendBlockEntry, ExtendEntryNode::new);

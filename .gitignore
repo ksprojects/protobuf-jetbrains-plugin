@@ -13,3 +13,4 @@ gradle-app.setting
 .idea/
 *.iml
 classes/
+out/
