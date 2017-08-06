@@ -47,14 +47,14 @@ public class ProtobufSettingsConfigurable implements Configurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        if (settingsForm != null) {
+        if (settingsForm != null && settings != null) {
             settings.copyFrom(settingsForm.getSettings());
         }
     }
 
     @Override
     public void reset() {
-        if (settingsForm != null) {
+        if (settingsForm != null && settings != null) {
             settingsForm.reset(settings);
         }
     }
