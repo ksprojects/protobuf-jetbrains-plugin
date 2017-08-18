@@ -10,6 +10,7 @@ import com.intellij.psi.PsiNamedElement;
 import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.ProtoFileType;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
+import io.protostuff.jetbrains.plugin.psi.stubs.FileStub;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,6 +46,12 @@ public class ProtoPsiFileRoot extends PsiFileBase implements ScopeNode {
     @Override
     public Icon getIcon(int flags) {
         return Icons.PROTO;
+    }
+
+
+    @Override
+    public FileStub getStub() {
+        return (FileStub) super.getStub();
     }
 
     /**

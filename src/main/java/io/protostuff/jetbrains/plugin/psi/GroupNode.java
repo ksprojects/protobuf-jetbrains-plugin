@@ -16,19 +16,19 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GroupNode extends MessageNode implements KeywordsContainer {
 
-    public GroupNode(@NotNull ASTNode node) {
-        super(node);
-    }
+  public GroupNode(@NotNull ASTNode node) {
+    super(node);
+  }
 
-    @Override
-    public Collection<PsiElement> keywords() {
-        ASTNode node = getNode();
-        List<PsiElement> result = new ArrayList<>();
-        result.addAll(Util.findKeywords(getNode()));
-        ASTNode fieldModifier = node.findChildByType(R_FIELD_MODIFIER);
-        if (fieldModifier != null) {
-            result.addAll(Util.findKeywords(fieldModifier));
-        }
-        return result;
+  @Override
+  public Collection<PsiElement> keywords() {
+    ASTNode node = getNode();
+    List<PsiElement> result = new ArrayList<>();
+    result.addAll(Util.findKeywords(getNode()));
+    ASTNode fieldModifier = node.findChildByType(R_FIELD_MODIFIER);
+    if (fieldModifier != null) {
+      result.addAll(Util.findKeywords(fieldModifier));
     }
+    return result;
+  }
 }

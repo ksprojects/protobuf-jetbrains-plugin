@@ -55,9 +55,11 @@ import com.intellij.lexer.Lexer;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
+import com.intellij.psi.tree.IStubFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import io.protostuff.compiler.parser.ProtoLexer;
 import io.protostuff.compiler.parser.ProtoParser;
@@ -92,6 +94,7 @@ import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.StandardFieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.SyntaxStatement;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
+import io.protostuff.jetbrains.plugin.psi.stubs.FileStub;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
@@ -300,7 +303,7 @@ public class ProtoParserDefinition implements ParserDefinition {
     private static final IFileElementType FILE = new IFileElementType(ProtoLanguage.INSTANCE);
     private static final TokenSet COMMENTS = ELEMENT_FACTORY.createTokenSet(COMMENT, LINE_COMMENT, PLUGIN_DEV_MARKER);
     private static final TokenSet STRING = ELEMENT_FACTORY.createTokenSet(STRING_VALUE);
-    private final Map<Integer, Function<ASTNode, AntlrPsiNode>> elementFactories = new HashMap<>();
+    private final Map<Integer, Function<ASTNode, PsiElement>> elementFactories = new HashMap<>();
 
     private final Map<String, Method> parserRuleMethods = createParserRuleMethods();
 
@@ -368,7 +371,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         return RULE_TYPES.get(rule);
     }
 
-    private void register(int rule, Function<ASTNode, AntlrPsiNode> factory) {
+    private void register(int rule, Function<ASTNode, PsiElement> factory) {
         if (elementFactories.containsKey(rule)) {
             throw new IllegalStateException("Duplicate rule");
         }
@@ -417,8 +420,8 @@ public class ProtoParserDefinition implements ParserDefinition {
     }
 
     @Override
-    public IFileElementType getFileNodeType() {
-        return FILE;
+    public IStubFileElementType<FileStub> getFileNodeType() {
+        return FileStub.TYPE;
     }
 
     @NotNull
@@ -441,7 +444,7 @@ public class ProtoParserDefinition implements ParserDefinition {
 
     @NotNull
     @Override
-    public AntlrPsiNode createElement(ASTNode node) {
+    public PsiElement createElement(ASTNode node) {
         IElementType elType = node.getElementType();
         if (elType instanceof TokenIElementType) {
             return new AntlrPsiNode(node);
@@ -452,7 +455,7 @@ public class ProtoParserDefinition implements ParserDefinition {
         RuleIElementType ruleElType = (RuleIElementType) elType;
         int ruleIndex = ruleElType.getRuleIndex();
         if (elementFactories.containsKey(ruleIndex)) {
-            Function<ASTNode, AntlrPsiNode> factory = elementFactories.get(ruleIndex);
+            Function<ASTNode, PsiElement> factory = elementFactories.get(ruleIndex);
             return factory.apply(node);
         }
         return new AntlrPsiNode(node);
