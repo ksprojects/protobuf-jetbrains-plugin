@@ -58,7 +58,7 @@ public class GenericNameNode extends AntlrPsiNode {
             int ruleIndex = ruleElementType.getRuleIndex();
             Project project = getProject();
             PsiFileFactoryImpl factory = (PsiFileFactoryImpl) PsiFileFactory.getInstance(project);
-            RuleIElementType type = ProtoParserDefinition.rule(ruleIndex);
+            IElementType type = ProtoParserDefinition.rule(ruleIndex);
             ScopeNode context = getContext();
             PsiElement newNode = factory.createElementFromText(name, ProtoLanguage.INSTANCE, type, context);
             if (newNode == null) {

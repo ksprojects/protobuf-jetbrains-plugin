@@ -8,6 +8,7 @@ import com.intellij.psi.stubs.StubOutputStream;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import io.protostuff.jetbrains.plugin.psi.DataType;
 import java.io.IOException;
+import org.antlr.jetbrains.adapter.lexer.RuleIStubElementTypeImpl;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,10 +30,10 @@ public abstract class DataTypeStub<T extends DataType> extends NamedStubBase<T> 
     }
 
     public static abstract class Type<T extends DataType> extends
-            IStubElementType<DataTypeStub<T>, T> {
+            RuleIStubElementTypeImpl<DataTypeStub<T>, T> {
 
-        Type(@NotNull @NonNls final String debugName) {
-            super(debugName, ProtoLanguage.INSTANCE);
+        Type(int ruleIndex, @NotNull @NonNls final String debugName) {
+            super(ruleIndex, debugName, ProtoLanguage.INSTANCE);
         }
 
         @NotNull

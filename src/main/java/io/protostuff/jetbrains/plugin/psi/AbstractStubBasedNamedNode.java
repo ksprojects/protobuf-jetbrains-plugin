@@ -7,6 +7,7 @@ import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.NamedStub;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
+import org.antlr.jetbrains.adapter.psi.AntlrStubBasedPsiNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * Base class for named stub based nodes - messages, enums, etc.
  */
 public abstract class AbstractStubBasedNamedNode<T extends NamedStub> extends
-        AntlrStubBasedNode<T> implements PsiNameIdentifierOwner {
+        AntlrStubBasedPsiNode<T> implements PsiNameIdentifierOwner {
 
     public AbstractStubBasedNamedNode(@NotNull ASTNode node) {
         super(node);

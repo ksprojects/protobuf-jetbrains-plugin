@@ -101,6 +101,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.antlr.jetbrains.adapter.lexer.AntlrLexerAdapter;
 import org.antlr.jetbrains.adapter.lexer.PsiElementTypeFactory;
 import org.antlr.jetbrains.adapter.lexer.RuleIElementType;
@@ -114,7 +115,6 @@ import org.antlr.v4.runtime.InputMismatchException;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.RuleContext;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
 
@@ -125,29 +125,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ProtoParserDefinition implements ParserDefinition {
 
-    private static final Logger LOGGER = Logger.getInstance(ProtoParserDefinition.class);
-
-    public static final PsiElementTypeFactory ELEMENT_FACTORY = PsiElementTypeFactory.create(ProtoLanguage.INSTANCE, new ProtoParser(null));
-
-    private static final SyntaxErrorFormatter ERROR_FORMATTER = new DefaultSyntaxErrorFormatter() {
-        @Override
-        public String formatMessage(SyntaxError error) {
-            RecognitionException exception = error.getException();
-            if (exception instanceof InputMismatchException) {
-                InputMismatchException mismatchException = (InputMismatchException) exception;
-                RuleContext ctx = mismatchException.getCtx();
-                int ruleIndex = ctx.getRuleIndex();
-                switch (ruleIndex) {
-                    case ProtoParser.RULE_ident:
-                        return ProtostuffBundle.message("error.expected.identifier");
-                    default:
-                        break;
-                }
-            }
-            return super.formatMessage(error);
-        }
-    };
-
+    public static final PsiElementTypeFactory ELEMENT_FACTORY = PsiElementTypeFactory
+            .create(ProtoLanguage.INSTANCE, new ProtoParser(null));
     public static final TokenSet KEYWORDS = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.PACKAGE,
             ProtoLexer.SYNTAX,
@@ -280,7 +259,27 @@ public class ProtoParserDefinition implements ParserDefinition {
             ProtoLexer.BYTES
     );
     public static final TokenSet WHITESPACE = ELEMENT_FACTORY.createTokenSet(WS, NL);
-    private static final List<TokenIElementType> TOKEN_TYPES = ELEMENT_FACTORY.getTokenIElementTypes();
+    private static final Logger LOGGER = Logger.getInstance(ProtoParserDefinition.class);
+    private static final SyntaxErrorFormatter ERROR_FORMATTER = new DefaultSyntaxErrorFormatter() {
+        @Override
+        public String formatMessage(SyntaxError error) {
+            RecognitionException exception = error.getException();
+            if (exception instanceof InputMismatchException) {
+                InputMismatchException mismatchException = (InputMismatchException) exception;
+                RuleContext ctx = mismatchException.getCtx();
+                int ruleIndex = ctx.getRuleIndex();
+                switch (ruleIndex) {
+                    case ProtoParser.RULE_ident:
+                        return ProtostuffBundle.message("error.expected.identifier");
+                    default:
+                        break;
+                }
+            }
+            return super.formatMessage(error);
+        }
+    };
+    private static final List<TokenIElementType> TOKEN_TYPES = ELEMENT_FACTORY
+            .getTokenIElementTypes();
     public static final TokenIElementType ID = TOKEN_TYPES.get(ProtoLexer.IDENT);
 
     // tokens
@@ -295,13 +294,14 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final TokenIElementType ASSIGN = TOKEN_TYPES.get(ProtoLexer.ASSIGN);
     private static final List<RuleIElementType> RULE_TYPES = ELEMENT_FACTORY.getRuleIElementTypes();
     // Rules
-    public static final IElementType R_TYPE_REFERENCE = RULE_TYPES.get(RULE_typeReference);
-    public static final IElementType R_NAME = RULE_TYPES.get(RULE_ident);
-    public static final IElementType R_FIELD_MODIFIER = RULE_TYPES.get(RULE_fieldModifier);
-    public static final IElementType R_FIELD_NAME = RULE_TYPES.get(RULE_fieldName);
-    public static final IElementType R_TAG = RULE_TYPES.get(RULE_tag);
+    public static final IElementType R_TYPE_REFERENCE = rule(RULE_typeReference);
+    public static final IElementType R_NAME = rule(RULE_ident);
+    public static final IElementType R_FIELD_MODIFIER = rule(RULE_fieldModifier);
+    public static final IElementType R_FIELD_NAME = rule(RULE_fieldName);
+    public static final IElementType R_TAG = rule(RULE_tag);
     private static final IFileElementType FILE = new IFileElementType(ProtoLanguage.INSTANCE);
-    private static final TokenSet COMMENTS = ELEMENT_FACTORY.createTokenSet(COMMENT, LINE_COMMENT, PLUGIN_DEV_MARKER);
+    private static final TokenSet COMMENTS = ELEMENT_FACTORY
+            .createTokenSet(COMMENT, LINE_COMMENT, PLUGIN_DEV_MARKER);
     private static final TokenSet STRING = ELEMENT_FACTORY.createTokenSet(STRING_VALUE);
     private final Map<Integer, Function<ASTNode, PsiElement>> elementFactories = new HashMap<>();
 
@@ -350,6 +350,14 @@ public class ProtoParserDefinition implements ParserDefinition {
         register(RULE_syntaxStatement, SyntaxStatement::new);
     }
 
+    public static TokenIElementType token(int token) {
+        return TOKEN_TYPES.get(token);
+    }
+
+    public static IElementType rule(int rule) {
+        return (IElementType) RULE_TYPES.get(rule);
+    }
+
     private Map<String, Method> createParserRuleMethods() {
         Map<String, Method> result = new HashMap<>();
         for (String ruleName : ruleNames) {
@@ -361,14 +369,6 @@ public class ProtoParserDefinition implements ParserDefinition {
             }
         }
         return Collections.unmodifiableMap(result);
-    }
-
-    public static TokenIElementType token(int token) {
-        return TOKEN_TYPES.get(token);
-    }
-
-    public static RuleIElementType rule(int rule) {
-        return RULE_TYPES.get(rule);
     }
 
     private void register(int rule, Function<ASTNode, PsiElement> factory) {
@@ -388,7 +388,8 @@ public class ProtoParserDefinition implements ParserDefinition {
     @Override
     public PsiParser createParser(Project project) {
         final ProtoParser parser = new ProtoParser(null);
-        return new AntlrParserAdapter(ProtoLanguage.INSTANCE, parser, ELEMENT_FACTORY, ERROR_FORMATTER) {
+        return new AntlrParserAdapter(ProtoLanguage.INSTANCE, parser, ELEMENT_FACTORY,
+                ERROR_FORMATTER) {
             @Override
             protected ParseTree parse(Parser parser, IElementType root) {
                 // start rule depends on root passed in; sometimes we want to create an ID node etc...

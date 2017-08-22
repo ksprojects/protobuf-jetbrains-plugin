@@ -1,5 +1,7 @@
 package io.protostuff.jetbrains.plugin.psi.stubs;
 
+import static io.protostuff.compiler.parser.ProtoParser.RULE_enumBlock;
+
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
@@ -17,7 +19,7 @@ public class EnumStub extends DataTypeStub<EnumNode> {
     private static class Type extends DataTypeStub.Type<EnumNode> {
 
         Type() {
-            super("ENUM");
+            super(RULE_enumBlock,"ENUM");
         }
 
         @NotNull

@@ -1,5 +1,7 @@
 package io.protostuff.jetbrains.plugin.psi.stubs;
 
+import static io.protostuff.compiler.parser.ProtoParser.RULE_messageBlock;
+
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
@@ -17,7 +19,7 @@ public class MessageStub extends DataTypeStub<MessageNode> {
     private static class Type extends DataTypeStub.Type<MessageNode> {
 
         Type() {
-            super("MESSAGE");
+            super(RULE_messageBlock, "MESSAGE");
         }
 
         @NotNull
