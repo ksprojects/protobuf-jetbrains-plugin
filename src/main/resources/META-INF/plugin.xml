@@ -181,7 +181,8 @@
                 implementation="io.protostuff.jetbrains.plugin.errorreporting.SentryBugReporter"/>
 
         <stubElementTypeHolder class="io.protostuff.jetbrains.plugin.psi.stubs.StubElementTypeHolder"/>
-        <stubIndex implementation="io.protostuff.jetbrains.plugin.psi.indices.DataTypeIndex"/>
+        <stubIndex implementation="io.protostuff.jetbrains.plugin.psi.indices.DataTypeFullNameIndex"/>
+        <stubIndex implementation="io.protostuff.jetbrains.plugin.psi.indices.DataTypeNameIndex"/>
 
     </extensions>
 

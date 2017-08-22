@@ -34,11 +34,11 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
         super(node);
     }
 
-    public MessageNode(MessageStub stub, IStubElementType type) {
+    public MessageNode(DataTypeStub stub, IStubElementType type) {
         super(stub, type);
     }
 
-    public MessageNode(MessageStub stub, IElementType type, ASTNode node) {
+    public MessageNode(DataTypeStub stub, IElementType type, ASTNode node) {
         super(stub, type, node);
     }
 

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.jetbrains.annotations.NotNull;
 
-public class DataTypeIndex extends StringStubIndexExtension<DataType> {
+public class DataTypeNameIndex extends StringStubIndexExtension<DataType> {
 
     public static final StubIndexKey<String, DataType> KEY =
-            StubIndexKey.createIndexKey("DataType");
-    public static final DataTypeIndex INSTANCE = new DataTypeIndex();
+            StubIndexKey.createIndexKey("DataTypeName");
+    public static final DataTypeNameIndex INSTANCE = new DataTypeNameIndex();
 
     @NotNull
     @Override

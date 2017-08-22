@@ -94,7 +94,11 @@ import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.StandardFieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.SyntaxStatement;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
+import io.protostuff.jetbrains.plugin.psi.stubs.EnumStub;
 import io.protostuff.jetbrains.plugin.psi.stubs.FileStub;
+import io.protostuff.jetbrains.plugin.psi.stubs.GroupStub;
+import io.protostuff.jetbrains.plugin.psi.stubs.MessageStub;
+import io.protostuff.jetbrains.plugin.psi.stubs.StubElementTypeHolder;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
@@ -126,7 +130,13 @@ import org.jetbrains.annotations.NotNull;
 public class ProtoParserDefinition implements ParserDefinition {
 
     public static final PsiElementTypeFactory ELEMENT_FACTORY = PsiElementTypeFactory
-            .create(ProtoLanguage.INSTANCE, new ProtoParser(null));
+            .builder()
+            .language(ProtoLanguage.INSTANCE)
+            .parser(new ProtoParser(null))
+            .addRuleElementType(EnumStub.TYPE)
+            .addRuleElementType(GroupStub.TYPE)
+            .addRuleElementType(MessageStub.TYPE)
+            .build();
     public static final TokenSet KEYWORDS = ELEMENT_FACTORY.createTokenSet(
             ProtoLexer.PACKAGE,
             ProtoLexer.SYNTAX,

@@ -1,53 +1,55 @@
 package io.protostuff.jetbrains.plugin.psi.stubs;
 
+import static io.protostuff.compiler.parser.ProtoParser.RULE_groupBlock;
 import static io.protostuff.compiler.parser.ProtoParser.RULE_messageBlock;
 
 import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
+import io.protostuff.jetbrains.plugin.psi.GroupNode;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import io.protostuff.jetbrains.plugin.psi.indices.DataTypeFullNameIndex;
 import io.protostuff.jetbrains.plugin.psi.indices.DataTypeNameIndex;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Stub for [MessageNode].
+ * Stub for [GroupNode].
  */
-public class MessageStub extends DataTypeStub<MessageNode> {
+public class GroupStub extends DataTypeStub<GroupNode> {
 
     public static final Type TYPE = new Type();
 
-    MessageStub(StubElement parent, String fullName, String name) {
+    GroupStub(StubElement parent, String fullName, String name) {
         super(parent, TYPE, fullName, name);
     }
 
-    private static class Type extends DataTypeStub.Type<MessageNode> {
+    private static class Type extends DataTypeStub.Type<GroupNode> {
 
         Type() {
-            super(RULE_messageBlock, "messageBlock");
+            super(RULE_groupBlock, "groupBlock");
         }
 
         @NotNull
         @Override
         public String getExternalId() {
-            return "messageBlock";
+            return "groupBlock";
         }
 
         @Override
-        public void indexStub(@NotNull DataTypeStub<MessageNode> stub, @NotNull IndexSink sink) {
+        public void indexStub(@NotNull DataTypeStub<GroupNode> stub, @NotNull IndexSink sink) {
             sink.occurrence(DataTypeFullNameIndex.KEY, stub.getFullName());
             sink.occurrence(DataTypeNameIndex.KEY, stub.getName());
         }
 
         @Override
-        public MessageNode createPsi(@NotNull DataTypeStub<MessageNode> stub) {
-            assert stub instanceof MessageStub;
-            return new MessageNode((MessageStub) stub, this);
+        public GroupNode createPsi(@NotNull DataTypeStub<GroupNode> stub) {
+            assert stub instanceof GroupStub;
+            return new GroupNode((GroupStub) stub, this);
         }
 
         @NotNull
         @Override
-        protected MessageStub createStub(StubElement parent, String fullName, String name) {
-            return new MessageStub(parent, fullName, name);
+        protected GroupStub createStub(StubElement parent, String fullName, String name) {
+            return new GroupStub(parent, fullName, name);
         }
     }
 }
