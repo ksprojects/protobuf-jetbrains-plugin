@@ -40,7 +40,6 @@ public class EnumStub extends DataTypeStub<EnumNode> {
 
         @Override
         public EnumNode createPsi(@NotNull DataTypeStub<EnumNode> stub) {
-            assert stub instanceof EnumStub;
             return new EnumNode((EnumStub) stub, this);
         }
 

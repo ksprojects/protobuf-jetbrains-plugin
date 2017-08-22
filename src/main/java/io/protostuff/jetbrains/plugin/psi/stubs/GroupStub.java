@@ -42,7 +42,6 @@ public class GroupStub extends DataTypeStub<GroupNode> {
 
         @Override
         public GroupNode createPsi(@NotNull DataTypeStub<GroupNode> stub) {
-            assert stub instanceof GroupStub;
             return new GroupNode((GroupStub) stub, this);
         }
 

@@ -40,7 +40,6 @@ public class MessageStub extends DataTypeStub<MessageNode> {
 
         @Override
         public MessageNode createPsi(@NotNull DataTypeStub<MessageNode> stub) {
-            assert stub instanceof MessageStub;
             return new MessageNode((MessageStub) stub, this);
         }
 
