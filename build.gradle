@@ -28,10 +28,10 @@ repositories {
 
 dependencies {
     compile 'org.antlr:antlr4-runtime:4.7'
-    /*compile ('org.antlr:antlr4-jetbrains-adapter:2.1.0') {
+    compile ('org.antlr:antlr4-jetbrains-adapter:2.1.0') {
         exclude group: 'com.jetbrains'
         exclude group: 'org.slf4j'
-    }*/
+    }
     compile 'com.google.guava:guava:21.0'
     compile ('io.protostuff:protostuff-parser:2.1.12') {
         exclude group: 'org.slf4j'
