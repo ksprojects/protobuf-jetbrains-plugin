@@ -19,8 +19,7 @@ public abstract class DataTypeStub<T extends DataType> extends NamedStubBase<T> 
 
     private final String fullName;
 
-    DataTypeStub(StubElement parent, IStubElementType<DataTypeStub<T>, T> type,
-            String fullName, String name) {
+    DataTypeStub(StubElement parent, IStubElementType<?, T> type, String fullName, String name) {
         super(parent, type, name);
         this.fullName = fullName;
     }
@@ -29,25 +28,24 @@ public abstract class DataTypeStub<T extends DataType> extends NamedStubBase<T> 
         return fullName;
     }
 
-    public static abstract class Type<T extends DataType> extends
-            RuleIStubElementTypeImpl<DataTypeStub<T>, T> {
+    public static abstract class Type<S extends DataTypeStub<T>, T extends DataType> extends
+            RuleIStubElementTypeImpl<S, T> {
 
         Type(int ruleIndex, @NotNull @NonNls final String debugName) {
             super(ruleIndex, debugName, ProtoLanguage.INSTANCE);
         }
 
         @NotNull
-        protected abstract DataTypeStub<T> createStub(StubElement parent, String fullName,
-                String name);
+        protected abstract S createStub(StubElement parent, String fullName, String name);
 
         @NotNull
         @Override
-        public DataTypeStub<T> createStub(@NotNull T psi, StubElement parentStub) {
+        public S createStub(@NotNull T psi, StubElement parentStub) {
             return createStub(parentStub, psi.getFullName(), psi.getName());
         }
 
         @Override
-        public void serialize(@NotNull DataTypeStub<T> stub, @NotNull StubOutputStream dataStream)
+        public void serialize(@NotNull S stub, @NotNull StubOutputStream dataStream)
                 throws IOException {
             dataStream.writeName(stub.getFullName());
             dataStream.writeName(stub.getName());
@@ -55,8 +53,8 @@ public abstract class DataTypeStub<T extends DataType> extends NamedStubBase<T> 
 
         @NotNull
         @Override
-        public DataTypeStub<T> deserialize(
-                @NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+        public S deserialize(@NotNull StubInputStream dataStream, StubElement parentStub)
+                throws IOException {
             return createStub(parentStub, dataStream.readName().getString(),
                     dataStream.readName().getString());
         }

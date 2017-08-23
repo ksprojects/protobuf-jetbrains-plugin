@@ -22,7 +22,7 @@ public class GroupStub extends DataTypeStub<GroupNode> {
         super(parent, TYPE, fullName, name);
     }
 
-    private static class Type extends DataTypeStub.Type<GroupNode> {
+    private static class Type extends DataTypeStub.Type<GroupStub, GroupNode> {
 
         Type() {
             super(RULE_groupBlock, "groupBlock");
@@ -35,14 +35,14 @@ public class GroupStub extends DataTypeStub<GroupNode> {
         }
 
         @Override
-        public void indexStub(@NotNull DataTypeStub<GroupNode> stub, @NotNull IndexSink sink) {
+        public void indexStub(@NotNull GroupStub stub, @NotNull IndexSink sink) {
             sink.occurrence(DataTypeFullNameIndex.KEY, stub.getFullName());
             sink.occurrence(DataTypeNameIndex.KEY, stub.getName());
         }
 
         @Override
-        public GroupNode createPsi(@NotNull DataTypeStub<GroupNode> stub) {
-            return new GroupNode((GroupStub) stub, this);
+        public GroupNode createPsi(@NotNull GroupStub stub) {
+            return new GroupNode(stub, this);
         }
 
         @NotNull

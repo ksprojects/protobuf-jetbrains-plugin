@@ -20,7 +20,7 @@ public class EnumStub extends DataTypeStub<EnumNode> {
         super(parent, TYPE, fullName, name);
     }
 
-    private static class Type extends DataTypeStub.Type<EnumNode> {
+    private static class Type extends DataTypeStub.Type<EnumStub, EnumNode> {
 
         Type() {
             super(RULE_enumBlock,"enumBlock");
@@ -33,14 +33,14 @@ public class EnumStub extends DataTypeStub<EnumNode> {
         }
 
         @Override
-        public void indexStub(@NotNull DataTypeStub<EnumNode> stub, @NotNull IndexSink sink) {
+        public void indexStub(@NotNull EnumStub stub, @NotNull IndexSink sink) {
             sink.occurrence(DataTypeFullNameIndex.KEY, stub.getFullName());
             sink.occurrence(DataTypeNameIndex.KEY, stub.getName());
         }
 
         @Override
-        public EnumNode createPsi(@NotNull DataTypeStub<EnumNode> stub) {
-            return new EnumNode((EnumStub) stub, this);
+        public EnumNode createPsi(@NotNull EnumStub stub) {
+            return new EnumNode(stub, this);
         }
 
         @NotNull

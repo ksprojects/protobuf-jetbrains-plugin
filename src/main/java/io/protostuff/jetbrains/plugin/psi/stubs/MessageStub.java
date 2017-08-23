@@ -20,7 +20,7 @@ public class MessageStub extends DataTypeStub<MessageNode> {
         super(parent, TYPE, fullName, name);
     }
 
-    private static class Type extends DataTypeStub.Type<MessageNode> {
+    private static class Type extends DataTypeStub.Type<MessageStub, MessageNode> {
 
         Type() {
             super(RULE_messageBlock, "messageBlock");
@@ -33,14 +33,14 @@ public class MessageStub extends DataTypeStub<MessageNode> {
         }
 
         @Override
-        public void indexStub(@NotNull DataTypeStub<MessageNode> stub, @NotNull IndexSink sink) {
+        public void indexStub(@NotNull MessageStub stub, @NotNull IndexSink sink) {
             sink.occurrence(DataTypeFullNameIndex.KEY, stub.getFullName());
             sink.occurrence(DataTypeNameIndex.KEY, stub.getName());
         }
 
         @Override
-        public MessageNode createPsi(@NotNull DataTypeStub<MessageNode> stub) {
-            return new MessageNode((MessageStub) stub, this);
+        public MessageNode createPsi(@NotNull MessageStub stub) {
+            return new MessageNode(stub, this);
         }
 
         @NotNull
