@@ -28,7 +28,7 @@ public abstract class DataTypeStub<T extends DataType> extends NamedStubBase<T> 
         return fullName;
     }
 
-    public static abstract class Type<S extends DataTypeStub<T>, T extends DataType> extends
+    public abstract static class Type<S extends DataTypeStub<T>, T extends DataType> extends
             RuleIStubElementTypeImpl<S, T> {
 
         Type(int ruleIndex, @NotNull @NonNls final String debugName) {
