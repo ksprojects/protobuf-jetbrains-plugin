@@ -9,7 +9,7 @@ import java.util.Collection;
 public class DataTypeIndicesTest extends LightCodeInsightFixtureTestCase {
 
     public void testIndices() throws Exception {
-        myFixture.addFileToProject("test.proto", String.join("\n",
+        myFixture.configureByText("test.proto", String.join("\n",
                 "package navigation;",
                 "message MyProtobufMessage {",
                 "enum MyProtobufNestedEnum {}",
@@ -17,11 +17,9 @@ public class DataTypeIndicesTest extends LightCodeInsightFixtureTestCase {
         Collection<String> shortNames = DataTypeNameIndex.INSTANCE.getAllKeys(getProject());
         assertContainsElements(shortNames,
                 ImmutableList.of("MyProtobufMessage", "MyProtobufNestedEnum"));
-        assertSize(2, shortNames);
 
         Collection<String> fullNames = DataTypeFullNameIndex.INSTANCE.getAllKeys(getProject());
         assertContainsElements(fullNames, ImmutableList.of("navigation.MyProtobufMessage",
                 "navigation.MyProtobufMessage.MyProtobufNestedEnum"));
-        assertSize(2, fullNames);
     }
 }
