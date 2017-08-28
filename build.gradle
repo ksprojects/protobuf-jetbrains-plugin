@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
     compile 'org.antlr:antlr4-runtime:4.7'
-    compile ('org.antlr:antlr4-jetbrains-adapter:2.1.0') {
+    compile ('org.antlr:antlr4-jetbrains-adapter:3.0.snapshot.efd2349681fbe1719e7115f0a4e8b82ecafe21b9') {
         exclude group: 'com.jetbrains'
         exclude group: 'org.slf4j'
     }

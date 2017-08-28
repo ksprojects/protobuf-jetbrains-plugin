@@ -4,7 +4,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.stubs.IStubElementType;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
+import io.protostuff.jetbrains.plugin.psi.stubs.EnumStub;
+import io.protostuff.jetbrains.plugin.psi.stubs.MessageStub;
 import java.util.Arrays;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -14,14 +18,21 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class EnumNode
-        extends DataType {
+public class EnumNode extends DataType {
 
     public static final String ALLOW_ALIAS = "allow_alias";
     public static final String TRUE = "true";
 
     public EnumNode(@NotNull ASTNode node) {
         super(node);
+    }
+
+    public EnumNode(EnumStub stub, IStubElementType type) {
+        super(stub, type);
+    }
+
+    public EnumNode(EnumStub stub, IElementType type, ASTNode node) {
+        super(stub, type, node);
     }
 
     @Override

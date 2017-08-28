@@ -4,7 +4,10 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.PsiNamedElement;
+import com.intellij.psi.stubs.IStubElementType;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
+import io.protostuff.jetbrains.plugin.psi.stubs.DataTypeStub;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,13 +18,21 @@ import org.jetbrains.annotations.Nullable;
  * @author Kostiantyn Shchepanovskyi
  */
 public class DataType
-        extends AbstractNamedNode
+        extends AbstractStubBasedNamedNode<DataTypeStub>
         implements ScopeNode, KeywordsContainer, ProtoType {
 
     private static final String ERROR_ELEMENT = ".__ERROR_ELEMENT";
 
     public DataType(@NotNull ASTNode node) {
         super(node);
+    }
+
+    public DataType(DataTypeStub stub, IStubElementType type) {
+        super(stub, type);
+    }
+
+    public DataType(DataTypeStub stub, IElementType type, ASTNode node) {
+        super(stub, type, node);
     }
 
     /**
@@ -61,6 +72,10 @@ public class DataType
      */
     @NotNull
     public String getFullName() {
+        if (getStub() != null) {
+            return getStub().getFullName();
+        }
+
         return getQualifiedName().substring(1);
     }
 

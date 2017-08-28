@@ -4,7 +4,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.stubs.IStubElementType;
+import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
+import io.protostuff.jetbrains.plugin.psi.stubs.DataTypeStub;
+import io.protostuff.jetbrains.plugin.psi.stubs.MessageStub;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,12 +27,19 @@ import org.jetbrains.annotations.Nullable;
  */
 public class MessageNode extends DataType implements AntlrParserRuleNode, DataTypeContainer {
 
-
     @Nullable
     private Boolean syntaxErrors;
 
     public MessageNode(@NotNull ASTNode node) {
         super(node);
+    }
+
+    public MessageNode(DataTypeStub stub, IStubElementType type) {
+        super(stub, type);
+    }
+
+    public MessageNode(DataTypeStub stub, IElementType type, ASTNode node) {
+        super(stub, type, node);
     }
 
     /**
