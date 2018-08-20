@@ -68,6 +68,7 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
         sourceRootsProviders.add(new CustomIncludePathRootsProvider());
         sourceRootsProviders.add(new LibrariesAndSdkClassesRootsProvider());
         sourceRootsProviders.add(new ProtoFileRelativePathRootsProvider());
+        sourceRootsProviders.add(new BundledProtobufRootsProvider());
     }
 
     @NotNull
@@ -82,9 +83,11 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
         for (SourceRootsProvider sourceRootsProvider : sourceRootsProviders) {
             VirtualFile[] sourceRoots = sourceRootsProvider.getSourceRoots(module, psiFileRoot);
             for (VirtualFile root : sourceRoots) {
-                final PsiDirectory directory = psiManager.findDirectory(root);
-                if (directory != null) {
-                    result.add(directory);
+                if (root != null) {
+                    final PsiDirectory directory = psiManager.findDirectory(root);
+                    if (directory != null) {
+                        result.add(directory);
+                    }
                 }
             }
         }

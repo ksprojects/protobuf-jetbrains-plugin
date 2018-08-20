@@ -18,7 +18,16 @@ import com.intellij.openapi.fileTypes.FileNameMatcher;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.roots.libraries.Library;
+import com.intellij.openapi.roots.libraries.LibraryTable;
+import com.intellij.openapi.vfs.VirtualFile;
+import io.protostuff.jetbrains.plugin.reference.file.BundledProtobufRootsProvider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -58,7 +67,34 @@ public class ProtostuffPluginController implements ProjectComponent {
         } catch (Exception e) {
             LOGGER.error("Could not detect or disable conflicting plugins", e);
         }
+        Module[] modules = ModuleManager.getInstance(project).getModules();
+        BundledProtobufRootsProvider bundledProtobufRootsProvider = new BundledProtobufRootsProvider();
+        VirtualFile[] sourceRoots = bundledProtobufRootsProvider.getSourceRoots(null, null);
+        VirtualFile sourceRoot = sourceRoots[0];
+        for (Module module : modules) {
+            attachJarLibrary(module, "Bundled Protobuf Distribution", sourceRoot);
+        }
     }
+
+    private void attachJarLibrary(@NotNull final Module module,
+                                  @NotNull final String libName,
+                                  @NotNull final VirtualFile bundle) {
+        ApplicationManager.getApplication().runWriteAction(() -> {
+            final ModuleRootManager rootManager = ModuleRootManager.getInstance(module);
+
+            final ModifiableRootModel modifiableModel = rootManager.getModifiableModel();
+            final LibraryTable table = modifiableModel.getModuleLibraryTable();
+            Library library = table.getLibraryByName(libName);
+            if (library == null) {
+                library = table.createLibrary(libName);
+                Library.ModifiableModel libraryModel = library.getModifiableModel();
+                libraryModel.addRoot(bundle, OrderRootType.SOURCES);
+                libraryModel.commit();
+            }
+            modifiableModel.commit();
+        });
+    }
+
 
     private void checkConflictingPlugins() {
         FileTypeUtil fileTypeUtil = new FileTypeUtil();

@@ -33,6 +33,10 @@ public class GenericNameNode extends AntlrPsiNode {
         return getText();
     }
 
+    public ASTNode identNode() {
+        return getFirstChild().getNode();
+    }
+
     /**
      * Set name for a given element if it implements {@link PsiNameIdentifierOwner} and
      * {@link PsiNameIdentifierOwner#getNameIdentifier()} resolves to an instance of
@@ -61,10 +65,12 @@ public class GenericNameNode extends AntlrPsiNode {
             IElementType type = ProtoParserDefinition.rule(ruleIndex);
             ScopeNode context = getContext();
             PsiElement newNode = factory.createElementFromText(name, ProtoLanguage.INSTANCE, type, context);
-            if (newNode == null) {
+            if (!(newNode instanceof GenericNameNode)) {
                 throw new IncorrectOperationException();
             }
-            return replace(newNode);
+            GenericNameNode newNameNode = (GenericNameNode) newNode;
+            identNode().replaceChild(identNode().getFirstChildNode(), newNameNode.identNode().getFirstChildNode());
+            return this;
         }
         throw new IncorrectOperationException(OPERATION_NOT_SUPPORTED);
     }
