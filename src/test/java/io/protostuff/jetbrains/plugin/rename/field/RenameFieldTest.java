@@ -1,6 +1,6 @@
 package io.protostuff.jetbrains.plugin.rename.field;
 
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+import io.protostuff.jetbrains.plugin.AbstractProtobufLibraryDependentTestCase;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.MapNode;
 import io.protostuff.jetbrains.plugin.psi.OptionNode;
@@ -11,7 +11,7 @@ import org.junit.Assert;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class RenameFieldTest extends LightCodeInsightFixtureTestCase {
+public class RenameFieldTest extends AbstractProtobufLibraryDependentTestCase {
 
     @Override
     protected String getTestDataPath() {

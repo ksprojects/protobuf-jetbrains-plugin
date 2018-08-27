@@ -72,10 +72,6 @@
             <implementation-class>io.protostuff.jetbrains.plugin.settings.ProtobufSettings</implementation-class>
         </component>
         <component>
-            <implementation-class>io.protostuff.jetbrains.plugin.reference.file.BundledProtobufRootsProvider
-            </implementation-class>
-        </component>
-        <component>
             <interface-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProvider</interface-class>
             <implementation-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProviderImpl
             </implementation-class>

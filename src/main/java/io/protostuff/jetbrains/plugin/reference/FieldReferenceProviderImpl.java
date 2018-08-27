@@ -21,10 +21,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiReference;
-import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import io.protostuff.jetbrains.plugin.psi.AbstractFieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.DataTypeContainer;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
@@ -41,8 +39,6 @@ import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -94,7 +90,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         String targetType = getTarget(fieldReference);
         MessageNode message = resolveType(fieldReference, targetType);
         if (message == null) {
-            LOGGER.error("Could not resolve " + targetType);
+            LOGGER.warn("Could not resolve " + targetType);
             return new PsiReference[0];
         }
         List<AbstractFieldReferenceNode> components = new ArrayList<>();
@@ -239,12 +235,16 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         // TODO: what if there is non-bundled descriptor.proto available in other location?
         if (message == null) {
             ProtoPsiFileRoot descriptorProto = (ProtoPsiFileRoot) loadInMemoryDescriptorProto();
+            if (descriptorProto == null) {
+                // by some reason protobuf library is not yet loaded or not attached
+                return null;
+            }
             return (MessageNode) descriptorProto.findType(qualifiedName.substring(1));
         }
         return message;
     }
 
-    @NotNull
+    @Nullable
     private PsiFile loadInMemoryDescriptorProto() {
         if (inm == null) {
             for (Module module : ModuleManager.getInstance(project).getModules()) {
@@ -268,19 +268,6 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
             }
         }
         return inm;
-    }
-
-    @NotNull
-    private PsiFile createVirtualFile(String resource, VirtualFile source) throws IOException {
-        String content = new String(source.contentsToByteArray(), StandardCharsets.UTF_8);
-        PsiFileFactory fileFactory = PsiFileFactory.getInstance(project);
-        PsiFile psiFile = fileFactory.createFileFromText(resource, ProtoLanguage.INSTANCE, content);
-        try {
-            psiFile.getVirtualFile().setWritable(false);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not mark " + resource + " as read-only.");
-        }
-        return psiFile;
     }
 
     @Nullable
