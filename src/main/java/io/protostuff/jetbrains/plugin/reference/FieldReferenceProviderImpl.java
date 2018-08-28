@@ -12,12 +12,17 @@ import static io.protostuff.compiler.model.ProtobufConstants.MSG_SERVICE_OPTIONS
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiReference;
-import io.protostuff.jetbrains.plugin.ProtoLanguage;
 import io.protostuff.jetbrains.plugin.psi.AbstractFieldReferenceNode;
 import io.protostuff.jetbrains.plugin.psi.DataTypeContainer;
 import io.protostuff.jetbrains.plugin.psi.EnumConstantNode;
@@ -34,7 +39,6 @@ import io.protostuff.jetbrains.plugin.psi.ProtoRootNode;
 import io.protostuff.jetbrains.plugin.psi.RpcMethodNode;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
-import io.protostuff.jetbrains.plugin.resources.BundledFileProvider;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,10 +58,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public class FieldReferenceProviderImpl implements FieldReferenceProvider {
 
-    private static final Logger LOGGER = Logger.getInstance(FieldReferenceProviderImpl.class);
     // "default" field option (a special case)
     public static final String DEFAULT = "default";
-
+    private static final Logger LOGGER = Logger.getInstance(FieldReferenceProviderImpl.class);
     private static final Map<Class<? extends PsiElement>, String> TARGET_MAPPING
             = ImmutableMap.<Class<? extends PsiElement>, String>builder()
             .put(FieldNode.class, MSG_FIELD_OPTIONS)
@@ -70,6 +73,8 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
             .put(ProtoRootNode.class, MSG_FILE_OPTIONS)
             .put(OneOfNode.class, MSG_ONEOF_OPTIONS)
             .build();
+    private final Project project;
+    private PsiFile inm = null;
 
     public FieldReferenceProviderImpl(Project project) {
         this.project = project;
@@ -85,7 +90,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         String targetType = getTarget(fieldReference);
         MessageNode message = resolveType(fieldReference, targetType);
         if (message == null) {
-            LOGGER.error("Could not resolve " + targetType);
+            LOGGER.warn("Could not resolve " + targetType);
             return new PsiReference[0];
         }
         List<AbstractFieldReferenceNode> components = new ArrayList<>();
@@ -132,8 +137,6 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         int length = subReference.getTextLength();
         return new TextRange(startOffset - baseOffset, startOffset - baseOffset + length);
     }
-
-    private final Project project;
 
     @Nullable
     private String getTarget(PsiElement element) {
@@ -231,21 +234,40 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         // separately using bundled descriptor.proto
         // TODO: what if there is non-bundled descriptor.proto available in other location?
         if (message == null) {
-            ProtoPsiFileRoot descriptorProto = (ProtoPsiFileRoot) getBundledDescriptorProto();
+            ProtoPsiFileRoot descriptorProto = (ProtoPsiFileRoot) loadInMemoryDescriptorProto();
+            if (descriptorProto == null) {
+                // by some reason protobuf library is not yet loaded or not attached
+                return null;
+            }
             return (MessageNode) descriptorProto.findType(qualifiedName.substring(1));
         }
         return message;
     }
 
-    private PsiFile getBundledDescriptorProto() {
-        return loadInMemoryDescriptorProto();
-    }
-
-    @NotNull
+    @Nullable
     private PsiFile loadInMemoryDescriptorProto() {
-        BundledFileProvider bundledFileProvider = project.getComponent(BundledFileProvider.class);
-        return bundledFileProvider.getFile(BundledFileProvider.DESCRIPTOR_PROTO_RESOURCE,
-                ProtoLanguage.INSTANCE, BundledFileProvider.DESCRIPTOR_PROTO_NAME);
+        if (inm == null) {
+            for (Module module : ModuleManager.getInstance(project).getModules()) {
+                ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(module);
+                VirtualFile[] allSourceRoots = moduleRootManager.orderEntries().getAllSourceRoots();
+                for (VirtualFile allSourceRoot : allSourceRoots) {
+                    PsiDirectory directory = PsiManager.getInstance(project).findDirectory(allSourceRoot);
+                    if (directory != null && directory.isValid()) {
+                        String relPath = "google/protobuf/descriptor.proto";
+                        VirtualFile file = directory.getVirtualFile().findFileByRelativePath(relPath);
+                        if (file != null) {
+                            PsiManager psiManager = PsiManager.getInstance(project);
+                            PsiFile psiFile = psiManager.findFile(file);
+                            if (psiFile instanceof ProtoPsiFileRoot) {
+                                inm = psiFile;
+                                return (ProtoPsiFileRoot) psiFile;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return inm;
     }
 
     @Nullable

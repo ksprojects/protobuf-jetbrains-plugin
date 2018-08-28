@@ -32,4 +32,5 @@ public class OptionReference extends PsiReferenceBase<PsiElement> {
     public Object[] getVariants() {
         return new Object[0];
     }
+
 }

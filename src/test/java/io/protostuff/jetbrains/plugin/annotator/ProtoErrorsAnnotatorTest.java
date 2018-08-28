@@ -1,13 +1,13 @@
 package io.protostuff.jetbrains.plugin.annotator;
 
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+import io.protostuff.jetbrains.plugin.AbstractProtobufLibraryDependentTestCase;
 
 /**
  * Errors annotator tests.
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class ProtoErrorsAnnotatorTest extends LightCodeInsightFixtureTestCase {
+public class ProtoErrorsAnnotatorTest extends AbstractProtobufLibraryDependentTestCase {
 
     @Override
     protected String getTestDataPath() {

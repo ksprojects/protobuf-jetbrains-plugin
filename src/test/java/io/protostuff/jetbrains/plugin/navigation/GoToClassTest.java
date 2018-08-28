@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import com.intellij.ide.util.gotoByName.ChooseByNameModel;
 import com.intellij.ide.util.gotoByName.ChooseByNamePopup;
 import com.intellij.ide.util.gotoByName.GotoClassModel2;
+import com.intellij.ide.util.gotoByName.SelectMostRelevant;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.util.Computable;
@@ -152,8 +153,9 @@ public class GoToClassTest extends LightCodeInsightFixtureTestCase {
     private List<Object> calcPopupElements(ChooseByNamePopup popup, String text, boolean checkboxState) {
         List<Object> elements = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(1);
+        //noinspection KotlinInternalInJava
         SwingUtilities.invokeLater(() ->
-                popup.scheduleCalcElements(text, checkboxState, ModalityState.NON_MODAL,
+                popup.scheduleCalcElements(text, checkboxState, ModalityState.NON_MODAL, SelectMostRelevant.INSTANCE,
                         set -> {
                             elements.addAll(set);
                             latch.countDown();

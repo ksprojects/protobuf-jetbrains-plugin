@@ -13,12 +13,31 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.ExtensionPoint;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.extensions.PluginId;
+import com.intellij.openapi.fileEditor.FileEditor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.FileEditorManagerListener;
+import com.intellij.openapi.fileEditor.FileEditorProvider;
 import com.intellij.openapi.fileTypes.ExtensionFileNameMatcher;
 import com.intellij.openapi.fileTypes.FileNameMatcher;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.roots.OrderEnumerator;
+import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.roots.impl.libraries.ApplicationLibraryTable;
+import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable;
+import com.intellij.openapi.roots.libraries.Library;
+import com.intellij.openapi.roots.libraries.LibraryTable;
+import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.messages.MessageBus;
+import com.intellij.util.messages.MessageBusConnection;
+import io.protostuff.jetbrains.plugin.reference.file.BundledProtobufRootsProvider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,7 +47,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import javax.swing.event.HyperlinkEvent;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +61,10 @@ public class ProtostuffPluginController implements ProjectComponent {
 
     private static final String PLUGIN_NAME = "Protobuf Support";
     private static final Logger LOGGER = Logger.getInstance(ProtostuffPluginController.class);
+    private static final OrderRootType ORDER_ROOT_TYPE = OrderRootType.SOURCES;
+    private static final String LIB_NAME = "Bundled Protobuf Distribution";
     private final Project project;
+    private Library globalLibrary;
 
     public ProtostuffPluginController(Project project) {
         this.project = project;
@@ -57,6 +81,109 @@ public class ProtostuffPluginController implements ProjectComponent {
             checkConflictingPlugins();
         } catch (Exception e) {
             LOGGER.error("Could not detect or disable conflicting plugins", e);
+        }
+
+        try {
+            updateGlobalLibrary();
+        } catch (Exception e) {
+            LOGGER.error("Could not update global protobuf library bundle", e);
+        }
+
+        registerFileOpenListener();
+    }
+
+    private void registerFileOpenListener() {
+        MessageBus messageBus = project.getMessageBus();
+        MessageBusConnection messageBusConnection = messageBus.connect();
+        messageBusConnection.subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, new FileEditorManagerListener() {
+            @Override
+            public void fileOpenedSync(@NotNull FileEditorManager source, @NotNull VirtualFile file, @NotNull Pair<FileEditor[], FileEditorProvider[]> editors) {
+                if (file.getName().endsWith(ProtoFileType.INSTANCE.getDefaultExtension())) {
+                    Project project = source.getProject();
+                    Module module = ProjectRootManager.getInstance(project).getFileIndex().getModuleForFile(file);
+                    if (module == null) {
+                        return;
+                    }
+                    addLibrary(module);
+                }
+            }
+        });
+
+    }
+
+    /**
+     * Add global protobuf library to given module. Visible for testing.
+     */
+    public void addLibrary(Module module) {
+        ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(module);
+        ModifiableRootModel modifiableRootModel = moduleRootManager.getModifiableModel();
+        AtomicBoolean found = new AtomicBoolean(false);
+        OrderEnumerator.orderEntries(module).forEachLibrary(library1 -> {
+            if (LIB_NAME.equals(library1.getName())) {
+                found.set(true);
+                return false;
+            }
+            return true;
+        });
+        if (!found.get()) {
+            ApplicationManager.getApplication().runWriteAction(() -> {
+                modifiableRootModel.addLibraryEntry(globalLibrary);
+                modifiableRootModel.commit();
+            });
+        }
+    }
+
+    private void updateGlobalLibrary() {
+        BundledProtobufRootsProvider bundledProtobufRootsProvider = new BundledProtobufRootsProvider();
+        VirtualFile[] sourceRoots = bundledProtobufRootsProvider.getSourceRoots(null, null);
+        VirtualFile sourceRoot = sourceRoots[0];
+        globalLibrary = findGlobalProtobufLibrary(project, sourceRoot);
+        if (globalLibrary == null) {
+            ApplicationManager.getApplication().runWriteAction(() -> {
+                LibraryTable libraryTable = ApplicationLibraryTable.getApplicationTable();
+                LibraryTable.ModifiableModel modifiableModel = libraryTable.getModifiableModel();
+                globalLibrary = libraryTable.getLibraryByName(LIB_NAME);
+                if (globalLibrary == null) {
+                    // create library
+                    globalLibrary = libraryTable.createLibrary(LIB_NAME);
+                    Library.ModifiableModel libraryModel = globalLibrary.getModifiableModel();
+                    libraryModel.addRoot(sourceRoot, ORDER_ROOT_TYPE);
+                    libraryModel.commit();
+                } else {
+                    // check library - update if needed
+                    Optional<VirtualFile> libraryFile = Arrays.stream(globalLibrary.getFiles(ORDER_ROOT_TYPE))
+                            .filter(file -> file.getName().equals(sourceRoot.getName()))
+                            .findAny();
+                    if (!libraryFile.isPresent()) {
+                        Library.ModifiableModel libraryModel = globalLibrary.getModifiableModel();
+                        clear(libraryModel);
+                        libraryModel.addRoot(sourceRoot, ORDER_ROOT_TYPE);
+                        libraryModel.commit();
+                    }
+                }
+                modifiableModel.commit();
+            });
+        }
+    }
+
+    @Nullable
+    private Library findGlobalProtobufLibrary(Project project, VirtualFile libraryBundle) {
+        LibraryTable libraryTable = ProjectLibraryTable.getInstance(project);
+        Library library = libraryTable.getLibraryByName(LIB_NAME);
+        if (library != null) {
+            // check library - update if needed
+            if (Arrays.stream(library.getFiles(ORDER_ROOT_TYPE))
+                    .anyMatch(file -> file.getName().equals(libraryBundle.getName()))) {
+                return library;
+            }
+        }
+        return null;
+    }
+
+    private void clear(Library.ModifiableModel libraryModel) {
+        String[] urls = libraryModel.getUrls(ORDER_ROOT_TYPE);
+        for (String url : urls) {
+            libraryModel.removeRoot(url, ORDER_ROOT_TYPE);
         }
     }
 

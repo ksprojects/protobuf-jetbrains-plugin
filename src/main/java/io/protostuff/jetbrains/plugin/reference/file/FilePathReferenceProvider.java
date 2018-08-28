@@ -50,11 +50,6 @@ import org.jetbrains.annotations.Nullable;
 public class FilePathReferenceProvider extends PsiReferenceProvider {
 
     private final boolean myEndingSlashNotAllowed;
-
-    interface SourceRootsProvider {
-        VirtualFile[] getSourceRoots(Module module, ProtoPsiFileRoot psiFileRoot);
-    }
-
     private List<SourceRootsProvider> sourceRootsProviders = new ArrayList<>();
 
     public FilePathReferenceProvider() {
@@ -82,9 +77,11 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
         for (SourceRootsProvider sourceRootsProvider : sourceRootsProviders) {
             VirtualFile[] sourceRoots = sourceRootsProvider.getSourceRoots(module, psiFileRoot);
             for (VirtualFile root : sourceRoots) {
-                final PsiDirectory directory = psiManager.findDirectory(root);
-                if (directory != null) {
-                    result.add(directory);
+                if (root != null) {
+                    final PsiDirectory directory = psiManager.findDirectory(root);
+                    if (directory != null) {
+                        result.add(directory);
+                    }
                 }
             }
         }
@@ -183,6 +180,10 @@ public class FilePathReferenceProvider extends PsiReferenceProvider {
 
     protected FileReference createFileReference(FileReferenceSet referenceSet, final TextRange range, final int index, final String text) {
         return new FileReference(referenceSet, range, index, text);
+    }
+
+    interface SourceRootsProvider {
+        VirtualFile[] getSourceRoots(Module module, ProtoPsiFileRoot psiFileRoot);
     }
 
 }

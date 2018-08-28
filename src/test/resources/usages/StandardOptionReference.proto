@@ -3,5 +3,5 @@ syntax = "proto2";
 package usages;
 
 message TestMessage {
-    optional int64 number = 1[js<caret>type = JS_STRING];
+    optional int64 number = 1[<caret>jstype = JS_STRING];
 }

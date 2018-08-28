@@ -1,8 +1,8 @@
 package io.protostuff.jetbrains.plugin.usages;
 
 import com.intellij.psi.PsiElement;
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import com.intellij.usageView.UsageInfo;
+import io.protostuff.jetbrains.plugin.AbstractProtobufLibraryDependentTestCase;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import java.util.Collection;
@@ -13,7 +13,7 @@ import java.util.Collection;
  * @author Kostiantyn Shchepanovskyi
  */
 @SuppressWarnings("ConstantConditions")
-public class FindUsagesTest extends LightCodeInsightFixtureTestCase {
+public class FindUsagesTest extends AbstractProtobufLibraryDependentTestCase {
 
     @Override
     protected String getTestDataPath() {

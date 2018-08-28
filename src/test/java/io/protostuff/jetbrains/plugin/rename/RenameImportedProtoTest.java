@@ -24,8 +24,8 @@ public class RenameImportedProtoTest extends LightCodeInsightFixtureTestCase {
 
     public void testRenameImportedProtoAtCaretPosition() {
         PsiFile[] files = myFixture.configureByFiles(
-                "rename/import/import.proto",
-                "rename/import/source.proto"
+                "rename/import/source.proto",
+                "rename/import/import.proto"
         );
 
         PsiElement elementAtCaret = myFixture.getElementAtCaret();
@@ -36,9 +36,9 @@ public class RenameImportedProtoTest extends LightCodeInsightFixtureTestCase {
         }
         processor.run();
 
-        Assert.assertEquals("renamed.proto", files[0].getName());
+        Assert.assertEquals("renamed.proto", files[1].getName());
         Assert.assertEquals("import \"rename/import/renamed.proto\";",
-                ((ProtoPsiFileRoot) files[1]).getProtoRoot().getImports().get(0).getText());
+                ((ProtoPsiFileRoot) files[0]).getProtoRoot().getImports().get(0).getText());
     }
 
 }

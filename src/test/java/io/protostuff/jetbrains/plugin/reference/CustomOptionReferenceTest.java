@@ -2,7 +2,7 @@ package io.protostuff.jetbrains.plugin.reference;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+import io.protostuff.jetbrains.plugin.AbstractProtobufLibraryDependentTestCase;
 import io.protostuff.jetbrains.plugin.psi.ExtendEntryNode;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
@@ -13,7 +13,7 @@ import org.junit.Assert;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class CustomOptionReferenceTest extends LightCodeInsightFixtureTestCase {
+public class CustomOptionReferenceTest extends AbstractProtobufLibraryDependentTestCase {
 
     @Override
     protected String getTestDataPath() {

@@ -72,11 +72,6 @@
             <implementation-class>io.protostuff.jetbrains.plugin.settings.ProtobufSettings</implementation-class>
         </component>
         <component>
-            <interface-class>io.protostuff.jetbrains.plugin.resources.BundledFileProvider</interface-class>
-            <implementation-class>io.protostuff.jetbrains.plugin.resources.BundledFileProviderImpl
-            </implementation-class>
-        </component>
-        <component>
             <interface-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProvider</interface-class>
             <implementation-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProviderImpl
             </implementation-class>
@@ -168,8 +163,8 @@
                 implementation="io.protostuff.jetbrains.plugin.GoToClassContributor"/>
 
         <lang.elementManipulator
-            forClass="io.protostuff.jetbrains.plugin.psi.FileReferenceNode"
-            implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.FileReferenceNodeManipulator"/>
+                forClass="io.protostuff.jetbrains.plugin.psi.FileReferenceNode"
+                implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.FileReferenceNodeManipulator"/>
         <lang.elementManipulator
                 forClass="io.protostuff.jetbrains.plugin.psi.TypeReferenceNode"
                 implementationClass="io.protostuff.jetbrains.plugin.psi.manipulator.TypeReferenceNodeManipulator"/>
