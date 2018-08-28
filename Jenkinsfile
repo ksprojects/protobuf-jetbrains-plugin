@@ -18,6 +18,7 @@ pipeline {
             post {
                 always {
                     junit '**/build/test-results/**/*.xml'
+                    archiveArtifacts artifacts: 'build/distributions/*.zip', fingerprint: true
                 }
             }
         }
