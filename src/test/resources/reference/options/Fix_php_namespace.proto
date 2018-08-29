@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package reference.options;
+
+// Fix for https://github.com/protostuff/protobuf-jetbrains-plugin/issues/100
+
+option <caret>php_namespace = "FooBar";

@@ -16,47 +16,52 @@ public class StandardOptionReferenceTest extends AbstractProtobufLibraryDependen
 
     @Override
     protected String getTestDataPath() {
-        return "src/test/resources/reference/options";
+        return "src/test/resources";
     }
 
     public void testStandardMessageOptionReference() {
         checkReferenceToField(".google.protobuf.MessageOptions", "deprecated",
-                "StandardMessageOptionReferenceTestData.proto");
+                "reference/options/StandardMessageOptionReferenceTestData.proto");
     }
 
     public void testStandardFieldOptionReference() {
         checkReferenceToField(".google.protobuf.FieldOptions", "deprecated",
-                "StandardFieldOptionReferenceTestData.proto");
+                "reference/options/StandardFieldOptionReferenceTestData.proto");
     }
 
     public void testStandardMapFieldOptionReference() {
         checkReferenceToField(".google.protobuf.FieldOptions", "deprecated",
-                "StandardMapFieldOptionReferenceTestData.proto");
+                "reference/options/StandardMapFieldOptionReferenceTestData.proto");
     }
 
     public void testStandardEnumOptionReference() {
         checkReferenceToField(".google.protobuf.EnumOptions", "deprecated",
-                "StandardEnumOptionReferenceTestData.proto");
+                "reference/options/StandardEnumOptionReferenceTestData.proto");
     }
 
     public void testStandardEnumConstantOptionReference() {
         checkReferenceToField(".google.protobuf.EnumValueOptions", "deprecated",
-                "StandardEnumConstantOptionReferenceTestData.proto");
+                "reference/options/StandardEnumConstantOptionReferenceTestData.proto");
     }
 
     public void testStandardServiceOptionReference() {
         checkReferenceToField(".google.protobuf.ServiceOptions", "deprecated",
-                "StandardServiceOptionReferenceTestData.proto");
+                "reference/options/StandardServiceOptionReferenceTestData.proto");
     }
 
     public void testStandardServiceMethodOptionReference() {
         checkReferenceToField(".google.protobuf.MethodOptions", "deprecated",
-                "StandardServiceMethodOptionReferenceTestData.proto");
+                "reference/options/StandardServiceMethodOptionReferenceTestData.proto");
     }
 
     public void testStandardFileOptionReference() {
         checkReferenceToField(".google.protobuf.FileOptions", "deprecated",
-                "StandardFileOptionReferenceTestData.proto");
+                "reference/options/StandardFileOptionReferenceTestData.proto");
+    }
+
+    public void testPhpNamespaceReference() {
+        checkReferenceToField(".google.protobuf.FileOptions", "php_namespace",
+                "reference/options/Fix_php_namespace.proto");
     }
 
     private void checkReferenceToField(String typeReference, String fieldName, String... file) {
