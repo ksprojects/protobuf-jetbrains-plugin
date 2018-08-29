@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package relative.import;
+package some.package;
 
 import "relative/import/ImportedRelativelyTestData.proto";
 

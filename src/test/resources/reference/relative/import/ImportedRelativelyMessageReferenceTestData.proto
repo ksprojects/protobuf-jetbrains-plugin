@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package import;
+package some.package;
 
 import "import/ImportedRelativelyTestData.proto";
 
 message TestMessage {
-    <caret>ImportedMessage1 message = 1;
+    import.<caret>ImportedMessage1 message = 1;
 }
