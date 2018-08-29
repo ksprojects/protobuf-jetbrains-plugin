@@ -60,6 +60,9 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
 
     // "default" field option (a special case)
     public static final String DEFAULT = "default";
+    // // Like default value, this "json_name" is not an actual option.
+    // https://github.com/protocolbuffers/protobuf/blob/ba8692fbade4ba329cc4531e286ab5a8e0821d97/src/google/protobuf/compiler/parser.cc#L1087
+    public static final String JSON_NAME = "json_name";
     private static final Logger LOGGER = Logger.getInstance(FieldReferenceProviderImpl.class);
     private static final Map<Class<? extends PsiElement>, String> TARGET_MAPPING
             = ImmutableMap.<Class<? extends PsiElement>, String>builder()
@@ -159,9 +162,14 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
     }
 
     private MessageField resolveStandardOptionReference(PsiElement sourceElement, MessageNode target, String key) {
-        if (MSG_FIELD_OPTIONS.equals(target.getQualifiedName())
-                && DEFAULT.equals(key)) {
-            return resolveDefaultOptionReference(sourceElement);
+        if (MSG_FIELD_OPTIONS.equals(target.getQualifiedName())) {
+            if (DEFAULT.equals(key)) {
+                return resolveDefaultOptionReference(sourceElement);
+            }
+            if (JSON_NAME.equals(key)) {
+                MessageField result = resolveJsonNameOptionReference(sourceElement, key);
+                return result;
+            }
         }
         for (MessageField field : target.getFields()) {
             if (Objects.equals(key, field.getFieldName())) {
@@ -188,6 +196,20 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
             element = element.getParent();
         }
         return null;
+    }
+
+    /**
+     * "json_name" field option is a special case: it is not defined in google.protobuf.FieldOptions,
+     * so it is not an actual option.
+     * It's definition is inside of google.protobuf.FieldDescriptorProto.
+     */
+    private MessageField resolveJsonNameOptionReference(PsiElement sourceElement, String key) {
+        MessageNode message = resolveType(sourceElement, ".google.protobuf.FieldDescriptorProto");
+        MessageField result = null;
+        if (message != null) {
+            result = resolveStandardOptionReference(sourceElement, message, key);
+        }
+        return result;
     }
 
     @Nullable

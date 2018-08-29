@@ -64,6 +64,11 @@ public class StandardOptionReferenceTest extends AbstractProtobufLibraryDependen
                 "reference/options/Fix_php_namespace.proto");
     }
 
+    public void testJsonNameReference() {
+        checkReferenceToField(".google.protobuf.FieldDescriptorProto", "json_name",
+                "reference/options/Fix_json_name.proto");
+    }
+
     private void checkReferenceToField(String typeReference, String fieldName, String... file) {
         myFixture.configureByFiles(file);
         ProtoPsiFileRoot proto = (ProtoPsiFileRoot) myFixture.getFile();
@@ -75,7 +80,7 @@ public class StandardOptionReferenceTest extends AbstractProtobufLibraryDependen
         }
         assertNotNull(elementAtCaret);
         PsiElement target = elementAtCaret.getReferences()[0].resolve();
-        Assert.assertTrue(target instanceof FieldNode);
+        Assert.assertTrue(String.valueOf(target), target instanceof FieldNode);
         FieldNode field = (FieldNode) target;
         Assert.assertEquals(fieldName, field.getFieldName());
         Assert.assertEquals(typeReference, ((DataType) field.getParent()).getQualifiedName());

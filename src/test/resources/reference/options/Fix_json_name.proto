@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package reference.options;
+
+// Fix for https://github.com/protostuff/protobuf-jetbrains-plugin/issues/90
+
+message Foo {
+    int32 foo = 1 [<caret> json_name = "bar_2d"];
+}
