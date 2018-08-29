@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package reference;
+
+import "google/protobuf/<caret>empty.proto";

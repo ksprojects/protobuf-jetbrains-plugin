@@ -2,7 +2,7 @@ package io.protostuff.jetbrains.plugin.reference;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+import io.protostuff.jetbrains.plugin.AbstractProtobufLibraryDependentTestCase;
 import io.protostuff.jetbrains.plugin.psi.DataType;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
 
@@ -12,7 +12,7 @@ import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
  * @author Kostiantyn Shchepanovskyi
  */
 @SuppressWarnings("ConstantConditions")
-public class ReferenceTest extends LightCodeInsightFixtureTestCase {
+public class ReferenceTest extends AbstractProtobufLibraryDependentTestCase {
 
     @Override
     protected String getTestDataPath() {
@@ -35,6 +35,17 @@ public class ReferenceTest extends LightCodeInsightFixtureTestCase {
         checkReferenceToDataType(".reference.ImportedMessage",
                 "reference/ImportedMessageReferenceTestData.proto",
                 "reference/ImportedTestData.proto");
+    }
+
+    public void testFix_import_empty_proto() {
+        String[] file = new String[]{"reference/Fix_import_empty_proto.proto"};
+        myFixture.configureByFiles(file);
+        PsiReference referenceAtCaretPosition = myFixture.getReferenceAtCaretPositionWithAssertion(file);
+        PsiElement target = referenceAtCaretPosition.resolve();
+        assertNotNull(target);
+        assertTrue(target instanceof ProtoPsiFileRoot);
+        ProtoPsiFileRoot protoPsiFileRoot = (ProtoPsiFileRoot) target;
+        assertEquals("empty.proto", protoPsiFileRoot.getName());
     }
 
     public void testImportedRelativelyMessageReference() {
