@@ -306,6 +306,7 @@ public class ProtoParserDefinition implements ParserDefinition {
     public static final IElementType R_NAME = rule(RULE_ident);
     public static final IElementType R_FIELD_MODIFIER = rule(RULE_fieldModifier);
     public static final IElementType R_FIELD_NAME = rule(RULE_fieldName);
+    public static final IElementType R_GROUP_NAME = rule(RULE_groupName);
     public static final IElementType R_TAG = rule(RULE_tag);
     private static final IFileElementType FILE = new IFileElementType(ProtoLanguage.INSTANCE);
     private static final TokenSet COMMENTS = ELEMENT_FACTORY

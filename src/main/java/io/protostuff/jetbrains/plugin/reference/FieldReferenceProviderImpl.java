@@ -30,6 +30,7 @@ import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.ExtendNode;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
 import io.protostuff.jetbrains.plugin.psi.FieldReferenceNode;
+import io.protostuff.jetbrains.plugin.psi.GroupNode;
 import io.protostuff.jetbrains.plugin.psi.MapNode;
 import io.protostuff.jetbrains.plugin.psi.MessageField;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
@@ -105,15 +106,16 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         List<PsiReference> result = new ArrayList<>();
         for (AbstractFieldReferenceNode fieldRef : components) {
             String key = fieldRef.getText();
-            MessageField targetField = null;
+            MessageField target = null;
             if (message != null) {
                 if (fieldRef.isExtension()) {
-                    targetField = resolveCustomOptionReference(fieldReference, message, key);
+                    target = resolveCustomOptionReference(fieldReference, message, key);
                 } else {
-                    targetField = resolveStandardOptionReference(fieldReference, message, key);
+                    target = resolveStandardOptionReference(fieldReference, message, key);
                 }
                 message = null;
-                if (targetField != null) {
+                if (target instanceof FieldNode) {
+                    FieldNode targetField = (FieldNode) target;
                     TypeReferenceNode fieldTypeRef = targetField.getFieldType();
                     if (fieldTypeRef != null) {
                         PsiReference reference = fieldTypeRef.getReference();
@@ -125,9 +127,12 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
                         }
                     }
                 }
+                if (target instanceof GroupNode) {
+                    message = (MessageNode) target;
+                }
             }
             TextRange textRange = getTextRange(fieldReference, fieldRef);
-            result.add(new OptionReference(fieldReference, textRange, targetField));
+            result.add(new OptionReference(fieldReference, textRange, target));
         }
         Collections.reverse(result);
         return result.toArray(new PsiReference[0]);
@@ -213,7 +218,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
     }
 
     @Nullable
-    private FieldNode resolveCustomOptionReference(PsiElement element, MessageNode target, String key) {
+    private MessageField resolveCustomOptionReference(PsiElement element, MessageNode target, String key) {
         ProtoRootNode protoRoot = getProtoRoot(element);
         DataTypeContainer container = getContainer(element);
         Deque<String> scopeLookupList = TypeReferenceProviderImpl.createScopeLookupList(container);
@@ -221,9 +226,9 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
         // case 2: (.package.field).field
         // case 3: (.package.field).(.package.field)
         Collection<ExtendNode> extensions = protoRoot.getExtenstions(target);
-        Map<String, FieldNode> extensionFields = new HashMap<>();
+        Map<String, MessageField> extensionFields = new HashMap<>();
         for (ExtendNode extension : extensions) {
-            for (FieldNode field : extension.getExtensionFields().values()) {
+            for (MessageField field : extension.getExtensionFields().values()) {
                 extensionFields.put(extension.getNamespace() + field.getFieldName(), field);
             }
         }
@@ -231,7 +236,7 @@ public class FieldReferenceProviderImpl implements FieldReferenceProvider {
             return extensionFields.get(key);
         } else {
             for (String scope : scopeLookupList) {
-                FieldNode field = extensionFields.get(scope + key);
+                MessageField field = extensionFields.get(scope + key);
                 if (field != null) {
                     return field;
                 }
