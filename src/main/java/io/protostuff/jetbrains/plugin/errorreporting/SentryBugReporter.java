@@ -3,6 +3,7 @@ package io.protostuff.jetbrains.plugin.errorreporting;
 import static com.intellij.openapi.diagnostic.SubmittedReportInfo.SubmissionStatus.NEW_ISSUE;
 import static io.protostuff.jetbrains.plugin.ProtostuffPluginController.PLUGIN_ID;
 
+import com.intellij.diagnostic.LogMessage;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.application.ApplicationInfo;
@@ -76,7 +77,12 @@ public class SentryBugReporter extends ErrorReportSubmitter {
         eventBuilder.withTag(TAG_OS_ARCH, SystemInfo.OS_ARCH);
         eventBuilder.withTag(TAG_JAVA_VERSION, SystemInfo.JAVA_VERSION);
         eventBuilder.withTag(TAG_JAVA_RUNTIME_VERSION, SystemInfo.JAVA_RUNTIME_VERSION);
-        if (ideaEvent.getThrowable() != null) {
+        Object data = ideaEvent.getData();
+        if (data instanceof LogMessage) {
+            LogMessage logMessage = (LogMessage) data;
+            Throwable throwable = logMessage.getThrowable();
+            eventBuilder.withSentryInterface(new ExceptionInterface(throwable));
+        } else if (ideaEvent.getThrowable() != null) {
             eventBuilder.withSentryInterface(new ExceptionInterface(ideaEvent.getThrowable()));
         }
         if (additionalInfo != null) {
