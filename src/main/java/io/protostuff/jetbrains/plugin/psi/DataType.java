@@ -63,6 +63,25 @@ public class DataType
         if (parent instanceof PsiErrorElement) {
             return ERROR_ELEMENT;
         }
+        if (parent instanceof ExtendEntryNode) {
+            ExtendEntryNode parentExtendEntry = (ExtendEntryNode) parent;
+            ExtendNode parentExtendNode = (ExtendNode) parentExtendEntry.getParent();
+            PsiElement extendNodeParent = parentExtendNode.getParent();
+            String name = String.valueOf(getName());
+            if (extendNodeParent instanceof MessageNode) {
+                MessageNode parentMessage = (MessageNode) extendNodeParent;
+                String parentMessageQualifiedName = parentMessage.getQualifiedName();
+                return parentMessageQualifiedName + "." + name;
+            }
+            if (extendNodeParent instanceof ProtoRootNode) {
+                ProtoRootNode proto = (ProtoRootNode) extendNodeParent;
+                String packageName = proto.getPackageName();
+                if (packageName.isEmpty()) {
+                    return "." + name;
+                }
+                return "." + packageName + "." + name;
+            }
+        }
         throw new IncorrectOperationException("Could not detect qualified name in given context: "
                 + parent.getClass().getName());
     }

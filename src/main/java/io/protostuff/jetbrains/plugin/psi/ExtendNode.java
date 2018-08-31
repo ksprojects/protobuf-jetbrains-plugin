@@ -50,13 +50,13 @@ public class ExtendNode extends AntlrPsiNode implements KeywordsContainer {
     /**
      * Returns extension fields.
      */
-    public Map<String, FieldNode> getExtensionFields() {
-        Map<String, FieldNode> result = new HashMap<>();
+    public Map<String, MessageField> getExtensionFields() {
+        Map<String, MessageField> result = new HashMap<>();
         ExtendEntryNode[] entries = findChildrenByClass(ExtendEntryNode.class);
         for (ExtendEntryNode entry : entries) {
             for (PsiElement element : entry.getChildren()) {
-                if (element instanceof FieldNode) {
-                    FieldNode field = (FieldNode) element;
+                if (element instanceof MessageField) {
+                    MessageField field = (MessageField) element;
                     result.put(field.getFieldName(), field);
                 }
             }

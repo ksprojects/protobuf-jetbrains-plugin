@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package reference.options.custom;
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MessageOptions {
+    optional group ComplexOpt6 = 7595468 {
+        optional int32 xyzzy = 7593951;
+    }
+}
+
+message Message {
+    option (complexopt6).<caret>xyzzy = 24;
+}

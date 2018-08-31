@@ -5,6 +5,7 @@ import com.intellij.psi.PsiReference;
 import io.protostuff.jetbrains.plugin.AbstractProtobufLibraryDependentTestCase;
 import io.protostuff.jetbrains.plugin.psi.ExtendEntryNode;
 import io.protostuff.jetbrains.plugin.psi.FieldNode;
+import io.protostuff.jetbrains.plugin.psi.GroupNode;
 import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import org.junit.Assert;
 
@@ -71,6 +72,18 @@ public class CustomOptionReferenceTest extends AbstractProtobufLibraryDependentT
         FieldNode field = (FieldNode) target;
         Assert.assertEquals("foo", field.getFieldName());
         Assert.assertTrue(field.getParent() instanceof ExtendEntryNode);
+    }
+
+    public void testExtensionIsGroupField_PointToGroupField() {
+        PsiReference reference = myFixture.getReferenceAtCaretPositionWithAssertion(
+                "reference/options/custom/ExtensionIsGroupField.proto"
+        );
+        PsiElement target = reference.resolve();
+        Assert.assertNotNull(target);
+        Assert.assertTrue(target instanceof FieldNode);
+        FieldNode field = (FieldNode) target;
+        Assert.assertEquals("xyzzy", field.getFieldName());
+        Assert.assertTrue(field.getParent() instanceof GroupNode);
     }
 
     public void testExtensionIsMessage_PointToField() {
