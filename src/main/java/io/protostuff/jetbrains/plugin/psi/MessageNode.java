@@ -8,15 +8,11 @@ import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
 import io.protostuff.jetbrains.plugin.psi.stubs.DataTypeStub;
-import io.protostuff.jetbrains.plugin.psi.stubs.MessageStub;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -96,26 +92,6 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
     @Override
     public ItemPresentation getPresentation() {
         return ItemPresentationProviders.getItemPresentation(this);
-    }
-
-    /**
-     * Returns reserved field ranges for this message.
-     */
-    @NotNull
-    public List<RangeNode> getReservedFieldRanges() {
-        return Stream.of(findChildrenByClass(ReservedFieldRangesNode.class))
-                .flatMap(rangesNode -> Arrays.stream(rangesNode.getRanges()))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Returns reserved field names for this message.
-     */
-    @NotNull
-    public Set<String> getReservedFieldNames() {
-        return Stream.of(findChildrenByClass(ReservedFieldNamesNode.class))
-                .flatMap(namesNode -> namesNode.getNames().stream())
-                .collect(Collectors.toSet());
     }
 
     @Override

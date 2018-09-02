@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package annotator;
+
+enum EnumMessage {
+    X = 0;
+    <error descr="Reserved enum name: Y">Y</error> = 1;
+
+    reserved "Y";
+}

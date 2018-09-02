@@ -104,6 +104,8 @@ public class ProtoErrorsAnnotator implements Annotator {
                     checkDuplicateEnumConstantNames(constants);
                     checkDuplicateEnumConstantValues(anEnum, constants);
                     checkFirstEnumConstantValueIsZero(anEnum, constants, syntax);
+                    checkReservedEnumTags(anEnum, constants);
+                    checkReservedEnumNames(anEnum, constants);
                 }
                 if (element instanceof ServiceNode) {
                     ServiceNode service = (ServiceNode) element;
@@ -120,6 +122,28 @@ public class ProtoErrorsAnnotator implements Annotator {
                 }
             }
             this.holder = null;
+        }
+    }
+
+    private void checkReservedEnumNames(EnumNode anEnum, List<EnumConstantNode> constants) {
+        Set<String> names = anEnum.getReservedNames();
+        for (EnumConstantNode node : constants) {
+            String name = node.getConstantName();
+            if (names.contains(name)) {
+                markError(node.getNode(), node.getConstantNameNode(), message("error.reserved.enum.name", name));
+            }
+        }
+    }
+
+    private void checkReservedEnumTags(EnumNode anEnum, List<EnumConstantNode> constants) {
+        List<RangeNode> ranges = anEnum.getReservedRanges();
+        for (EnumConstantNode node : constants) {
+            int tag = node.getConstantValue();
+            for (RangeNode range : ranges) {
+                if (range.contains(tag)) {
+                    markError(node.getNode(), node.getConstantValueNode(), message("error.reserved.enum.value", tag));
+                }
+            }
         }
     }
 
@@ -310,7 +334,7 @@ public class ProtoErrorsAnnotator implements Annotator {
     }
 
     private void checkReservedFieldTags(MessageNode message, Collection<MessageField> fields) {
-        List<RangeNode> ranges = message.getReservedFieldRanges();
+        List<RangeNode> ranges = message.getReservedRanges();
         for (MessageField field : fields) {
             int tag = field.getTag();
             for (RangeNode range : ranges) {
@@ -322,7 +346,7 @@ public class ProtoErrorsAnnotator implements Annotator {
     }
 
     private void checkReservedFieldNames(MessageNode message, Collection<MessageField> fields) {
-        Set<String> names = message.getReservedFieldNames();
+        Set<String> names = message.getReservedNames();
         for (MessageField field : fields) {
             String name = field.getFieldName();
             if (names.contains(name)) {

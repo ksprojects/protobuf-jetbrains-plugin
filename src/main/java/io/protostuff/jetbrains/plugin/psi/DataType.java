@@ -8,6 +8,11 @@ import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
 import io.protostuff.jetbrains.plugin.psi.stubs.DataTypeStub;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -96,6 +101,26 @@ public class DataType
         }
 
         return getQualifiedName().substring(1);
+    }
+
+    /**
+     * Returns reserved field ranges for this message.
+     */
+    @NotNull
+    public List<RangeNode> getReservedRanges() {
+        return Stream.of(findChildrenByClass(ReservedFieldRangesNode.class))
+                .flatMap(rangesNode -> Arrays.stream(rangesNode.getRanges()))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns reserved field names for this message.
+     */
+    @NotNull
+    public Set<String> getReservedNames() {
+        return Stream.of(findChildrenByClass(ReservedFieldNamesNode.class))
+                .flatMap(namesNode -> namesNode.getNames().stream())
+                .collect(Collectors.toSet());
     }
 
     @Nullable

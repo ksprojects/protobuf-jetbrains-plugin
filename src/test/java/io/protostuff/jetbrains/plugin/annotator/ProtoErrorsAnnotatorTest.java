@@ -58,6 +58,14 @@ public class ProtoErrorsAnnotatorTest extends AbstractProtobufLibraryDependentTe
         check();
     }
 
+    public void testReservedEnumValue() {
+        check();
+    }
+
+    public void testReservedEnumName() {
+        check();
+    }
+
     public void testDuplicateEnumConstantName() {
         check();
     }
