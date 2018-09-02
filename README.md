@@ -11,8 +11,9 @@ Compatibility Matrix:
 
 | Plugin Version  | IDE Version Range  |
 |-----------------|--------------------|
-| 0.9.0+          | IDEA 2017.1+       |
-| 0.8.0           | IDEA 2016.1+       |
+| 0.11.0          | IDEA 2018.2        |
+| 0.9.0           | IDEA 2017.1        |
+| 0.8.0           | IDEA 2016.1        |
 | 0.6.0           | IDEA 13 - IDEA 15  |
 
 
