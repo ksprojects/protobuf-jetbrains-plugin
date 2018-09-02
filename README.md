@@ -4,7 +4,7 @@
 
 [Protobuf Support Plugin](https://plugins.jetbrains.com/plugin/8277) for IntelliJ IDEA & other JetBrains products.
 
-Latest plugin release is compatible with IntelliJ IDEA 2017.1 (older releases are compatible with IDEA 13+). 
+Latest plugin release is compatible with IntelliJ IDEA 2018.2 (older releases are compatible with IDEA 13+). 
 Other JetBrains IDEs of the same or higher version should be supported as well. 
 
 Compatibility Matrix:
