@@ -56,7 +56,7 @@ intellij {
     type = 'IC'
     updateSinceUntilBuild = false
     downloadSources = true
-    plugins = ['PsiViewer:182.2757.2']
+//    plugins = ['PsiViewer:182.2757.2']
 //    localPath = '/home/kshchepanovskyi/.local/opt/WebStorm-171.3780.79/'
 //    instrumentCode = false
     publish {
