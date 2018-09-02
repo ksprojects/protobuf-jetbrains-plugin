@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.10.2</version>
+    <version>0.11.0</version>
     <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -32,24 +32,58 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.10.2">
-            <b>v0.10.2</b>
-        </a> (2017-07-30)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.11.0">
+            <b>v0.11.0</b>
+        </a> (2018-09-03)
         <br>
         <br>
-        This release contains multiple fixes:
+        This release contains multiple fixes and improvements:
         <ul>
             <li>
-              Fix NullPointerException on opening plugin settings without open project.
+              Change IDE compatibility to 2018.2 and higher versions.
             </li>
             <li>
-              Do not highlight extend block for custom options in proto3 as error.
+              Bundle full protobuf sources archive with plugin.
+              Following imports now will be resolved automatically:
+              <ul>
+              <li>google/protobuf/empty.proto
+              <li>google/protobuf/api.proto
+              <li>google/protobuf/wrappers.proto
+              <li>google/protobuf/descriptor.proto
+              <li>google/protobuf/timestamp.proto
+              <li>google/protobuf/type.proto
+              <li>google/protobuf/source_context.proto
+              <li>google/protobuf/struct.proto
+              <li>google/protobuf/duration.proto
+              <li>google/protobuf/field_mask.proto
+              <li>google/protobuf/any.proto
+              <li>google/protobuf/compiler/plugin.proto
+              </ul>
             </li>
             <li>
-              Fix rare ClassCastException when running "go to class action".
+              Add support for `php_namespace` option.
             </li>
             <li>
-              Fix resolving references to types defined inside of oneof + group blocks.
+              Add support for `json_name` option.
+            </li>
+            <li>
+              Improve imports resolution.
+              Plugin tries to resolve imports relative to source file's location using following rules:
+              <ol>
+                <li> Try to look in the same folder where source file is.
+                <li> Try to look from parent folder.
+                <li> Repeat step 2 until reference is resolved  or there's no parent folder anymore.
+              </ol>
+              Max nesting level is 10.
+            </li>
+            <li>
+              Add support for `reserved` keyword inside of enums.
+            </li>
+            <li>
+              Fix NullPointerException on reset plugin settings without open project.
+            </li>
+            <li>
+              Fix resolving references to types defined inside of extend block.
             </li>
         </ul>
 
@@ -60,7 +94,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="171"/>
+    <idea-version since-build="182"/>
 
     <depends>com.intellij.modules.lang</depends>
 

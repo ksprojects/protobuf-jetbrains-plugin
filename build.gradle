@@ -39,7 +39,7 @@ dependencies {
     compile ('io.sentry:sentry:1.7.5') {
         exclude group: 'org.slf4j'
     }
-    compile ('com.google.protobuf:protobuf-java:3.6.0:sources')
+    compile ('com.google.protobuf:protobuf-java:3.6.1:sources')
 }
 
 apply plugin: 'idea'
