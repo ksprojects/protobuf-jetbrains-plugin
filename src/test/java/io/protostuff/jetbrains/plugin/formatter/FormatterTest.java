@@ -1,9 +1,9 @@
 package io.protostuff.jetbrains.plugin.formatter;
 
+import com.intellij.application.options.CodeStyle;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.codeStyle.CodeStyleSettingsManager;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import io.protostuff.jetbrains.plugin.ProtoLanguage;
@@ -28,15 +28,11 @@ public class FormatterTest extends LightCodeInsightFixtureTestCase {
 
     private void run(String test, Consumer<CommonCodeStyleSettings> settings) {
         myFixture.configureByFiles(test + "/Source.proto");
-        CodeStyleSettings codeStyleSettings = CodeStyleSettingsManager.getSettings(getProject());
+        CodeStyleSettings codeStyleSettings = CodeStyle.getSettings(getProject());
         CommonCodeStyleSettings protoSettings = codeStyleSettings.getCommonSettings(ProtoLanguage.INSTANCE);
         settings.accept(protoSettings);
-        new WriteCommandAction.Simple(getProject()) {
-            @Override
-            protected void run() throws Throwable {
-                CodeStyleManager.getInstance(getProject()).reformat(myFixture.getFile());
-            }
-        }.execute();
+        WriteCommandAction.writeCommandAction(getProject())
+                .run(() -> CodeStyleManager.getInstance(getProject()).reformat(myFixture.getFile()));
         myFixture.checkResultByFile(test + "/Expected.proto");
     }
 
