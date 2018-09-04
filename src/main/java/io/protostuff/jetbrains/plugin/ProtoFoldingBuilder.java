@@ -14,10 +14,9 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.token;
 
 import com.google.common.collect.ImmutableMap;
 import com.intellij.lang.ASTNode;
-import com.intellij.lang.folding.FoldingBuilder;
+import com.intellij.lang.folding.CustomFoldingBuilder;
 import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.util.Couple;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
@@ -32,7 +31,6 @@ import io.protostuff.jetbrains.plugin.psi.MessageNode;
 import io.protostuff.jetbrains.plugin.psi.OneOfNode;
 import io.protostuff.jetbrains.plugin.psi.ServiceNode;
 import io.protostuff.jetbrains.plugin.psi.TypeReferenceNode;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -44,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author Kostiantyn Shchepanovskyi
  */
-public class ProtoFoldingBuilder implements FoldingBuilder, DumbAware {
+public class ProtoFoldingBuilder extends CustomFoldingBuilder {
 
     private static final Map<IElementType, Function<ASTNode, String>> PROVIDERS = ImmutableMap.<IElementType, Function<ASTNode, String>>builder()
             .put(rule(RULE_messageBlock), node -> {
@@ -81,48 +79,6 @@ public class ProtoFoldingBuilder implements FoldingBuilder, DumbAware {
             .put(token(LINE_COMMENT), node -> "//...")
             .put(token(COMMENT), node -> "/*...*/")
             .build();
-
-    @NotNull
-    @Override
-    public FoldingDescriptor[] buildFoldRegions(@NotNull ASTNode node, @NotNull Document document) {
-        final List<FoldingDescriptor> descriptors = new ArrayList<>();
-        collectDescriptorsRecursively(node, document, descriptors);
-        return descriptors.toArray(new FoldingDescriptor[descriptors.size()]);
-    }
-
-    @Nullable
-    @Override
-    public String getPlaceholderText(@NotNull ASTNode node) {
-        final IElementType type = node.getElementType();
-        Function<ASTNode, String> provider = PROVIDERS.getOrDefault(type, ast -> "...");
-        return provider.apply(node);
-    }
-
-    @Override
-    public boolean isCollapsedByDefault(@NotNull ASTNode node) {
-        // This code should collapse header comments.
-        // However, in most of the cases it will not work,
-        // as when file is open caret is at the beginning of the document,
-        // thus preventing collapsing it.
-        // TODO: Collapse header comment when file is opened
-        return node.getTreeParent() instanceof FileElement
-                && findPreviousNonWhitespaceOrCommentNode(node) == null;
-    }
-
-    @Nullable
-    private ASTNode findPreviousNonWhitespaceOrCommentNode(@NotNull ASTNode node) {
-        ASTNode tmp = node;
-        while (tmp != null) {
-            IElementType type = tmp.getElementType();
-            if (!(tmp instanceof PsiWhiteSpace
-                    || type == token(COMMENT)
-                    || type == token(LINE_COMMENT))) {
-                break;
-            }
-            tmp = tmp.getTreePrev();
-        }
-        return tmp;
-    }
 
     private static void collectDescriptorsRecursively(@NotNull ASTNode node,
                                                       @NotNull Document document,
@@ -178,5 +134,43 @@ public class ProtoFoldingBuilder implements FoldingBuilder, DumbAware {
     private static boolean spanMultipleLines(@NotNull ASTNode node, @NotNull Document document) {
         final TextRange range = node.getTextRange();
         return document.getLineNumber(range.getStartOffset()) < document.getLineNumber(range.getEndOffset());
+    }
+
+    @Override
+    protected void buildLanguageFoldRegions(@NotNull List<FoldingDescriptor> descriptors, @NotNull PsiElement root, @NotNull Document document, boolean quick) {
+        collectDescriptorsRecursively(root.getNode(), document, descriptors);
+    }
+
+    @Override
+    protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
+        final IElementType type = node.getElementType();
+        Function<ASTNode, String> provider = PROVIDERS.getOrDefault(type, ast -> "...");
+        return provider.apply(node);
+    }
+
+    @Override
+    protected boolean isRegionCollapsedByDefault(@NotNull ASTNode node) {
+        // This code should collapse header comments.
+        // However, in most of the cases it will not work,
+        // as when file is open caret is at the beginning of the document,
+        // thus preventing collapsing it.
+        // TODO: Collapse header comment when file is opened
+        return node.getTreeParent() instanceof FileElement
+                && findPreviousNonWhitespaceOrCommentNode(node) == null;
+    }
+
+    @Nullable
+    private ASTNode findPreviousNonWhitespaceOrCommentNode(@NotNull ASTNode node) {
+        ASTNode tmp = node;
+        while (tmp != null) {
+            IElementType type = tmp.getElementType();
+            if (!(tmp instanceof PsiWhiteSpace
+                    || type == token(COMMENT)
+                    || type == token(LINE_COMMENT))) {
+                break;
+            }
+            tmp = tmp.getTreePrev();
+        }
+        return tmp;
     }
 }

@@ -46,6 +46,10 @@ public class FoldingTest extends LightCodeInsightFixtureTestCase {
         check();
     }
 
+    public void testFoldRegion() {
+        check();
+    }
+
     private void check() {
         check(false);
     }
@@ -56,8 +60,10 @@ public class FoldingTest extends LightCodeInsightFixtureTestCase {
         if (checkCollapseStatus) {
             myFixture.testFoldingWithCollapseStatus(getTestDataPath() + file);
         } else {
+
             myFixture.testFolding(getTestDataPath() + file);
         }
     }
+
 
 }
