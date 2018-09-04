@@ -45,7 +45,7 @@ public class SentryBugReporter extends ErrorReportSubmitter {
     private static final String TAG_JAVA_VERSION = "java_version";
     private static final String TAG_JAVA_RUNTIME_VERSION = "java_runtime_version";
 
-    private static final String DSN = "https://0c8a8ad650c4467f9a17ac5179161e3f:b202d70375054565a02f452e0661f60a@sentry.io/186533";
+    private static final String DSN = "https://0c8a8ad650c4467f9a17ac5179161e3f:b202d70375054565a02f452e0661f60a@sentry.io/186533?uncaught.handler.enabled=false";
 
     private static final SentryClient sentry = Sentry.init(DSN);
 
