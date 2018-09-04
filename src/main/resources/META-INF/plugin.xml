@@ -2,7 +2,7 @@
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
     <version>0.11.0</version>
-    <vendor email="jetbrains-plugin@protostuff.io">Kostiantyn Shchepanovskyi</vendor>
+    <vendor email="protobuf-jetbrains-plugin@ksprojects.org">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
         <a href="https://developers.google.com/protocol-buffers/">Google Protobuf</a> support for JetBrains products.
