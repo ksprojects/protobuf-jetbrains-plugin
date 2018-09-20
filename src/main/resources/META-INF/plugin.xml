@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.11.0</version>
+    <version>0.12.0</version>
     <vendor email="protobuf-jetbrains-plugin@ksprojects.org">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -22,6 +22,7 @@
             <li>Code formatting.</li>
             <li>Navigation to message, enum or service by name (Ctrl+N)</li>
             <li>Rename refactoring (files, messages, enums and fields).</li>
+            <li>Spell checking.</li>
         </ul>
         <br>
         <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/wiki/Roadmap">Roadmap</a>
@@ -32,58 +33,21 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.11.0">
-            <b>v0.11.0</b>
-        </a> (2018-09-03)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.12.0">
+            <b>v0.12.0</b>
+        </a> (2018-09-20)
         <br>
         <br>
-        This release contains multiple fixes and improvements:
+        This release contains multiple improvements:
         <ul>
             <li>
-              Change IDE compatibility to 2018.2 and higher versions.
+              Add spell checking support.
             </li>
             <li>
-              Bundle full protobuf sources archive with plugin.
-              Following imports now will be resolved automatically:
-              <ul>
-              <li>google/protobuf/empty.proto
-              <li>google/protobuf/api.proto
-              <li>google/protobuf/wrappers.proto
-              <li>google/protobuf/descriptor.proto
-              <li>google/protobuf/timestamp.proto
-              <li>google/protobuf/type.proto
-              <li>google/protobuf/source_context.proto
-              <li>google/protobuf/struct.proto
-              <li>google/protobuf/duration.proto
-              <li>google/protobuf/field_mask.proto
-              <li>google/protobuf/any.proto
-              <li>google/protobuf/compiler/plugin.proto
-              </ul>
+              Add support for custom region foolding.
             </li>
             <li>
-              Add support for `php_namespace` option.
-            </li>
-            <li>
-              Add support for `json_name` option.
-            </li>
-            <li>
-              Improve imports resolution.
-              Plugin tries to resolve imports relative to source file's location using following rules:
-              <ol>
-                <li> Try to look in the same folder where source file is.
-                <li> Try to look from parent folder.
-                <li> Repeat step 2 until reference is resolved  or there's no parent folder anymore.
-              </ol>
-              Max nesting level is 10.
-            </li>
-            <li>
-              Add support for `reserved` keyword inside of enums.
-            </li>
-            <li>
-              Fix NullPointerException on reset plugin settings without open project.
-            </li>
-            <li>
-              Fix resolving references to types defined inside of extend block.
+              Add support for setting custom include paths for new projects (global settings).
             </li>
         </ul>
 
