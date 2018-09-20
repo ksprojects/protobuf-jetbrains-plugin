@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "google/<TYPO descr="Typo: In word 'protobuf'">protobuf</TYPO>/descriptor.proto";
+
+// <TYPO descr="Typo: In word 'badcomment'">badcomment</TYPO>
+
+message <TYPO descr="Typo: In word 'Badmessagename'">Badmessagename</TYPO> {
+int32 <TYPO descr="Typo: In word 'badfieldname'">badfieldname</TYPO> = 1 [(note) = "<TYPO descr="Typo: In word 'badstringliteral'">badstringliteral</TYPO>"];
+}
+
+enum <TYPO descr="Typo: In word 'Badenumname'">Badenumname</TYPO> {
+    <TYPO descr="Typo: In word 'BADENUMCONSTANTNAME'">BADENUMCONSTANTNAME</TYPO> = 0;
+}
+
+extend google.protobuf.FieldOptions {
+    string note = 50003;
+}

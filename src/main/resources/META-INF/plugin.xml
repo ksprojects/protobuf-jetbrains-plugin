@@ -213,6 +213,9 @@
         <stubIndex implementation="io.protostuff.jetbrains.plugin.psi.indices.DataTypeFullNameIndex"/>
         <stubIndex implementation="io.protostuff.jetbrains.plugin.psi.indices.DataTypeNameIndex"/>
 
+        <spellchecker.support
+                language="PROTO"
+                implementationClass="io.protostuff.jetbrains.plugin.spellchecker.ProtoSpellcheckingStrategy" />
     </extensions>
 
     <actions>
