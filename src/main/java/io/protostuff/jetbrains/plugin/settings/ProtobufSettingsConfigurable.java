@@ -19,7 +19,7 @@ public class ProtobufSettingsConfigurable implements Configurable {
 
     public ProtobufSettingsConfigurable(Project project) {
         this.project = project;
-        this.settings = ProtobufSettings.getInstance(project);
+        this.settings = ProtobufSettings.getInstance();
     }
 
     @Nls

@@ -1,7 +1,6 @@
 package io.protostuff.jetbrains.plugin.reference.file;
 
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import io.protostuff.jetbrains.plugin.psi.ProtoPsiFileRoot;
@@ -18,8 +17,7 @@ class CustomIncludePathRootsProvider implements FilePathReferenceProvider.Source
     @Override
     public VirtualFile[] getSourceRoots(Module module, ProtoPsiFileRoot psiFileRoot) {
         List<VirtualFile> result = new ArrayList<>();
-        Project project = module.getProject();
-        ProtobufSettings settings = project.getComponent(ProtobufSettings.class);
+        ProtobufSettings settings = ProtobufSettings.getInstance();
         List<String> includePaths = settings.getIncludePaths();
         for (String includePath : includePaths) {
             VirtualFile path = LocalFileSystem.getInstance().findFileByPath(includePath);

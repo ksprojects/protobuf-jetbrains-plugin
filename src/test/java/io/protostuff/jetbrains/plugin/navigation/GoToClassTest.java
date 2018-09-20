@@ -122,7 +122,7 @@ public class GoToClassTest extends LightCodeInsightFixtureTestCase {
 
     public void testGoToMessage_inCustomIncludePath() throws Exception {
         File includePathRoot = tempDir;
-        ProtobufSettings settings = getProject().getComponent(ProtobufSettings.class);
+        ProtobufSettings settings = ProtobufSettings.getInstance();
         settings.setIncludePaths(Collections.singletonList(includePathRoot.getAbsolutePath()));
         File proto = new File(tempDir.getPath() + "/test.proto");
         Writer writer = new BufferedWriter(new FileWriter(proto));
@@ -138,12 +138,8 @@ public class GoToClassTest extends LightCodeInsightFixtureTestCase {
     }
 
     private ProtoType findType(final ProtoPsiFileRoot file, final String fullName) {
-        return ApplicationManager.getApplication().runReadAction(new Computable<ProtoType>() {
-            @Override
-            public ProtoType compute() {
-                return file.findType(fullName);
-            }
-        });
+        return ApplicationManager.getApplication()
+                .runReadAction((Computable<ProtoType>) () -> file.findType(fullName));
     }
 
     private List<Object> getPopupElements(ChooseByNameModel model, String text, boolean checkboxState) {

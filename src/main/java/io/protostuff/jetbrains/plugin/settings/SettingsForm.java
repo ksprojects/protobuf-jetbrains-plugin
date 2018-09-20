@@ -37,7 +37,7 @@ public class SettingsForm {
      * @param settings is null if settings dialog runs without a project.
      */
     @SuppressWarnings("unchecked")
-    public SettingsForm(Project project, @Nullable ProtobufSettings settings) {
+    public SettingsForm(@Nullable Project project, @Nullable ProtobufSettings settings) {
         this.project = project;
         List<String> internalIncludePathList = new ArrayList<>();
         if (settings != null) {

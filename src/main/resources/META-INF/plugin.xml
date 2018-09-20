@@ -103,9 +103,6 @@
             <implementation-class>io.protostuff.jetbrains.plugin.ProtostuffPluginController</implementation-class>
         </component>
         <component>
-            <implementation-class>io.protostuff.jetbrains.plugin.settings.ProtobufSettings</implementation-class>
-        </component>
-        <component>
             <interface-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProvider</interface-class>
             <implementation-class>io.protostuff.jetbrains.plugin.reference.FieldReferenceProviderImpl
             </implementation-class>
@@ -165,6 +162,8 @@
                 language="PROTO"
                 implementationClass="io.protostuff.jetbrains.plugin.ProtoFoldingBuilder"/>
 
+        <applicationService serviceImplementation="io.protostuff.jetbrains.plugin.settings.ProtobufSettings"/>
+
         <projectConfigurable instance="io.protostuff.jetbrains.plugin.settings.ProtobufSettingsConfigurable"/>
 
         <annotator
@@ -215,7 +214,7 @@
 
         <spellchecker.support
                 language="PROTO"
-                implementationClass="io.protostuff.jetbrains.plugin.spellchecker.ProtoSpellcheckingStrategy" />
+                implementationClass="io.protostuff.jetbrains.plugin.spellchecker.ProtoSpellcheckingStrategy"/>
     </extensions>
 
     <actions>

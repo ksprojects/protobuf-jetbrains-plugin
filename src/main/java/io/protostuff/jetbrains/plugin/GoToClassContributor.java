@@ -82,7 +82,7 @@ public class GoToClassContributor implements GotoClassContributor {
         List<VirtualFile> files = new ArrayList<>();
         addProjectAndLibraryFiles(project, includeNonProjectItems, files);
         if (includeNonProjectItems) {
-            addFilesFromCustomIncludePath(project, files);
+            addFilesFromCustomIncludePath(files);
             addBundledGoogleProtos(project, files);
         }
         for (VirtualFile virtualFile : files) {
@@ -122,8 +122,8 @@ public class GoToClassContributor implements GotoClassContributor {
         files.addAll(FileTypeIndex.getFiles(ProtoFileType.INSTANCE, scope));
     }
 
-    private void addFilesFromCustomIncludePath(Project project, List<VirtualFile> files) {
-        ProtobufSettings settings = project.getComponent(ProtobufSettings.class);
+    private void addFilesFromCustomIncludePath(List<VirtualFile> files) {
+        ProtobufSettings settings = ProtobufSettings.getInstance();
         List<VirtualFile> includePaths = settings.getIncludePathsVf();
         for (VirtualFile includePath : includePaths) {
             FileBasedIndex.iterateRecursively(includePath, file -> {
