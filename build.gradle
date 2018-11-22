@@ -90,7 +90,7 @@ targetCompatibility = javaVersion
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.8.1'
+    gradleVersion = '4.10.2'
 }
 
 
