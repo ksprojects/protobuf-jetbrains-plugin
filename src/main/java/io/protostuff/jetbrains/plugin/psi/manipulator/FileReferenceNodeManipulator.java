@@ -3,16 +3,9 @@ package io.protostuff.jetbrains.plugin.psi.manipulator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.AbstractElementManipulator;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFileFactory;
-import com.intellij.psi.impl.PsiFileFactoryImpl;
-import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
-import io.protostuff.compiler.parser.ProtoParser;
-import io.protostuff.jetbrains.plugin.ProtoLanguage;
-import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
 import io.protostuff.jetbrains.plugin.psi.FileReferenceNode;
-import org.antlr.jetbrains.adapter.psi.ScopeNode;
+import io.protostuff.jetbrains.plugin.psi.ProtoElementFactory;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -30,14 +23,8 @@ public class FileReferenceNodeManipulator extends AbstractElementManipulator<Fil
         String newText = oldText.substring(0, range.getStartOffset()) + newContent + oldText
                 .substring(range.getEndOffset());
         Project project = fileReferenceNode.getProject();
-        PsiFileFactoryImpl factory = (PsiFileFactoryImpl) PsiFileFactory.getInstance(project);
-        IElementType type = ProtoParserDefinition.rule(ProtoParser.RULE_fileReference);
-        ScopeNode context = fileReferenceNode.getContext();
-        PsiElement newNode = factory
-                .createElementFromText(newText, ProtoLanguage.INSTANCE, type, context);
-        if (newNode == null) {
-            throw new IncorrectOperationException();
-        }
+        ProtoElementFactory elementFactory = project.getComponent(ProtoElementFactory.class);
+        FileReferenceNode newNode = elementFactory.createFileReferenceNode(newText);
         return (FileReferenceNode) fileReferenceNode.replace(newNode);
     }
 }
