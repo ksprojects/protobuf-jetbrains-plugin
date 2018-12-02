@@ -3,16 +3,9 @@ package io.protostuff.jetbrains.plugin.psi;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.PsiNameIdentifierOwner;
-import com.intellij.psi.impl.PsiFileFactoryImpl;
-import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
-import io.protostuff.jetbrains.plugin.ProtoLanguage;
-import io.protostuff.jetbrains.plugin.ProtoParserDefinition;
-import org.antlr.jetbrains.adapter.lexer.RuleIElementType;
 import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
-import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -55,24 +48,11 @@ public class GenericNameNode extends AntlrPsiNode {
      * Set name.
      */
     public PsiElement setName(@NotNull String name) throws IncorrectOperationException {
-        ASTNode node = getNode();
-        IElementType elementType = node.getElementType();
-        if (elementType instanceof RuleIElementType) {
-            RuleIElementType ruleElementType = (RuleIElementType) elementType;
-            int ruleIndex = ruleElementType.getRuleIndex();
-            Project project = getProject();
-            PsiFileFactoryImpl factory = (PsiFileFactoryImpl) PsiFileFactory.getInstance(project);
-            IElementType type = ProtoParserDefinition.rule(ruleIndex);
-            ScopeNode context = getContext();
-            PsiElement newNode = factory.createElementFromText(name, ProtoLanguage.INSTANCE, type, context);
-            if (!(newNode instanceof GenericNameNode)) {
-                throw new IncorrectOperationException();
-            }
-            GenericNameNode newNameNode = (GenericNameNode) newNode;
-            identNode().replaceChild(identNode().getFirstChildNode(), newNameNode.identNode().getFirstChildNode());
-            return this;
-        }
-        throw new IncorrectOperationException(OPERATION_NOT_SUPPORTED);
+        Project project = getProject();
+        ProtoElementFactory elementFactory = project.getComponent(ProtoElementFactory.class);
+        GenericNameNode newNameNode = elementFactory.createGenericNameNode(name);
+        identNode().replaceChild(identNode().getFirstChildNode(), newNameNode.identNode().getFirstChildNode());
+        return this;
     }
 
 }
