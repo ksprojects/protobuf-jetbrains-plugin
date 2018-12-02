@@ -14,6 +14,7 @@ import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.token;
 
 import com.google.common.collect.ImmutableMap;
 import com.intellij.lang.ASTNode;
+import com.intellij.lang.FileASTNode;
 import com.intellij.lang.folding.CustomFoldingBuilder;
 import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
@@ -22,7 +23,6 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.TokenType;
-import com.intellij.psi.impl.source.tree.FileElement;
 import com.intellij.psi.tree.IElementType;
 import io.protostuff.jetbrains.plugin.psi.EnumNode;
 import io.protostuff.jetbrains.plugin.psi.ExtendNode;
@@ -155,7 +155,7 @@ public class ProtoFoldingBuilder extends CustomFoldingBuilder {
         // as when file is open caret is at the beginning of the document,
         // thus preventing collapsing it.
         // TODO: Collapse header comment when file is opened
-        return node.getTreeParent() instanceof FileElement
+        return node.getTreeParent() instanceof FileASTNode
                 && findPreviousNonWhitespaceOrCommentNode(node) == null;
     }
 

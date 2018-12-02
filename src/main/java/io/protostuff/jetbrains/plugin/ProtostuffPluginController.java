@@ -30,9 +30,9 @@ import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.roots.impl.libraries.ApplicationLibraryTable;
-import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryTable;
+import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.messages.MessageBus;
@@ -168,7 +168,7 @@ public class ProtostuffPluginController implements ProjectComponent {
 
     @Nullable
     private Library findGlobalProtobufLibrary(Project project, VirtualFile libraryBundle) {
-        LibraryTable libraryTable = ProjectLibraryTable.getInstance(project);
+        LibraryTable libraryTable = LibraryTablesRegistrar.getInstance().getLibraryTable(project);
         Library library = libraryTable.getLibraryByName(LIB_NAME);
         if (library != null) {
             // check library - update if needed
