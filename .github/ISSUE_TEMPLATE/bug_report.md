@@ -21,7 +21,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Plugin (please complete the following information):**
  - OS: [e.g. Windows]
- - Version [e.g. 0.11.0]
+ - Plugin version: [e.g. 0.11.0]
+ - IDE: [e.g. IntelliJ iDEA 2018.3]
 
 **Additional context**
 Add any other context about the problem here.
