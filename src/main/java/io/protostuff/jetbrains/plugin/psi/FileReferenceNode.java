@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtilCore;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -11,6 +12,7 @@ import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiReference;
 import io.protostuff.compiler.parser.Util;
+import io.protostuff.jetbrains.plugin.reference.ImportProtoReference;
 import io.protostuff.jetbrains.plugin.reference.file.FilePathReferenceProvider;
 import java.util.Collection;
 import org.antlr.jetbrains.adapter.psi.AntlrPsiNode;
@@ -38,16 +40,16 @@ public class FileReferenceNode extends AntlrPsiNode {
         if (filename == null) {
             return new PsiReference[0];
         }
-        Module module = ModuleUtilCore.findModuleForPsiElement(this);
-        if (module != null) {
-            referenceProvider.getReferencesByElement(this, filename, 1, true);
+        int filenameStart = getText().lastIndexOf('/');
+        TextRange textRange;
+        if (filenameStart >= 0) {
+            textRange = TextRange.create(filenameStart + 1, getTextLength() - 1);
+        } else {
+            textRange = TextRange.EMPTY_RANGE;
         }
-        // fallback: if we are inside of a dependency, current module is null
-        // in this case we try to resolve reference in all dependencies of all modules
-        // (might be not fully correct, but better than nothing)
-        ModuleManager moduleManager = ModuleManager.getInstance(getProject());
-        Module[] modules = moduleManager.getModules();
-        return referenceProvider.getReferencesByElement(this, filename, 1, true, modules);
+        ProtoPsiFileRoot target = getTarget();
+        ImportProtoReference reference = new ImportProtoReference(this, textRange, target);
+        return new PsiReference[]{reference};
     }
 
     /**
