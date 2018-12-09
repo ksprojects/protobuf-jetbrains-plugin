@@ -29,7 +29,6 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.roots.impl.libraries.ApplicationLibraryTable;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryTable;
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
@@ -140,7 +139,7 @@ public class ProtostuffPluginController implements ProjectComponent {
         globalLibrary = findGlobalProtobufLibrary(project, sourceRoot);
         if (globalLibrary == null) {
             ApplicationManager.getApplication().runWriteAction(() -> {
-                LibraryTable libraryTable = ApplicationLibraryTable.getApplicationTable();
+                LibraryTable libraryTable = LibraryTablesRegistrar.getInstance().getLibraryTable();
                 LibraryTable.ModifiableModel modifiableModel = libraryTable.getModifiableModel();
                 globalLibrary = libraryTable.getLibraryByName(LIB_NAME);
                 if (globalLibrary == null) {
