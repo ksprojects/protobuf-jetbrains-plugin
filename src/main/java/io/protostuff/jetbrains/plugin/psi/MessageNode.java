@@ -7,12 +7,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
+import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.psi.stubs.DataTypeStub;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -87,6 +89,12 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
             result.addAll(oneOfFields);
         }
         return result;
+    }
+
+    @Nullable
+    @Override
+    public Icon getIcon(int flags) {
+        return Icons.MESSAGE;
     }
 
     @Override

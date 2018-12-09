@@ -10,6 +10,8 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
+import io.protostuff.jetbrains.plugin.Icons;
+import javax.swing.Icon;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,6 +59,12 @@ public class EnumConstantNode
     public ASTNode getConstantValueNode() {
         ASTNode node = getNode();
         return node.findChildByType(rule(RULE_enumFieldValue));
+    }
+
+    @Nullable
+    @Override
+    public Icon getIcon(int flags) {
+        return Icons.CONSTANT;
     }
 
     @Override

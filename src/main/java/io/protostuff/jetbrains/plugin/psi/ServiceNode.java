@@ -6,8 +6,10 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
+import io.protostuff.jetbrains.plugin.Icons;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.Icon;
 import org.antlr.jetbrains.adapter.psi.ScopeNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,6 +36,12 @@ public class ServiceNode
     public List<RpcMethodNode> getRpcMethods() {
         RpcMethodNode[] nodes = findChildrenByClass(RpcMethodNode.class);
         return Arrays.asList(nodes);
+    }
+
+    @Nullable
+    @Override
+    public Icon getIcon(int flags) {
+        return Icons.SERVICE;
     }
 
     @Override

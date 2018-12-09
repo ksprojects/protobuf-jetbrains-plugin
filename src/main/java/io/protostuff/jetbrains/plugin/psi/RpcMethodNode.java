@@ -4,6 +4,8 @@ import static io.protostuff.compiler.parser.ProtoParser.RULE_rpcName;
 import static io.protostuff.jetbrains.plugin.ProtoParserDefinition.rule;
 
 import com.intellij.lang.ASTNode;
+import io.protostuff.jetbrains.plugin.Icons;
+import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,4 +37,11 @@ public class RpcMethodNode extends AbstractNamedNode implements KeywordsContaine
         ASTNode node = getNode();
         return node.findChildByType(rule(RULE_rpcName));
     }
+
+    @Nullable
+    @Override
+    public Icon getIcon(int flags) {
+        return Icons.ENUM;
+    }
+    
 }

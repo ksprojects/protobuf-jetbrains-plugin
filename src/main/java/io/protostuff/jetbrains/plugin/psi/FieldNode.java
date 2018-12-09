@@ -10,10 +10,13 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
+import io.protostuff.jetbrains.plugin.Icons;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Field node.
@@ -83,6 +86,12 @@ public class FieldNode extends AbstractNamedNode implements KeywordsContainer, M
     public ASTNode getFieldLabelNode() {
         ASTNode node = getNode();
         return node.findChildByType(R_FIELD_MODIFIER);
+    }
+
+    @Nullable
+    @Override
+    public Icon getIcon(int flags) {
+        return Icons.FIELD;
     }
 
     @Override

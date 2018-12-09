@@ -7,11 +7,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.IncorrectOperationException;
+import io.protostuff.jetbrains.plugin.Icons;
 import io.protostuff.jetbrains.plugin.psi.stubs.EnumStub;
 import io.protostuff.jetbrains.plugin.psi.stubs.MessageStub;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Enum node.
@@ -38,6 +41,12 @@ public class EnumNode extends DataType {
     @Override
     public PsiElement setName(@NotNull String name) throws IncorrectOperationException {
         return GenericNameNode.setName(this, name);
+    }
+
+    @Nullable
+    @Override
+    public Icon getIcon(int flags) {
+        return Icons.ENUM;
     }
 
     @Override
