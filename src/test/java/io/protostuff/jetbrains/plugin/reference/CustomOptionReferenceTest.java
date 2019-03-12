@@ -46,6 +46,20 @@ public class CustomOptionReferenceTest extends AbstractProtobufLibraryDependentT
         Assert.assertTrue(field.getParent() instanceof ExtendEntryNode);
     }
 
+    public void testImportedCustomOptionReference_withDescriptorProtoImport() {
+        myFixture.configureByFiles("reference/options/custom/SimpleExtensionField.proto",
+                "google/protobuf/__descriptor.proto");
+        PsiReference reference = myFixture.getReferenceAtCaretPositionWithAssertion(
+                "reference/options/custom/ImportedExtension_withDescriptorProtoImport.proto"
+        );
+        PsiElement target = reference.resolve();
+        Assert.assertNotNull(target);
+        Assert.assertTrue(target instanceof FieldNode);
+        FieldNode field = (FieldNode) target;
+        Assert.assertEquals("bar", field.getFieldName());
+        Assert.assertTrue(field.getParent() instanceof ExtendEntryNode);
+    }
+
     public void testImportedImportedCustomOptionReference() {
         myFixture.configureByFiles(
                 "reference/options/custom/SimpleExtensionField.proto",

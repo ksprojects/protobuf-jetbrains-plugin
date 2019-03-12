@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+package reference.options.custom;
+
+import "reference/options/custom/SimpleExtensionField.proto";
+import "google/protobuf/__descriptor.proto";
+
+message A {
+    option (<caret>bar) = 10;
+}
