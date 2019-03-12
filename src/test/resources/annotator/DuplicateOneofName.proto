@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package annotator;
+
+message TestMessage {
+    oneof <error descr="Duplicate name: value">value</error> {
+    }
+    oneof <error descr="Duplicate name: value">value</error> {
+    }
+}

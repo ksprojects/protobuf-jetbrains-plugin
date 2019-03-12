@@ -25,4 +25,15 @@ public class OneOfNode extends AbstractNamedNode implements KeywordsContainer {
     public DataType[] getDeclaredDataTypes() {
         return findChildrenByClass(DataType.class);
     }
+
+    /**
+     * Returns name node, if present, null otherwise.
+     */
+    public ASTNode getOneofNameNode() {
+        GenericNameNode nameIdentifier = getNameIdentifier();
+        if (nameIdentifier == null) {
+            return null;
+        }
+        return nameIdentifier.getNode();
+    }
 }

@@ -30,6 +30,14 @@ public class ProtoErrorsAnnotatorTest extends AbstractProtobufLibraryDependentTe
         check();
     }
 
+    public void testDuplicateFieldName_asOneofName() {
+        check();
+    }
+
+    public void testDuplicateOneofName() {
+        check();
+    }
+
     public void testDuplicateTagValue() {
         check();
     }

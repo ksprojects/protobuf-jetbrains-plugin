@@ -82,6 +82,9 @@ public class ProtoErrorsAnnotator implements Annotator {
                     checkInvalidFieldTags(fields);
                     checkDuplicateFieldTags(fields);
                     checkDuplicateFieldNames(fields);
+                    Collection<OneOfNode> oneOfNodes = message.getOneOfNodes();
+                    checkDuplicateOneofNames(oneOfNodes);
+                    checkDuplicateFieldOneofNames(oneOfNodes, fields);
                     checkReservedFieldTags(message, fields);
                     checkReservedFieldNames(message, fields);
                 }
@@ -387,7 +390,7 @@ public class ProtoErrorsAnnotator implements Annotator {
             int tag = field.getTag();
             if (fieldByTag.containsKey(tag)) {
                 String message = message("error.duplicate.field.tag", tag);
-                markError(field.getNode(), fieldByTag.get(tag).getTagNode(), message);
+                markError(fieldByTag.get(tag).getNode(), fieldByTag.get(tag).getTagNode(), message);
                 markError(field.getNode(), field.getTagNode(), message);
             }
             fieldByTag.put(tag, field);
@@ -400,10 +403,39 @@ public class ProtoErrorsAnnotator implements Annotator {
             String name = field.getFieldName();
             if (fieldByName.containsKey(name)) {
                 String message = message("error.duplicate.field.name", name);
-                markError(field.getNode(), fieldByName.get(name).getFieldNameNode(), message);
+                markError(fieldByName.get(name).getNode(), fieldByName.get(name).getFieldNameNode(), message);
                 markError(field.getNode(), field.getFieldNameNode(), message);
             }
             fieldByName.put(name, field);
+        }
+    }
+
+    private void checkDuplicateOneofNames(Collection<OneOfNode> fields) {
+        Map<String, OneOfNode> fieldByName = new HashMap<>();
+        for (OneOfNode oneOfNode : fields) {
+            String name = oneOfNode.getName();
+            if (fieldByName.containsKey(name)) {
+                String message = message("error.duplicate.name", name);
+                markError(fieldByName.get(name).getNode(), fieldByName.get(name).getOneofNameNode(), message);
+                markError(oneOfNode.getNode(), oneOfNode.getOneofNameNode(), message);
+            }
+            fieldByName.put(name, oneOfNode);
+        }
+    }
+
+    private void checkDuplicateFieldOneofNames(Collection<OneOfNode> oneOfNodes, Collection<MessageField> fields) {
+        Map<String, MessageField> fieldByName = new HashMap<>();
+        for (MessageField field : fields) {
+            String name = field.getFieldName();
+            fieldByName.put(name, field);
+        }
+        for (OneOfNode oneOfNode : oneOfNodes) {
+            String name = oneOfNode.getName();
+            if (fieldByName.containsKey(name)) {
+                String message = message("error.duplicate.name", name);
+                markError(fieldByName.get(name).getNode(), fieldByName.get(name).getFieldNameNode(), message);
+                markError(oneOfNode.getNode(), oneOfNode.getOneofNameNode(), message);
+            }
         }
     }
 }

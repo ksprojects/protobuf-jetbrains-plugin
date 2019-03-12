@@ -110,4 +110,8 @@ public class MessageNode extends DataType implements AntlrParserRuleNode, DataTy
         return syntaxErrors;
     }
 
+    public Collection<OneOfNode> getOneOfNodes() {
+        OneOfNode[] oneOfs = findChildrenByClass(OneOfNode.class);
+        return Arrays.asList(oneOfs);
+    }
 }
