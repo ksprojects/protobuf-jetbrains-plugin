@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.protostuff.protostuff-jetbrains-plugin</id>
     <name>Protobuf Support</name>
-    <version>0.12.0</version>
+    <version>0.13.0</version>
     <vendor email="protobuf-jetbrains-plugin@ksprojects.org">Kostiantyn Shchepanovskyi</vendor>
 
     <description><![CDATA[
@@ -33,21 +33,24 @@
 
     <change-notes><![CDATA[
 
-        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.12.0">
-            <b>v0.12.0</b>
-        </a> (2018-09-20)
+        <a href="https://github.com/protostuff/protobuf-jetbrains-plugin/releases/tag/v0.13.0">
+            <b>v0.13.0</b>
+        </a> (2019-03-13)
         <br>
         <br>
-        This release contains multiple improvements:
+        This release contains multiple fixes:
         <ul>
             <li>
-              Add spell checking support.
+              Support for JetBrains Runtime 11 and IntelliJ IDEA 2019.1.
             </li>
             <li>
-              Add support for custom region foolding.
+              Fixed missing icons in search dialogs in IntelliJ IDEA 2018.3.
             </li>
             <li>
-              Add support for setting custom include paths for new projects (global settings).
+              Add validation for duplicate oneof names.
+            </li>
+            <li>
+              Fixed custom option resolution when there are multiple descriptor.proto files on path.
             </li>
         </ul>
 
