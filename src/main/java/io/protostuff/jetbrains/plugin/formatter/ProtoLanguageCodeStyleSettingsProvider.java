@@ -29,10 +29,7 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
 
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
-        switch (settingsType) {
-            default:
-                break;
-        }
+
     }
 
     @Nullable
@@ -41,19 +38,14 @@ public class ProtoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSet
         return new SmartIndentOptionsEditor();
     }
 
-
-    @Nullable
     @Override
-    public CommonCodeStyleSettings getDefaultCommonSettings() {
-        CommonCodeStyleSettings settings = new CommonCodeStyleSettings(ProtoLanguage.INSTANCE);
-        settings.initIndentOptions();
-        // TODO: we should define our own settings
-        settings.SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
-        settings.SPACE_BEFORE_SEMICOLON = false;
-        settings.BRACE_STYLE = END_OF_LINE;
-        settings.KEEP_BLANK_LINES_IN_CODE = 2;
-        settings.KEEP_LINE_BREAKS = false;
-        return settings;
+    protected void customizeDefaults(@NotNull CommonCodeStyleSettings commonSettings,
+            @NotNull CommonCodeStyleSettings.IndentOptions indentOptions) {
+        commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
+        commonSettings.SPACE_BEFORE_SEMICOLON = false;
+        commonSettings.BRACE_STYLE = END_OF_LINE;
+        commonSettings.KEEP_BLANK_LINES_IN_CODE = 2;
+        commonSettings.KEEP_LINE_BREAKS = false;
     }
 
     @Override
