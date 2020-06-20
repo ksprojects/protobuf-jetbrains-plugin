@@ -4,6 +4,12 @@
 
 [Protobuf Support Plugin](https://plugins.jetbrains.com/plugin/8277) for IntelliJ IDEA & other JetBrains products.
 
+## THIS PLUGIN IS NOT SUPPORTED SINCE 2019 
+
+PLEASE SWITCH TO https://github.com/jvolkman/intellij-protobuf-editor
+
+## Releases
+
 Latest plugin release is compatible with IntelliJ IDEA 2018.2 (older releases are compatible with IDEA 13+). 
 Other JetBrains IDEs of the same or higher version should be supported as well. 
 
@@ -109,5 +115,7 @@ JDK 8 must be installed and available on PATH in order to build plugin.
 ### Screenshots
 
 ![image](https://github.com/protostuff/protostuff-jetbrains-plugin/wiki/sample-2016-04-11.png)
+
+## For the sake of history
 
 
