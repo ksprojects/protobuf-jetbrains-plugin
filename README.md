@@ -118,4 +118,4 @@ JDK 8 must be installed and available on PATH in order to build plugin.
 
 ## For the sake of history
 
-
+![image](https://user-images.githubusercontent.com/4040120/85199284-06dc7980-b2f7-11ea-9ec8-d1b6ce0d3580.png)
